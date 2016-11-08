@@ -1,2 +1,2 @@
 # quokar
-R packages
+R package for diagnosing quantile regression models
