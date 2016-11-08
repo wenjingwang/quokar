@@ -1,11 +1,18 @@
 Package: quokar
 Title: QUantile regression Outlier diagnostics with K left out Analysis
 Version: 0.0.0.9000
-Authors@R: person("Wenjing", "Wang", email = "wenjingwang1990@gmail.com", role = c("aut", "cre")),
-person("Di", "Cook", email="visnut@gmail.com", role="aut"),
-person("Earo", "Wang", email="earo.wang@gmail.com", role="aut")
+Author: Wenjing Wang <wenjingwang1990@gmail.com>, Di Cook <visnut@gmail.com>, Earo Wang <earo.wang@gmail.com>
+Maintainer: Wenjing Wang <wenjingwang1990@gmail.com>
 Description: This package provides diagnostics for the quantreg package for detecting influential observations.
 Depends: R (>= 3.3.1)
 License: GPL (>= 2)
 Encoding: UTF-8
 LazyData: true
+Depends:
+    ggplot2
+Import:
+    quantreg
+Type: Package
+LazyLoad: false
+VignetteBuilder: knitr
+RoxygenNote: 5.0.1
