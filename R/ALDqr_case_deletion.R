@@ -24,7 +24,7 @@ ALDqr_case_deletion <- function(y, x = NLLL, tau = NULL,
     map(function(i) {
       muc_i <- y[-i] - x[-i, ]%*%beta_qr
       sum(3*sigma_qr - (vchpN[-i] * muc_i^2 -
-                          2 * muc_i * thep + vchp1[-i] *(thep^2 + 2 * taup2))/taup2)
+          2 * muc_i * thep + vchp1[-i] *(thep^2 + 2 * taup2))/taup2)
     })
   E2 <- simplify2array(E2)
   Q1_beta <- E1/sigma_qr
@@ -33,14 +33,14 @@ ALDqr_case_deletion <- function(y, x = NLLL, tau = NULL,
   suma1 <- t(xM) %*% (xM)
   Q2_beta <- -(suma1)/(sigma_qr * taup2)
   Q2_sigma <- 3/(2*sigma_qr^2) - sum((vchpN*muc^2-2*muc*thep +
-                                        vchp1*(thep^2 + 2*taup2)))/(sigma_qr^3*taup2)
+              vchp1*(thep^2 + 2*taup2)))/(sigma_qr^3*taup2)
   beta_i <- matrix(0, nrow=p, ncol = n)
   for(i in 1:n){
     beta_i[,i] <- beta_qr + taup2*solve(suma1)%*% E1[,i]
   }
-  sigma_i <- 1:n %>%
+  sigma_i2 <- 1:n %>%
     map(function(i) sigma_qr^2 - solve(Q2_sigma)*E2[i]/(2*sigma_qr^2))
-  sigma_i <- simplify2array(sigma_i)
+  sigma_i <- sqrt(simplify2array(sigma_i2))
   theta_i <- list(beta_i = beta_i, sigma_i = sigma_i)
   return(theta_i)
 }
