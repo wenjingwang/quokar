@@ -163,5 +163,30 @@ p4 <- ggplot(data_QD, aes(x = case, y = QD)) +
 grid.arrange(p1, p2, p3, p4, ncol = 2)
 
 
+#######################
+#descriptive statistics
+data(ah)
+colnames(ah)
+ah.omitna <- na.omit(ah) #delete the na value
+ah.omitna2 <- subset(ah.omitna, YrBuilt != 0) #delete the 0 value standing for na
+year_built <- 2013 - ah.omitna2$YrBuilt + 1
+ah2 <- cbind(ah.omitna2, year_built)
+
+
+ah2$YrSold_YYYY <- as.character(ah2$YrSold_YYYY)
+ah2$SaleDate <- as.character(ah2$SaleDate)
+ah2$MoSold_MM <- as.character(ah2$MoSold_MM)
+ah2$YrBuilt <- as.character(ah2$YrBuilt)
+
+#continous variables:
+#install.packages("stargazer")
+library(stargazer)
+ah.num <- ah2[ ,sapply(ah2, is.numeric)]
+stargazer(ah.num)
+
+
+
+
+
 
 
