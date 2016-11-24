@@ -15,34 +15,14 @@ ais_bayes <- bayesQR(y ~ x -1 , quantile = 0.5, alasso = FALSE, ndraw = 10000, p
 ais_bayes_beta <- summary(ais_bayes)[[1]]$betadraw[, 1]
 ais_bayes_sigma <- summary(ais_bayes)[[1]]$sigmadraw[, 1]
 
-
 tau <- 0.5
+n <- length(y)
+M = 1000
 beta <- ais_bayes_beta
 sigma <- ais_bayes_sigma
-taup2 <- (2/(tau * (1 - tau)))
-theta <- (1 - 2 * tau) / (tau * (1 - tau))
-n <- length(y)
 
-delta <- sqrt((y - x %*% beta)^2/(sigma * taup2))
-gamma <- sqrt(theta^2/(sigma*taup2) + 2/sigma)
+po <- bayesProb(y, x, beta, sigma, tau, M)
 
-M <- 1000
-nu_dens <- matrix(0, nrow = M, ncol = n)
-
-for(i in 1:n) {
-   nu_dens[,i] <- rgig(M, 1/2, delta[i], gamma)
-}
-
-A <- matrix(0, nrow = n, ncol = n-1)
-for(i in 1:n) {
-  probs <- 1:M/M
-  nu1 <- nu_dens[, -i]
-  for(j in 1:(n-1)) {
-    A[i,j] <- 1/M*sum(quantile(nu_dens[,i], probs = probs) > max(nu1[, j]))
-  }
-}
-po <- apply(A, 1, mean)
-po
 case <- 1:202
 ais_bayes_data <- data.frame(case = case, po = po)
 
