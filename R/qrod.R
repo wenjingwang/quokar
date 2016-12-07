@@ -16,23 +16,22 @@
 #'@description
 #'This group of function is used to compute diagnositcs for a
 #'quantile regression model based on the building blocks returned
-#'by \code{case_delete}.
+#'by.
 #'
 #'@details
-#'The primary function is \code{diagnostic} which returns either
+#'The primary function is which returns either
 #'a list or data frame of influence mesures depending on whether
-#'\code{type = "all"} (\code{list}) or if only one aspect of the
-#'model is selected (\code{data.frame}).If \code{type = "all"},
+#'or if only one aspect of the model is selected
 #'then a list with Generalized Cook's distance,Q-function Distance,
 #'Baysian Method or ES method.
 #'
 #'This function is used to detect outlier in quantile regression
-#'level. It use \code{qr()} to fit the models for each quantile.
+#'level. It use code to fit the models for each quantile.
 #'
-#'The method \code{cook.distance}, \code{qfunction.distance},
-#'\code{baysian.probability},\code{baysian.distribution} and \code{ES}
+#'The method cook.distance, qfunction.distance,
+#'baysian.probability, baysian.distribution and ES
 #'can be used for direct computation of the corresponding diagnostic
-#'quantities from an object of class \code{case_delete}
+#'quantities from an object of class case_delete
 #'
 #'@author Wenjing Wang \email{wenjingwang1990@gmail.com}
 #'@keywords quantile regression outlier diagnostics
