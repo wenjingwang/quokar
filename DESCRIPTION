@@ -11,7 +11,7 @@ LazyData: true
 Depends:
     ggplot2
 Imports: 
-    quantreg
+    quantreg, purrr, magrittr, ALDqr, bayesQR, MCMCpack
 Type: Package
 LazyLoad: false
 VignetteBuilder: knitr
