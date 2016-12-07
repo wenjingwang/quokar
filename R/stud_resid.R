@@ -9,7 +9,7 @@
 #' @references
 #' Ranganai, E(2016). On studentized residuals in the quantile
 #' regression framework. University of South Africa.
-#' \emh{SpringerPlus}, \bold{5}(1), 1231.
+#' \emph{SpringerPlus}, \bold{5}(1), 1231.
 
 
 stud_resid <- function(object) {

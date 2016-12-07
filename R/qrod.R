@@ -4,7 +4,7 @@
 #'@param x indepdent variables in quantile regression.
 #'Note that: x is the independent variable matrix which including
 #'the intercept. That means, if the dimension of independent
-#'variables is p and the sample size is n, x is a (n \times (p+1))
+#'variables is p and the sample size is n, x is a (n * (p+1))
 #'matrix with the first column is 1.
 #'
 #'@param error The EM algorithm accuracy of error used in MLE estimation
@@ -56,7 +56,7 @@
 #'@examples
 #'data(ais, package = `ALDqr`)
 #'
-#'
+#'@export
 #'
 #'
 
