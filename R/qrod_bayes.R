@@ -1,4 +1,4 @@
-#'Outlier Dignostic for quantile regression
+#'Outlier Dignostic for Quantile Regression Based on Bayesian Estimation
 #'@param y dependent variable in quantile regression
 #'
 #'@param x indepdent variables in quantile regression.
@@ -6,10 +6,6 @@
 #'the intercept. That means, if the dimension of independent
 #'variables is p and the sample size is n, x is a (n * (p+1))
 #'matrix with the first column is 1.
-#'
-#'@param error The EM algorithm accuracy of error used in MLE estimation
-#'
-#'@param iter the iteration frequancy for EM algorithm used in MLE estimation
 #'
 #'@param M the iteration frequancy for MCMC used in Baysian Estimation
 #'
@@ -28,10 +24,8 @@
 #'This function is used to detect outlier in quantile regression
 #'level. It use code to fit the models for each quantile.
 #'
-#'The method cook.distance, qfunction.distance,
-#'baysian.probability, baysian.distribution and ES
-#'can be used for direct computation of the corresponding diagnostic
-#'quantities from an object of class case_delete
+#'The method cook.distance, qfunction.distance
+#'
 #'
 #'@author Wenjing Wang \email{wenjingwang1990@gmail.com}
 #'@keywords quantile regression outlier diagnostics
@@ -41,17 +35,17 @@
 #'
 #'Hawkins D M, Bradu D, Kass G V.(1984)``Location of several outliers in
 #'multiple-regression data using elemental sets. \emph{Technometrics},
-#'\bold{26(3)}, 197-208.
+#'26(3), 197-208.
 #'
 #'Koenker R, Bassett Jr G.(1978)`` Regression quantiles,
-#'\emph{Econometrica},\bold{1}, 33-50.
+#'\emph{Econometrica}, 1, 33-50.
 #'
 #'Santos B, Bolfarine H.(2016)``On Baysian quantile regression and
 #'outliers,\emph{arXiv:1601.07344}
 #'
 #'Kozumi H, Kobayashi G.(2011)``Gibbs sampling methods for Bayesian
 #'quantile regression,\emph{Journal of statistical computation and
-#'simulation}, \bold{81(11)}, 1565-1578.
+#'simulation}, 81(11), 1565-1578.
 #'
 #'@examples
 #'data(ais, package = `ALDqr`)
@@ -60,22 +54,17 @@
 #'
 #'
 
-qrod <- function(y, x, tau, error = NULL, iter = NULL,
-                 method = c("cook.distance", "qfunciton", "bayes.probability",
-                            "bayes.KLD"), M = NULL){
+
+
+qrod_bayes <- function(y, x, M = NULL,
+                     method = c("bayes.prob","bayes.kl")){
   method <- match.arg(method)
-    if(method == "cook.distance"){
-      distance <- ALDqr_GCD(y, x, tau, error, iter)
-    }else if(method == "qfunction"){
-      distance <- ALDqr_QD(y, x = NULL, tau = NULL, error, iter)
-    }else if(method == "bayes.probability"){
-      distance <- bayesProb(y, x, beta, sigma, tau, M)
-    }else if(method == "bayes.KLD"){
-      distance <- bayesKLD(y, x, beta, sigma, tau, M)
-    }else if(method %in% c("cook.distance", "qfunction", "bayes.probability",
-                            "bayes.KLD") == FALSE)
-      warning("Method should be one of 'cook.distance', 'qfunction',
-              'bayes.probability', 'bayes.KLD'")
-  returen(distance)
+  if(method == "bayes.probability"){
+    result <- bayesProb(y, x, beta, sigma, tau, M)
+  }else if(method == "bayes.KL"){
+    result <- bayesKL(y, x, beta, sigma, tau, M)
+  }else if(method %in% c("bayes.prob","bayes.kl") == FALSE)
+    warning("Method should be one of 'bayes.prob', 'bayes.kl'")
+  return(result)
 }
 
