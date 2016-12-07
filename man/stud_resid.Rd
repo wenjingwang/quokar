@@ -4,10 +4,25 @@
 \alias{stud_resid}
 \title{studentised residuals}
 \usage{
-stud_resid(model)
+stud_resid(object)
+}
+\arguments{
+\item{object}{an object of class quantile regression model}
 }
 \description{
 Function for computing studentised residuals
 from a quantile regression fit
+}
+\details{
+The \code{stud_resid} function provides a studentized
+residual on each quantile.
+}
+\author{
+Wenjing Wang \email{wenjingwang1990@gmail.com}
+}
+\references{
+Ranganai, E(2016). On studentized residuals in the quantile
+regression framework. University of South Africa.
+\emph{SpringerPlus}, \bold{5}(1), 1231.
 }
 
