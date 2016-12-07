@@ -37,5 +37,3 @@ stud_resid <- function(object) {
   return(sepr)
 }
 
-
-stud_resid(model1)
