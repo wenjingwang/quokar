@@ -1,17 +1,17 @@
 #'Outlier Dignostic for quantile regression
-#'@para y dependent variable in quantile regression
+#'@param y dependent variable in quantile regression
 #'
-#'@para x indepdent variables in quantile regression.
+#'@param x indepdent variables in quantile regression.
 #'Note that: x is the independent variable matrix which including
 #'the intercept. That means, if the dimension of independent
 #'variables is p and the sample size is n, x is a (n \times (p+1))
 #'matrix with the first column is 1.
 #'
-#'@para error The EM algorithm accuracy of error used in MLE estimation
+#'@param error The EM algorithm accuracy of error used in MLE estimation
 #'
-#'@para iter the iteration frequancy for EM algorithm used in MLE estimation
+#'@param iter the iteration frequancy for EM algorithm used in MLE estimation
 #'
-#'@M the iteration frequancy for MCMC used in Baysian Estimation
+#'@param M the iteration frequancy for MCMC used in Baysian Estimation
 #'
 #'@description
 #'This group of function is used to compute diagnositcs for a
