@@ -43,10 +43,6 @@ baysian.probability, baysian.distribution and ES
 can be used for direct computation of the corresponding diagnostic
 quantities from an object of class case_delete
 }
-\examples{
-data(ais, package = `ALDqr`)
-
-}
 \author{
 Wenjing Wang \email{wenjingwang1990@gmail.com}
 }

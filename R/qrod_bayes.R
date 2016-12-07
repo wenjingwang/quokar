@@ -48,8 +48,6 @@
 #'quantile regression,\emph{Journal of statistical computation and
 #'simulation}, 81(11), 1565-1578.
 #'
-#'@examples
-#'data(ais, package = `ALDqr`)
 #'
 #'@export
 #'

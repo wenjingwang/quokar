@@ -45,8 +45,6 @@
 #'Koenker R, Bassett Jr G.(1978)`` Regression quantiles,
 #'\emph{Econometrica},\bold{1}, 33-50.
 #'
-#'@examples
-#'data(ais, package = `ALDqr`)
 #'
 #'@export
 #'

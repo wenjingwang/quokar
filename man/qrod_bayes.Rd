@@ -35,10 +35,6 @@ level. It use code to fit the models for each quantile.
 
 The method cook.distance, qfunction.distance
 }
-\examples{
-data(ais, package = `ALDqr`)
-
-}
 \author{
 Wenjing Wang \email{wenjingwang1990@gmail.com}
 }
