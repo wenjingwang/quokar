@@ -2,7 +2,7 @@
 % Please edit documentation in R/stud_resid.R
 \name{stud_resid}
 \alias{stud_resid}
-\title{studentised residuals}
+\title{studentised residuals based on quantile regression}
 \usage{
 stud_resid(object)
 }
@@ -23,6 +23,6 @@ Wenjing Wang \email{wenjingwang1990@gmail.com}
 \references{
 Ranganai, E(2016). On studentized residuals in the quantile
 regression framework. University of South Africa.
-\emph{SpringerPlus}, \bold{5}(1), 1231.
+\emph{SpringerPlus}, 5(1), 1231.
 }
 

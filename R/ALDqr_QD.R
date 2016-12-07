@@ -1,9 +1,23 @@
-ALDqr_QD <- function(y, x = NLLL, tau = NULL,
-                     error = 1e-06, iter = 2000)
+#'Outlier Dignostic for Quantile Regression Based on MLE Estimation
+#'@param y dependent variable in quantile regression
+#'
+#'@param x indepdent variables in quantile regression.
+#'Note that: x is the independent variable matrix which including
+#'the intercept. That means, if the dimension of independent
+#'variables is p and the sample size is n, x is a n times p+1
+#'matrix with the first column is one.
+#'
+#'@param tau quantile
+#'
+#'@param error The EM algorithm accuracy of error used in MLE estimation
+#'
+#'@param iter the iteration frequancy for EM algorithm used in MLE estimation
+#'
+ALDqr_QD <- function(y, x, tau, error, iter)
 {
   p <- ncol(x)
   n <- length(y)
-  theta_all <- EM.qr(y, x, tau, error, iter)$theta
+  theta_all <- ALDqr::EM.qr(y, x, tau, error, iter)$theta
   beta_all <- theta_all[1:p, ]
   sigma_all <- theta_all[p+1]
   beta_i <- ALDqr_case_deletion(y, x, tau, error, iter)$beta_i
@@ -28,8 +42,9 @@ ALDqr_QD <- function(y, x = NLLL, tau = NULL,
   for(i in 1:n){
     Q_i[i] <- Q_function(beta_i[,i], sigma_i[i], tau)
   }
-  QD <- 1:n %>%
-    map(function(i) 2*(Q_all - Q_i[i]))
-  QD <- simplify2array(QD)
+  QD <- rep(0, n)
+  for(i in 1:n){
+    QD[i] <- 2*(Q_all - Q_i[i])
+  }
   return(QD)
 }

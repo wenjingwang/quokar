@@ -4,18 +4,19 @@
 \alias{qrod_bayes}
 \title{Outlier Dignostic for Quantile Regression Based on Bayesian Estimation}
 \usage{
-qrod_bayes(y, x, M = NULL, method = c("bayes.prob", "bayes.kl"))
+qrod_bayes(y, x, tau, M, method = c("bayes.prob", "bayes.kl"))
 }
 \arguments{
 \item{y}{dependent variable in quantile regression}
 
 \item{x}{indepdent variables in quantile regression.
-Note that: x is the independent variable matrix which including
-the intercept. That means, if the dimension of independent
-variables is p and the sample size is n, x is a (n * (p+1))
-matrix with the first column is 1.}
+Note that: x is the independent variable matrix}
+
+\item{tau}{quantile}
 
 \item{M}{the iteration frequancy for MCMC used in Baysian Estimation}
+
+\item{method}{the diagnostic method for outlier detection}
 }
 \description{
 This group of function is used to compute diagnositcs for a

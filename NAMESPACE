@@ -2,3 +2,5 @@
 
 export(qrod_bayes)
 export(qrod_mle)
+export(stud_resid)
+importFrom(purrr,"%>%")

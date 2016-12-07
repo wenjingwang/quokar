@@ -7,9 +7,13 @@
 #'variables is p and the sample size is n, x is a n times p+1
 #'matrix with the first column is one.
 #'
+#'@param tau quantile
+#'
 #'@param error The EM algorithm accuracy of error used in MLE estimation
 #'
 #'@param iter the iteration frequancy for EM algorithm used in MLE estimation
+#'
+#'@param method the diagnostic method for outlier detection
 #'
 #'@description
 #'This group of function is used to compute diagnositcs for a
@@ -48,13 +52,13 @@
 #'
 #'
 
-qrod_mle <- function(y, x, tau, error = NULL, iter = NULL,
+qrod_mle <- function(y, x, tau, error, iter,
                  method = c("cook.distance", "qfunciton")){
   method <- match.arg(method)
     if(method == "cook.distance"){
       distance <- ALDqr_GCD(y, x, tau, error, iter)
     }else if(method == "qfunction"){
-      distance <- ALDqr_QD(y, x = NULL, tau = NULL, error, iter)
+      distance <- ALDqr_QD(y, x, tau, error, iter)
     }else if(method %in% c("cook.distance", "qfunction") == FALSE)
       warning("Method should be one of 'cook.distance', 'qfunction'")
   return(distance)

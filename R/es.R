@@ -1,3 +1,9 @@
+#' studentised residuals based on quantile regression
+#'
+#' Function for computing studentised residuals
+#' from a quantile regression fit
+#' @param object an object of class quantile regression model
+#'
 es <- function(object){
 
   es_data <- matrix(nrow = length(object$y), ncol = ncol(object$x) - 1)

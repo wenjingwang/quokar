@@ -4,8 +4,7 @@
 \alias{qrod_mle}
 \title{Outlier Dignostic for Quantile Regression Based on MLE Estimation}
 \usage{
-qrod_mle(y, x, tau, error = NULL, iter = NULL, method = c("cook.distance",
-  "qfunciton"))
+qrod_mle(y, x, tau, error, iter, method = c("cook.distance", "qfunciton"))
 }
 \arguments{
 \item{y}{dependent variable in quantile regression}
@@ -13,12 +12,16 @@ qrod_mle(y, x, tau, error = NULL, iter = NULL, method = c("cook.distance",
 \item{x}{indepdent variables in quantile regression.
 Note that: x is the independent variable matrix which including
 the intercept. That means, if the dimension of independent
-variables is p and the sample size is n, x is a (n * (p+1))
-matrix with the first column is 1.}
+variables is p and the sample size is n, x is a n times p+1
+matrix with the first column is one.}
+
+\item{tau}{quantile}
 
 \item{error}{The EM algorithm accuracy of error used in MLE estimation}
 
 \item{iter}{the iteration frequancy for EM algorithm used in MLE estimation}
+
+\item{method}{the diagnostic method for outlier detection}
 }
 \description{
 This group of function is used to compute diagnositcs for a

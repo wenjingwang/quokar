@@ -1,12 +1,27 @@
-#‘
-
-
-ALDqr_case_deletion <- function(y, x = NLLL, tau = NULL,
-                                error = 1e-06, iter = 2000)
+#'Outlier Dignostic for Quantile Regression Based on MLE Estimation
+#'@param y dependent variable in quantile regression
+#'
+#'@param x indepdent variables in quantile regression.
+#'Note that: x is the independent variable matrix which including
+#'the intercept. That means, if the dimension of independent
+#'variables is p and the sample size is n, x is a n times p+1
+#'matrix with the first column is one.
+#'
+#'@param tau quantile
+#'
+#'@param error The EM algorithm accuracy of error used in MLE estimation
+#'
+#'@param iter the iteration frequancy for EM algorithm used in MLE estimation
+#'
+#'@importFrom purrr %>%
+#'
+#'
+#'
+ALDqr_case_deletion <- function(y, x, tau, error, iter)
 {
   p <- ncol(x)
   n <- length(y)
-  theta <- EM.qr(y, x, tau, error, iter)$theta
+  theta <- ALDqr::EM.qr(y, x, tau, error, iter)$theta
   beta_qr <- theta[1:p, ]
   sigma_qr <- theta[p+1]
   taup2 <- (2/(tau * (1 - tau)))
@@ -24,7 +39,7 @@ ALDqr_case_deletion <- function(y, x = NLLL, tau = NULL,
     E1[,i] <- apply(suma2, 2, sum)/(taup2)
   }
   E2 <- 1: n %>%
-    map(function(i) {
+    purrr::map(function(i) {
       muc_i <- y[-i] - x[-i, ]%*%beta_qr
       sum(3*sigma_qr - (vchpN[-i] * muc_i^2 -
           2 * muc_i * thep + vchp1[-i] *(thep^2 + 2 * taup2))/taup2)
@@ -42,7 +57,7 @@ ALDqr_case_deletion <- function(y, x = NLLL, tau = NULL,
     beta_i[,i] <- beta_qr + taup2*solve(suma1)%*% E1[,i]
   }
   sigma_i2 <- 1:n %>%
-    map(function(i) sigma_qr^2 - solve(Q2_sigma)*E2[i]/(2*sigma_qr^2))
+    purrr::map(function(i) sigma_qr^2 - solve(Q2_sigma)*E2[i]/(2*sigma_qr^2))
   sigma_i <- sqrt(simplify2array(sigma_i2))
   theta_i <- list(beta_i = beta_i, sigma_i = sigma_i)
   return(theta_i)

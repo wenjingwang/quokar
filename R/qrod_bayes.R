@@ -2,12 +2,13 @@
 #'@param y dependent variable in quantile regression
 #'
 #'@param x indepdent variables in quantile regression.
-#'Note that: x is the independent variable matrix which including
-#'the intercept. That means, if the dimension of independent
-#'variables is p and the sample size is n, x is a n times p+1
-#'matrix with the first column is one.
+#'Note that: x is the independent variable matrix
+#'
+#'@param tau quantile
 #'
 #'@param M the iteration frequancy for MCMC used in Baysian Estimation
+#'
+#'@param method the diagnostic method for outlier detection
 #'
 #'@description
 #'This group of function is used to compute diagnositcs for a
@@ -56,13 +57,12 @@
 
 
 
-qrod_bayes <- function(y, x, M = NULL,
-                     method = c("bayes.prob","bayes.kl")){
+qrod_bayes <- function(y, x, tau, M, method = c("bayes.prob","bayes.kl")){
   method <- match.arg(method)
-  if(method == "bayes.probability"){
-    result <- bayesProb(y, x, beta, sigma, tau, M)
-  }else if(method == "bayes.KL"){
-    result <- bayesKL(y, x, beta, sigma, tau, M)
+  if(method == "bayes.prob"){
+    result <- bayesProb(y, x, tau, M)
+  }else if(method == "bayes.kl"){
+    result <- bayesKL(y, x, tau, M)
   }else if(method %in% c("bayes.prob","bayes.kl") == FALSE)
     warning("Method should be one of 'bayes.prob', 'bayes.kl'")
   return(result)
