@@ -67,7 +67,7 @@ qrod <- function(y, x, tau, error = NULL, iter = NULL,
     if(method == "cook.distance"){
       distance <- ALDqr_GCD(y, x, tau, error, iter)
     }else if(method == "qfunction"){
-      distance <- ALDqr_QD(y, x = NULL, tau = NULL, error, inter)
+      distance <- ALDqr_QD(y, x = NULL, tau = NULL, error, iter)
     }else if(method == "bayes.probability"){
       distance <- bayesProb(y, x, beta, sigma, tau, M)
     }else if(method == "bayes.KLD"){
