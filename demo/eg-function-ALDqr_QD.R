@@ -3,7 +3,7 @@ library(ggplot2)
 library(magrittr)
 library(purrr)
 library(gridExtra)
-library(qr)
+
 
 data(ais)
 y <- ais$BMI

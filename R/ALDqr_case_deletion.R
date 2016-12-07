@@ -1,3 +1,6 @@
+#‘
+
+
 ALDqr_case_deletion <- function(y, x = NLLL, tau = NULL,
                                 error = 1e-06, iter = 2000)
 {

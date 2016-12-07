@@ -33,4 +33,3 @@ ALDqr_QD <- function(y, x = NLLL, tau = NULL,
   QD <- simplify2array(QD)
   return(QD)
 }
-
