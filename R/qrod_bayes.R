@@ -2,7 +2,8 @@
 #'@param y dependent variable in quantile regression
 #'
 #'@param x indepdent variables in quantile regression.
-#'Note that: x is the independent variable matrix
+#'Note that: x is the independent variable matrix with first column
+#'being one, indicate the intercept
 #'
 #'@param tau quantile
 #'
@@ -19,8 +20,7 @@
 #'The primary function is which returns either
 #'a list or data frame of influence mesures depending on whether
 #'or if only one aspect of the model is selected
-#'then a list with Generalized Cook's distance,Q-function Distance,
-#'Baysian Method or ES method.
+#'then a list with Generalized Cook's distance,Q-function Distance
 #'
 #'This function is used to detect outlier in quantile regression
 #'level. It use code to fit the models for each quantile.
