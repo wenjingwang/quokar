@@ -89,7 +89,7 @@
 #'@export
 #'
 #'
-qrod_bayes <- function(y, x, tau, M, method = c("bayes.prob","bayes.kl")){
+qrod_bayes <- function(y, x, tau, M, method = c("bayes.prob", "bayes.kl")){
   method <- match.arg(method)
   if(!(method %in% c("bayes.prob","bayes.kl"))){
     stop("Method should be 'bayes.prob' or 'bayes.kl'")
@@ -101,6 +101,6 @@ qrod_bayes <- function(y, x, tau, M, method = c("bayes.prob","bayes.kl")){
     result <- bayesKL(y, x, tau, M)
     case_prob_kl <- data.frame(case = 1:length(y), result = result)
   }
-  return(case_prob_kl)
 }
+
 

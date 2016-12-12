@@ -10,21 +10,14 @@ data(ais)
 y <- ais$BMI
 sexInd <-(ais$Sex == 1) + 0
 x <- cbind(ais$LBM, sexInd)
-
-tau <- 0.5
-n <- length(y)
+tau = 0.2
 M = 1000
-beta <- ais_bayes_beta
-sigma <- ais_bayes_sigma
 
-po <- bayesProb(y, x, M, method = "bayes.prob")
+po <- qrod_bayes(y, x, tau, M, method = "bayes.prob")
 
-case <- 1:202
-ais_bayes_data <- data.frame(case = case, po = po)
-
-ggplot(ais_bayes_data, aes(x = case, y = po)) +
+ggplot(po, aes(x = case, y = result)) +
   ylab("posterior probability of being an outlier") +
   xlab("case") +
   geom_point(colour = "darkblue") +
-  geom_text(data = subset(ais_bayes_data, po > 0.004),
-            aes(x = case, y = po-0.0002, label = case))
+  geom_text(data = subset(po, result > 0.004),
+            aes(x = case, y = result - 0.0002, label = case))

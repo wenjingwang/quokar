@@ -28,7 +28,7 @@
 #'
 #'where \eqn{M} is the size of the chain of \eqn{v_{i}} after the burn-in period and
 #'\eqn{v^{(l)}_{j}} is the \eqn{l}th draw of chain.
-#'
+#'@importFrom GIGrvg rgig
 #'@references
 #'Santos B, Bolfarine H.(2016)``On Baysian quantile regression and
 #'outliers,\emph{arXiv:1601.07344}
@@ -42,13 +42,13 @@ bayesProb <- function(y, x, tau, M){
    sigma <- summary(coefs)[[1]]$sigmadraw[, 1]
    taup2 <- (2/(tau * (1 - tau)))
    theta <- (1 - 2 * tau) / (tau * (1 - tau))
-   x <- cbind(1, x)
+   x <- as.matrix(cbind(1, x))
    delta <- sqrt((y - x %*% beta)^2/(sigma * taup2))
    gamma <- sqrt(theta^2/(sigma*taup2) + 2/sigma)
    n = length(y)
    nu_dens <- matrix(0, nrow = M, ncol = n)
    for(i in 1:n) {
-       nu_dens[,i] <- HyperbolicDist::rgig(M, 1/2, delta[i], gamma)
+       nu_dens[,i] <- rgig(M, 1/2, delta[i], gamma)
    }
    A <- matrix(0, nrow = n, ncol = n-1)
    for(i in 1:n) {
@@ -61,3 +61,4 @@ bayesProb <- function(y, x, tau, M){
 prob <- apply(A, 1, mean)
 return(prob)
 }
+

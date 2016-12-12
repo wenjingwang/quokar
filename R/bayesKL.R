@@ -30,6 +30,7 @@
 #'the MCMC draws from the posterior of each latent vaiable, we estimate the densities
 #'using a normal kernel and we compute the integral using the trapezoidal rule.
 #'
+#'@importFrom GIGrvg rgig
 #'@references
 #'Santos B, Bolfarine H.(2016)``On Baysian quantile regression and
 #'outliers,\emph{arXiv:1601.07344}
@@ -43,14 +44,14 @@ bayesKL <- function(y, x, tau, M){
   taup2 <- (2/(tau * (1 - tau)))
   theta <- (1 - 2 * tau) / (tau * (1 - tau))
   n <- length(y)
-  x <- cbind(1, x)
+  x <- as.matrix(cbind(1, x))
   delta <- sqrt((y - x %*% beta)^2/(sigma * taup2))
   gamma <- sqrt(theta^2/(sigma*taup2) + 2/sigma)
 
   nu_dens <- matrix(0, nrow = M, ncol = n)
 
   for(i in 1:n) {
-    nu_dens[,i] <- HyperbolicDist::rgig(M, 1/2, delta[i], gamma)
+    nu_dens[,i] <- rgig(n = M, lambda = 1/2, chi = delta[i], psi = gamma)
   }
 
   KLS <- matrix(0, nrow = n, ncol = n-1)
@@ -77,3 +78,5 @@ bayesKL <- function(y, x, tau, M){
   }
   return(KLD)
 }
+
+bayesKL(y, x, tau, M)
