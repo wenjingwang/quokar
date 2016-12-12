@@ -20,6 +20,8 @@
 #'\deqn{-2\"{Q} = \sum{\lambda_{i}e_{i}e_{i}^{'}}}
 #'\deqn{M(m_{0}) = \sum {\~{\lambda_{i}}e_{i}^{2}}}
 #'
+#'@importFrom dplyr arrange desc
+#'
 #'@references Zhu H T, Lee S Y. Local influence for incomplete data models[J]
 #'. Journal of the Royal Statistical Society: Series B (Statistical Methodology)
 #', 2001, 63(1): 111-126.
@@ -36,13 +38,13 @@ q_benchmark <- function(Hessian, q){
   lambda_c <- lambda / sum(lambda)
   e <- eigen(Hessian)$vectors
   mid_data <- data.frame(cbind(lambda_c, t(e)))
-  mid_data_d <- dplyr::arrange(mid_data, desc(lambda))
-  K = sum(sort(abs(lambda) >= q/n))
-  vec_k <- mid_data_d[1:K, -1]^2
-  lambda_k <- lambda[1:K]
+  mid_data_d <- arrange(mid_data, desc(lambda))
+  k = sum(sort(abs(lambda) >= q/n))
+  vec_k <- mid_data_d[1:k, -1]^2
+  lambda_k <- lambda[1:k]
   M <- apply(lambda_k * vec_k, 2, sum)
-  mean_M <- sum(lambda_K)
-  sd_M <- sd(M)
+  mean_M <- sum(lambda_k)
+  sd_M <- stats::sd(M)
   critical_value <- c(2 * mean_M, mean_M + 2 * sd_M)
   return(critical_value)
 }

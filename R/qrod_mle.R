@@ -21,7 +21,6 @@
 #'of quantile regression model with asymmetric laplace distribution.
 #'
 #'@details
-#'
 #'Case-deletion is a classical approach to study the effects of dropping the
 #'\eqn{i}th case from the data set. Thus, the complete-data log-likelihhod
 #'function based on the data with \eqn{i}th cse deleted with be denoted by

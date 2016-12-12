@@ -7,6 +7,13 @@ of quantile regression}
 \usage{
 stud_resid_benchmark(alpha, p, n)
 }
+\arguments{
+\item{alpha}{Significant level}
+
+\item{p}{dimension of predictor variables}
+
+\item{n}{sample size}
+}
 \description{
 Benchmark of studentized residuals
 }

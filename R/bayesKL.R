@@ -79,4 +79,3 @@ bayesKL <- function(y, x, tau, M){
   return(KLD)
 }
 
-bayesKL(y, x, tau, M)

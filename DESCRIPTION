@@ -19,7 +19,9 @@ Imports:
     HyperbolicDist, 
     ggplot2,
     knitr,
-    gridExtra
+    gridExtra,
+    GIGrvg,
+    dplyr
 Type: Package
 LazyLoad: false
 VignetteBuilder: knitr
