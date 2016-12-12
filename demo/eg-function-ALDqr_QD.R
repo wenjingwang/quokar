@@ -12,11 +12,10 @@ case <- 1: n
 plots <- list()
 for(i in seq_along(tau)){
   QD <- qrod_mle(y, x, tau[i], error = 1e-06, iter = 2000, method = "cook.distance")
-  data_QD <- data.frame(case = case, QD = QD)
-  plots[[i]] <- ggplot(data_QD, aes(x = case, y = QD)) +
+  plots[[i]] <- ggplot(QD, aes(x = case, y = distance)) +
     geom_point(colour = "darkblue") +
-    geom_text(data = subset(data_QD, QD > 1),
-              aes(case, QD + 0.1, label = case))
+    geom_text(data = subset(QD, distance > 0.001),
+              aes(case, distance, label = case))
 }
 grid.arrange(grobs=plots)
 

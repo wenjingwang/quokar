@@ -42,6 +42,7 @@ bayesProb <- function(y, x, tau, M){
    sigma <- summary(coefs)[[1]]$sigmadraw[, 1]
    taup2 <- (2/(tau * (1 - tau)))
    theta <- (1 - 2 * tau) / (tau * (1 - tau))
+   x <- cbind(1, x)
    delta <- sqrt((y - x %*% beta)^2/(sigma * taup2))
    gamma <- sqrt(theta^2/(sigma*taup2) + 2/sigma)
    n = length(y)

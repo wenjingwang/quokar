@@ -43,7 +43,7 @@ bayesKL <- function(y, x, tau, M){
   taup2 <- (2/(tau * (1 - tau)))
   theta <- (1 - 2 * tau) / (tau * (1 - tau))
   n <- length(y)
-
+  x <- cbind(1, x)
   delta <- sqrt((y - x %*% beta)^2/(sigma * taup2))
   gamma <- sqrt(theta^2/(sigma*taup2) + 2/sigma)
 
