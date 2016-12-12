@@ -2,26 +2,47 @@
 % Please edit documentation in R/ALDqr_QD.R
 \name{ALDqr_QD}
 \alias{ALDqr_QD}
-\title{Outlier Dignostic for Quantile Regression Based on MLE Estimation}
+\title{Calculating q distance of the MLE estimations of quantile regression based on
+asymmetric laplace distribution}
 \usage{
 ALDqr_QD(y, x, tau, error, iter)
 }
 \arguments{
-\item{y}{dependent variable in quantile regression}
+\item{y}{Dependent variable in quantile regression. Note that: we suppose
+y follows asymmetric laplace distribution.}
 
-\item{x}{indepdent variables in quantile regression.
+\item{x}{Indepdent variables in quantile regression.
 Note that: x is the independent variable matrix which including
 the intercept. That means, if the dimension of independent
 variables is p and the sample size is n, x is a n times p+1
 matrix with the first column is one.}
 
-\item{tau}{quantile}
+\item{tau}{Quantile}
 
 \item{error}{The EM algorithm accuracy of error used in MLE estimation}
 
-\item{iter}{the iteration frequancy for EM algorithm used in MLE estimation}
+\item{iter}{The iteration frequancy for EM algorithm used in MLE estimation}
 }
 \description{
-Outlier Dignostic for Quantile Regression Based on MLE Estimation
+Calculating q distance of the MLE estimations of quantile regression based on
+asymmetric laplace distribution
+}
+\details{
+Measure of the influence of the \eqn{i}th case is the following Q-distance
+function, similar to the likelihood distance \eqn{LD_{i}} (Cook and Weisberg, 1982),
+defined as
+
+\deqn{QD_{i} = 2{Q(\hat{\theta}|\hat{\theta})-Q(\hat{\theta_{(i)}})}}
+}
+\author{
+Wenjing Wang \email{wenjingwang1990@gmail.com}
+}
+\references{
+Benites L E, Lachos V H, Vilca F E.(2015)``Case-Deletion
+Diagnostics for Quantile Regression Using the Asymmetric Laplace
+Distribution,\emph{arXiv preprint arXiv:1509.05099}.
+}
+\seealso{
+\code{ALDqr_GCD}
 }
 

@@ -1,7 +1,9 @@
-#' studentised residuals based on quantile regression
+#'@title Studentised residuals based on quantile regression
 #'
+#'@description
 #' Function for computing studentised residuals
-#' from a quantile regression fit
+#' from a quantile regression fit.
+#'
 #' @param object an object of class quantile regression model
 #'
 es <- function(object){

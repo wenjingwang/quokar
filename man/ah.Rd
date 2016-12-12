@@ -7,9 +7,6 @@
 \description{
 House Price of America
 }
-\references{
-\url{data_blah.com}
-}
 \keyword{data}
 \keyword{set}
 

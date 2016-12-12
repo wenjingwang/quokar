@@ -2,26 +2,26 @@
 % Please edit documentation in R/ALDqr_case_deletion.R
 \name{ALDqr_case_deletion}
 \alias{ALDqr_case_deletion}
-\title{Outlier Dignostic for Quantile Regression Based on MLE Estimation}
+\title{Calculating the case-deletion coefficience of quantile regression}
 \usage{
 ALDqr_case_deletion(y, x, tau, error, iter)
 }
 \arguments{
-\item{y}{dependent variable in quantile regression}
+\item{y}{Response variable in quantile regression model}
 
-\item{x}{indepdent variables in quantile regression.
+\item{x}{Predictors in quantile regression model.
 Note that: x is the independent variable matrix which including
 the intercept. That means, if the dimension of independent
 variables is p and the sample size is n, x is a n times p+1
 matrix with the first column is one.}
 
-\item{tau}{quantile}
+\item{tau}{Quantile}
 
 \item{error}{The EM algorithm accuracy of error used in MLE estimation}
 
-\item{iter}{the iteration frequancy for EM algorithm used in MLE estimation}
+\item{iter}{The iteration frequancy for EM algorithm used in MLE estimation}
 }
 \description{
-Outlier Dignostic for Quantile Regression Based on MLE Estimation
+Calculating the case-deletion coefficience of quantile regression
 }
 

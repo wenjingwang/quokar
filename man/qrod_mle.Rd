@@ -2,14 +2,14 @@
 % Please edit documentation in R/qrod_mle.R
 \name{qrod_mle}
 \alias{qrod_mle}
-\title{Outlier Dignostic for Quantile Regression Based on MLE Estimation}
+\title{Outlier Dignostic for Quantile Regression with Asymmetric Laplace Distribution}
 \usage{
 qrod_mle(y, x, tau, error, iter, method = c("cook.distance", "qfunciton"))
 }
 \arguments{
-\item{y}{dependent variable in quantile regression}
+\item{y}{Dependent variable in quantile regression}
 
-\item{x}{indepdent variables in quantile regression.
+\item{x}{Indepdent variables in quantile regression.
 Note that: x is the independent variable matrix which including
 the intercept. That means, if the dimension of independent
 variables is p and the sample size is n, x is a n times p+1
@@ -24,36 +24,63 @@ matrix with the first column is one.}
 \item{method}{the diagnostic method for outlier detection}
 }
 \description{
-This group of function is used to compute diagnositcs for a
-quantile regression model based on the building blocks returned
-by.
+This function cacluate the generalized cook distance and q function distance
+of quantile regression model with asymmetric laplace distribution.
 }
 \details{
-The primary function is which returns either
-a list or data frame of influence mesures depending on whether
-or if only one aspect of the model is selected
-then a list with Generalized Cook's distance,Q-function Distance,
-Baysian Method or ES method.
+Case-deletion is a classical approach to study the effects of dropping the
+\eqn{i}th case from the data set. Thus, the complete-data log-likelihhod
+function based on the data with \eqn{i}th cse deleted with be denoted by
+\eqn{l_{c}(\theta|y_{c(i)})}. Let \eqn{\hat{\theta_{p(i)}} = (\hat{\beta^{'}_{p(i)}},
+\hat{\sigam^{2}}_{(i)})^{'}} be the maximizer of the function
 
-This function is used to detect outlier in quantile regression
-level. It use code to fit the models for each quantile.
+\deqn{Q_{(i)}(\theta|\hat{\theta})=E_{\hat{\theta}}[l_{c}(\theta|Y_{c(i)})|y]}
 
-The method cook.distance, qfunction.distance,
-baysian.probability, baysian.distribution and ES
-can be used for direct computation of the corresponding diagnostic
-quantities from an object of class case_delete
+To assess the influence of the \eqn{i}th case on the EM estimate \eqn{\hat{\theta}},
+we compare \eqn{\hat{\theta_(i)}} and \eqn{\hat{\theta}}, and if \eqn{\hat{\theta_(i)}}
+is far from \eqn{\hat{\theta_(i)}} in some sense, then the \eqn{i}th case is regarded
+as influential. Based on the metric for measuring the distance between \eqn{\hat{\theta_(i)}}
+and \eqn{\hat{\theta}} proposed by Zhu et al.(2001), we consider here the following
+generalized Cook distance:
+
+\deqn{GD_{i} = (\hat{\theta_{(i)}}-\hat{\theta{i}})^{'}{-Q(\hat{\theta}|\hat{\theta})}
+(\hat{\theta_{(i)}}-\hat{\theta{i}})}
+
+Another measure of the influence of the \eqn{i}th case is the following Q-distance
+function, similar to the likelihood distance \eqn{LD_{i}} (Cook and Weisberg, 1982),
+defined as
+
+\deqn{QD_{i} = 2{Q(\hat{\theta}|\hat{\theta})-Q(\hat{\theta_{(i)}})}}
+}
+\examples{
+data(ais)
+y <- ais$BMI
+sexInd <- (ais$Sex == 1) + 0
+x <- cbind(1, ais$LBM, ais$sexInd)
+qrod_mle(y, x, tau = 0.1, error = 1e-10, iter = 2000, method = "cook.distance")
+qrod_mle(y, x, tau = 0.1, error = 1e-10, iter = 2000, method = "qfunction")
+
+
+
 }
 \author{
 Wenjing Wang \email{wenjingwang1990@gmail.com}
 }
 \references{
-Benites L E, Lachos V H, Vilca F E.(2015)``Case-Deletion
+Sánchez B L, Lachos H V, Labra V F.(2013)``Likelihood based inference for quantile
+regression using the asymmetric Laplace distribution,\emph{
+Journal of Statistical Computation and Simulation}, 81: 1565-1578.
+
+L E, Lachos V H, Vilca F E.(2015)``Case-Deletion
 Diagnostics for Quantile Regression Using the Asymmetric Laplace
 Distribution,\emph{arXiv preprint arXiv:1509.05099}.
 
 
 Koenker R, Bassett Jr G.(1978)`` Regression quantiles,
 \emph{Econometrica},\bold{1}, 33-50.
+}
+\seealso{
+\code{covMCD} from package `robustbase`
 }
 \keyword{diagnostics}
 \keyword{outlier}

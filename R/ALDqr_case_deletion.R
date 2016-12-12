@@ -1,17 +1,17 @@
-#'Outlier Dignostic for Quantile Regression Based on MLE Estimation
-#'@param y dependent variable in quantile regression
+#'Calculating the case-deletion coefficience of quantile regression
+#'@param y Response variable in quantile regression model
 #'
-#'@param x indepdent variables in quantile regression.
+#'@param x Predictors in quantile regression model.
 #'Note that: x is the independent variable matrix which including
 #'the intercept. That means, if the dimension of independent
 #'variables is p and the sample size is n, x is a n times p+1
 #'matrix with the first column is one.
 #'
-#'@param tau quantile
+#'@param tau Quantile
 #'
 #'@param error The EM algorithm accuracy of error used in MLE estimation
 #'
-#'@param iter the iteration frequancy for EM algorithm used in MLE estimation
+#'@param iter The iteration frequancy for EM algorithm used in MLE estimation
 #'
 #'@importFrom purrr %>%
 #'

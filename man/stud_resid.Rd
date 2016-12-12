@@ -2,7 +2,7 @@
 % Please edit documentation in R/stud_resid.R
 \name{stud_resid}
 \alias{stud_resid}
-\title{studentised residuals based on quantile regression}
+\title{Studentised residuals based on quantile regression}
 \usage{
 stud_resid(object)
 }
@@ -11,7 +11,7 @@ stud_resid(object)
 }
 \description{
 Function for computing studentised residuals
-from a quantile regression fit
+from a quantile regression fit.
 }
 \details{
 The \code{stud_resid} function provides a studentized

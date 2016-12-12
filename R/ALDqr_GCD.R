@@ -1,5 +1,7 @@
-#'Outlier Dignostic for Quantile Regression Based on MLE Estimation
-#'@param y dependent variable in quantile regression
+#'Calculating generalized cook distance of the MLE estimation of quantile regression
+#'based on asymmetric laplace distribution
+#'@param y Dependent variable in quantile regression. Note that: we suppose
+#'y follows asymmetric laplace distribution.
 #'
 #'@param x indepdent variables in quantile regression.
 #'Note that: x is the independent variable matrix which including
@@ -13,7 +15,35 @@
 #'
 #'@param iter the iteration frequancy for EM algorithm used in MLE estimation
 #'
-#'@importFrom purrr %>%
+#'
+#'@details
+#'Case-deletion is a classical approach to study the effects of dropping the
+#'\eqn{i}th case from the data set. Thus, the complete-data log-likelihhod
+#'function based on the data with \eqn{i}th cse deleted with be denoted by
+#'\eqn{l_{c}(\theta|y_{c(i)})}. Let \eqn{\hat{\theta_{p(i)}} = (\hat{\beta^{'}_{p(i)}},
+#'\hat{\sigam^{2}}_{(i)})^{'}} be the maximizer of the function
+#'
+#'\deqn{Q_{(i)}(\theta|\hat{\theta})=E_{\hat{\theta}}[l_{c}(\theta|Y_{c(i)})|y]}
+#'
+#'To assess the influence of the \eqn{i}th case on the EM estimate \eqn{\hat{\theta}},
+#'we compare \eqn{\hat{\theta_(i)}} and \eqn{\hat{\theta}}, and if \eqn{\hat{\theta_(i)}}
+#'is far from \eqn{\hat{\theta_(i)}} in some sense, then the \eqn{i}th case is regarded
+#'as influential. Based on the metric for measuring the distance between \eqn{\hat{\theta_(i)}}
+#'and \eqn{\hat{\theta}} proposed by Zhu et al.(2001), we consider here the following
+#'generalized Cook distance:
+#'
+#'\deqn{GD_{i} = (\hat{\theta_{(i)}}-\hat{\theta{i}})^{'}{-Q(\hat{\theta}|\hat{\theta})}
+#'(\hat{\theta_{(i)}}-\hat{\theta{i}})}
+#'
+#'@importFrom purrr %>% map
+#'
+#'@references
+#'Benites L E, Lachos V H, Vilca F E.(2015)``Case-Deletion
+#'Diagnostics for Quantile Regression Using the Asymmetric Laplace
+#'Distribution,\emph{arXiv preprint arXiv:1509.05099}.
+#'
+#'@seealso \code{ALDqr_QD}
+#'
 #'
 ALDqr_GCD <- function(y, x, tau, error, iter)
 {
@@ -39,18 +69,17 @@ ALDqr_GCD <- function(y, x, tau, error, iter)
   }
   E2 <- rep(0, n)
   for(i in 1:n){
-  muc_i <- y[-i] - x[-i, ]%*%beta_qr
-  E2[i] <- sum(3*sigma_qr - (vchpN[-i] * muc_i^2 -
-                2 * muc_i * thep + vchp1[-i] *(thep^2 + 2 * taup2))/taup2)
+  muc_i <- y[-i] - x[-i, ] %*% beta_qr
+  E2[i] <- sum(3 * sigma_qr - (vchpN[-i] * muc_i^2 -
+                2 * muc_i * thep + vchp1[-i] * (thep^2 + 2 * taup2))/taup2)
   }
   Q1_beta <- E1/sigma_qr
-  Q1_sigma <- -E2/(2*sigma_qr^2)
+  Q1_sigma <- -E2/(2 * sigma_qr^2)
   xM <- c(sqrt(vchpN)) * x
   suma1 <- t(xM) %*% (xM)
   Q2_beta <- -(suma1)/(sigma_qr * taup2)
   Q2_sigma <- 3/(2*sigma_qr^2) - sum((vchpN*muc^2-2*muc*thep +
-                            vchp1*(thep^2 + 2*taup2)))/(sigma_qr^3*taup2)
-  GCD_beta <-
+                            vchp1 * (thep^2 + 2*taup2)))/(sigma_qr^3*taup2)
   GCD_beta <- 1:n %>%
     purrr::map(function(i){
       c(Q1_beta[,i]) %*% solve(-Q2_beta) %*% matrix(Q1_beta[,i], ncol = 1)
@@ -61,6 +90,6 @@ ALDqr_GCD <- function(y, x, tau, error, iter)
       Q1_sigma[i]*solve(-Q2_sigma)*Q1_sigma[i]
     })
   GCD_sigma <- simplify2array(GCD_sigma)
-  GCD <- GCD_beta + GCD_sigma
+  GCD <- GCD_beta
   return(GCD)
 }

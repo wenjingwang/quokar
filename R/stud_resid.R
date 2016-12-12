@@ -1,7 +1,9 @@
-#' studentised residuals based on quantile regression
+#'@title Studentised residuals based on quantile regression
 #'
+#'@description
 #' Function for computing studentised residuals
-#' from a quantile regression fit
+#' from a quantile regression fit.
+#'
 #' @param object an object of class quantile regression model
 #' @details The \code{stud_resid} function provides a studentized
 #' residual on each quantile.
@@ -11,11 +13,9 @@
 #' Ranganai, E(2016). On studentized residuals in the quantile
 #' regression framework. University of South Africa.
 #' \emph{SpringerPlus}, 5(1), 1231.
-#'@importFrom purrr %>%
+#'@importFrom purrr %>% map
 #' @export
-
-
-
+#'
 stud_resid <- function(object){
   xj <- cbind(1, stats::na.exclude(es(object)))
   xi <- object$x[unclass(attr(stats::na.exclude(es(object)), "na.action")), ]

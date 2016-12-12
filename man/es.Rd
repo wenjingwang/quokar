@@ -2,7 +2,7 @@
 % Please edit documentation in R/es.R
 \name{es}
 \alias{es}
-\title{studentised residuals based on quantile regression}
+\title{Studentised residuals based on quantile regression}
 \usage{
 es(object)
 }
@@ -11,6 +11,6 @@ es(object)
 }
 \description{
 Function for computing studentised residuals
-from a quantile regression fit
+from a quantile regression fit.
 }
 
