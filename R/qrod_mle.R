@@ -77,7 +77,7 @@
 #'
 #'
 qrod_mle <- function(y, x, tau, error, iter,
-                 method = c("cook.distance", "qfunciton")){
+                 method = c("cook.distance", "qfunction")){
   method <- match.arg(method)
   if(!(method %in% c("cook.distance", "qfunction"))){
     stop("Method should be 'cook.distance' or 'qfunction'")
