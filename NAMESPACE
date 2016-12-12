@@ -3,5 +3,6 @@
 export(qrod_bayes)
 export(qrod_mle)
 export(stud_resid)
+importFrom(GIGrvg,rgig)
 importFrom(purrr,"%>%")
 importFrom(purrr,map)

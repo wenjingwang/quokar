@@ -4,7 +4,7 @@
 \alias{qrod_mle}
 \title{Outlier Dignostic for Quantile Regression with Asymmetric Laplace Distribution}
 \usage{
-qrod_mle(y, x, tau, error, iter, method = c("cook.distance", "qfunciton"))
+qrod_mle(y, x, tau, error, iter, method = c("cook.distance", "qfunction"))
 }
 \arguments{
 \item{y}{Dependent variable in quantile regression}
