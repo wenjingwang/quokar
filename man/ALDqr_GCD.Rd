@@ -5,7 +5,7 @@
 \title{Calculating generalized cook distance of the MLE estimation of quantile regression
 based on asymmetric laplace distribution}
 \usage{
-ALDqr_GCD(y, x, tau, error, iter)
+ALDqr_GCD(y, x = NLLL, tau = NULL, error = 1e-06, iter = 2000)
 }
 \arguments{
 \item{y}{Dependent variable in quantile regression. Note that: we suppose
