@@ -28,10 +28,10 @@
 #'
 q_benchmark <- function(Hessian, q){
   if(!is.matrix(Hessian)){
-    stop(paste("Hessian must be a matix"))
+    stop("Hessian must be a matix")
   }
   if(q < 0 | q > 1){
-    stop(paste("q must larger than 0"))
+    stop("q must larger than 0")
   }
   n <- nrow(Hessian)
   lambda <- eigen(Hessian)$values

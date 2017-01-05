@@ -55,10 +55,10 @@ bayesProb <- function(y, x, tau, M){
        probs <- 1:M/M
        nu1 <- nu_dens[, -i]
        for(j in 1:(n-1)) {
-       A[i,j] <- 1/M*sum(stats::quantile(nu_dens[,i], probs = probs) > max(nu1[, j]))
+          A[i,j] <- 1/M*sum(stats::quantile(nu_dens[,i], probs = probs) > max(nu1[, j]))
        }
    }
-prob <- apply(A, 1, mean)
-return(prob)
+   prob <- apply(A, 1, mean)
+   return(prob)
 }
 

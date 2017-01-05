@@ -48,8 +48,8 @@
 ALDqr_GCD <- function(y, x = NLLL, tau = NULL,
                       error = 1e-06, iter = 2000)
 {
-  p <- ncol(x)
   n <- length(y)
+  p <- ncol(x)
   theta <- ALDqr::EM.qr(y, x, tau, error, iter)$theta
   beta_qr <- theta[1:p, ]
   sigma_qr <- theta[p+1]

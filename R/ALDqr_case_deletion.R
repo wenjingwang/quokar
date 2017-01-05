@@ -19,20 +19,20 @@
 #'
 ALDqr_case_deletion <- function(y, x, tau, error, iter)
 {
-  p <- ncol(x)
   n <- length(y)
-  theta <- ALDqr::EM.qr(y, x, tau, error, iter)$theta
-  beta_qr <- theta[1:p, ]
-  sigma_qr <- theta[p+1]
+  p <- ncol(x)
+  qr <- ALDqr::EM.qr(y,x,tau,error,iter)
+  beta_qr <- qr$theta[1:p,]
+  sigma_qr <- qr$theta[p+1]
   taup2 <- (2/(tau * (1 - tau)))
   thep <- (1 - 2 * tau) / (tau * (1 - tau))
   delta2 <- (y - x %*% beta_qr)^2/(taup2 * sigma_qr)
   gamma2 <- (2 + thep^2/taup2)/sigma_qr
   muc <- y - x %*% beta_qr
-  vchpN <- besselK(sqrt(delta2 * gamma2), 0.5 - 1)/(besselK(sqrt(delta2 *
-                      gamma2), 0.5)) * (sqrt(delta2 / gamma2))^(-1)
   vchp1 <- besselK(sqrt(delta2 * gamma2), 0.5 + 1)/(besselK(sqrt(delta2 *
                       gamma2), 0.5)) * (sqrt(delta2 / gamma2))
+  vchpN <- besselK(sqrt(delta2 * gamma2), 0.5 - 1)/(besselK(sqrt(delta2 *
+                      gamma2), 0.5)) * (sqrt(delta2 / gamma2))^(-1)
   E1 <- matrix(0, nrow = p, ncol = n)
   for(i in 1:n){
     suma2 <- x[-i,] * c(vchpN[-i] * (y[-i] - x[-i,] %*% beta_qr) - thep)
