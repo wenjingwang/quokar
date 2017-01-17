@@ -1,0 +1,163 @@
+##Simulation Study
+###Pattern & Number
+
+```{r}
+library(gridExtra)
+library(ggplot2)
+library(quantreg)
+
+x <- sort(runif(100))
+y1 <- 40*x + x*rnorm(100, 0, 10)
+
+selectedX1 <- sample(50:100, 5)
+y2 <- y1
+y2[selectedX1] <- x[1:5]*rnorm(5, 0, 10)
+
+selectedX2 <- sample(50:100, 10)
+y3 <- y1
+y3[selectedX2] <- x[1:10]*rnorm(10, 0, 10)
+
+selectedX3 <- sample(50:100, 15)
+y4 <- y1
+y4[selectedX3] <- x[1:15]*rnorm(15, 0, 10)
+
+df <- data.frame(x, y1, y2, y3, y4)
+
+df.qr1 <- coef(rq(y1~x, data=df, seq(0.1,0.9,0.1)))
+p1 <- ggplot(data=df) + ylim(c(-20, 60))+geom_point(aes(x=x, y=y1),
+             alpha=0.1) +
+        geom_abline(intercept=df.qr1[1,1], slope=df.qr1[2,1],
+                colour="red") +
+        geom_abline(intercept=df.qr1[1,2], slope=df.qr1[2,2],
+                colour="orange") +
+        geom_abline(intercept=df.qr1[1,3], slope=df.qr1[2,3]) +
+        geom_abline(intercept=df.qr1[1,4], slope=df.qr1[2,4]) +
+        geom_abline(intercept=df.qr1[1,5], slope=df.qr1[2,5]) +
+        geom_abline(intercept=df.qr1[1,6], slope=df.qr1[2,6]) +
+        geom_abline(intercept=df.qr1[1,7], slope=df.qr1[2,7]) +
+        geom_abline(intercept=df.qr1[1,8], slope=df.qr1[2,8]) +
+        geom_abline(intercept=df.qr1[1,9], slope=df.qr1[2,9])
+
+df.qr2 <- coef(rq(y2~x, data=df, seq(0.1, 0.9, 0.1)))
+p2 <- ggplot(data=df) + ylim(c(-20, 60))+ geom_point(aes(x=x, y=y2),              alpha=0.1) +
+    geom_abline(intercept=df.qr2[1,1], slope=df.qr2[2,1],
+                colour="red") +
+    geom_abline(intercept=df.qr2[1,2], slope=df.qr2[2,2],
+                colour="orange") +
+    geom_abline(intercept=df.qr2[1,3], slope=df.qr2[2,3]) +
+    geom_abline(intercept=df.qr2[1,4], slope=df.qr2[2,4]) +
+    geom_abline(intercept=df.qr2[1,5], slope=df.qr2[2,5]) +
+    geom_abline(intercept=df.qr2[1,6], slope=df.qr2[2,6]) +
+    geom_abline(intercept=df.qr2[1,7], slope=df.qr2[2,7]) +
+    geom_abline(intercept=df.qr2[1,8], slope=df.qr2[2,8]) +
+    geom_abline(intercept=df.qr2[1,9], slope=df.qr2[2,9])
+
+df.qr3 <- coef(rq(y3~x, data=df, seq(0.1, 0.9, 0.1)))
+p3 <- ggplot(data=df)+ ylim(c(-20,60)) + geom_point(aes(x=x, y=y3),              alpha=0.1) +
+        geom_abline(intercept=df.qr3[1,1], slope=df.qr3[2,1],
+                colour="red") +
+        geom_abline(intercept=df.qr3[1,2], slope=df.qr3[2,2],
+                colour="orange"              ) +
+        geom_abline(intercept=df.qr3[1,3], slope=df.qr3[2,3]) +
+        geom_abline(intercept=df.qr3[1,4], slope=df.qr3[2,4]) +
+        geom_abline(intercept=df.qr3[1,5], slope=df.qr3[2,5]) +
+        geom_abline(intercept=df.qr3[1,6], slope=df.qr3[2,6]) +
+        geom_abline(intercept=df.qr3[1,7], slope=df.qr3[2,7]) +
+        geom_abline(intercept=df.qr3[1,8], slope=df.qr3[2,8]) +
+        geom_abline(intercept=df.qr3[1,9], slope=df.qr3[2,9])
+
+df.qr4 <- coef(rq(y4~x, data=df, seq(0.1, 0.9, 0.1)))
+p4 <- ggplot(data=df) + ylim(c(-20, 60))+ geom_point(aes(x=x, y=y4),              alpha=0.1) +
+    geom_abline(intercept=df.qr4[1,1], slope=df.qr4[2,1],
+                colour="red") +
+    geom_abline(intercept=df.qr4[1,2], slope=df.qr4[2,2],
+                colour="orange" ) +
+    geom_abline(intercept=df.qr4[1,3], slope=df.qr4[2,3],
+                colour ="purple") +
+    geom_abline(intercept=df.qr4[1,4], slope=df.qr4[2,4]) +
+    geom_abline(intercept=df.qr4[1,5], slope=df.qr4[2,5]) +
+    geom_abline(intercept=df.qr4[1,6], slope=df.qr4[2,6]) +
+    geom_abline(intercept=df.qr4[1,7], slope=df.qr4[2,7]) +
+    geom_abline(intercept=df.qr4[1,8], slope=df.qr4[2,8]) +
+    geom_abline(intercept=df.qr4[1,9], slope=df.qr4[2,9])
+
+grid.arrange(p1, p2, p3,p4, ncol = 2)
+
+```
+
+```{r}
+x <- sort(runif(100))
+y1 <- 40*x + x*rnorm(100, 0, 10)
+
+y2 <- y1
+y2[96: 100] <- x[1:5]*rnorm(5, 0, 10)
+
+y3 <- y1
+y3[91: 100] <- x[1:10]*rnorm(10, 0, 10)
+
+y4 <- y1
+y4[86:100] <- x[1:15]*rnorm(15, 0, 10)
+
+df <- data.frame(x, y1, y2, y3, y4)
+
+df.qr1 <- coef(rq(y1~x, data=df, seq(0.1,0.9,0.1)))
+p1 <- ggplot(data=df) + ylim(c(-20, 60))+geom_point(aes(x=x, y=y1),
+             alpha=0.1) +
+        geom_abline(intercept=df.qr1[1,1], slope=df.qr1[2,1],
+                colour="red") +
+        geom_abline(intercept=df.qr1[1,2], slope=df.qr1[2,2],
+                colour="orange") +
+        geom_abline(intercept=df.qr1[1,3], slope=df.qr1[2,3]) +
+        geom_abline(intercept=df.qr1[1,4], slope=df.qr1[2,4]) +
+        geom_abline(intercept=df.qr1[1,5], slope=df.qr1[2,5]) +
+        geom_abline(intercept=df.qr1[1,6], slope=df.qr1[2,6]) +
+        geom_abline(intercept=df.qr1[1,7], slope=df.qr1[2,7]) +
+        geom_abline(intercept=df.qr1[1,8], slope=df.qr1[2,8]) +
+        geom_abline(intercept=df.qr1[1,9], slope=df.qr1[2,9])
+
+df.qr2 <- coef(rq(y2~x, data=df, seq(0.1, 0.9, 0.1)))
+p2 <- ggplot(data=df) + ylim(c(-20, 60))+ geom_point(aes(x=x, y=y2),              alpha=0.1) +
+    geom_abline(intercept=df.qr2[1,1], slope=df.qr2[2,1],
+                colour="red") +
+    geom_abline(intercept=df.qr2[1,2], slope=df.qr2[2,2],
+                colour="orange") +
+    geom_abline(intercept=df.qr2[1,3], slope=df.qr2[2,3]) +
+    geom_abline(intercept=df.qr2[1,4], slope=df.qr2[2,4]) +
+    geom_abline(intercept=df.qr2[1,5], slope=df.qr2[2,5]) +
+    geom_abline(intercept=df.qr2[1,6], slope=df.qr2[2,6]) +
+    geom_abline(intercept=df.qr2[1,7], slope=df.qr2[2,7]) +
+    geom_abline(intercept=df.qr2[1,8], slope=df.qr2[2,8]) +
+    geom_abline(intercept=df.qr2[1,9], slope=df.qr2[2,9])
+
+df.qr3 <- coef(rq(y3~x, data=df, seq(0.1, 0.9, 0.1)))
+p3 <- ggplot(data=df)+ ylim(c(-20,60)) + geom_point(aes(x=x, y=y3),              alpha=0.1) +
+        geom_abline(intercept=df.qr3[1,1], slope=df.qr3[2,1],
+                colour="red") +
+        geom_abline(intercept=df.qr3[1,2], slope=df.qr3[2,2],
+                colour="orange"              ) +
+        geom_abline(intercept=df.qr3[1,3], slope=df.qr3[2,3]) +
+        geom_abline(intercept=df.qr3[1,4], slope=df.qr3[2,4]) +
+        geom_abline(intercept=df.qr3[1,5], slope=df.qr3[2,5]) +
+        geom_abline(intercept=df.qr3[1,6], slope=df.qr3[2,6]) +
+        geom_abline(intercept=df.qr3[1,7], slope=df.qr3[2,7]) +
+        geom_abline(intercept=df.qr3[1,8], slope=df.qr3[2,8]) +
+        geom_abline(intercept=df.qr3[1,9], slope=df.qr3[2,9])
+
+df.qr4 <- coef(rq(y4~x, data=df, seq(0.1, 0.9, 0.1)))
+p4 <- ggplot(data=df) + ylim(c(-20, 60))+ geom_point(aes(x=x, y=y4),              alpha=0.1) +
+    geom_abline(intercept=df.qr4[1,1], slope=df.qr4[2,1],
+                colour="red") +
+    geom_abline(intercept=df.qr4[1,2], slope=df.qr4[2,2],
+                colour="orange" ) +
+    geom_abline(intercept=df.qr4[1,3], slope=df.qr4[2,3],
+                colour ="purple") +
+    geom_abline(intercept=df.qr4[1,4], slope=df.qr4[2,4]) +
+    geom_abline(intercept=df.qr4[1,5], slope=df.qr4[2,5]) +
+    geom_abline(intercept=df.qr4[1,6], slope=df.qr4[2,6]) +
+    geom_abline(intercept=df.qr4[1,7], slope=df.qr4[2,7]) +
+    geom_abline(intercept=df.qr4[1,8], slope=df.qr4[2,8]) +
+    geom_abline(intercept=df.qr4[1,9], slope=df.qr4[2,9])
+
+grid.arrange(p1, p2, p3,p4, ncol = 2)
+
+```
