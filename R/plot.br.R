@@ -10,10 +10,12 @@
 #' @import ggplot2, quantreg, purrr, tidyr, dplyr
 #' @examples
 #' data(ais)
-#' tau <- 1:9/10
-#' object1 <- rq(BMI ~ Ht + LBM + Wt, tau, method = 'br',
-#'             data = ais)
+#' tau <- c(0.1, 0.5, 0.9)
+#' object1 <- rq(BMI ~ LBM, tau, method = 'br', data = ais)
 #' plot.br(object1, tau)
+#' object2 <- rq(BMI ~ Ht + LBM + Wt, tau, method = 'br',
+#'             data = ais)
+#' plot.br(object2, tau)
 #'
 #'
 #'
@@ -26,8 +28,8 @@ wh <- function(object, tau){
   eps <- tol
   big <- .Machine$double.xmax
   x <- as.matrix(x)
-  p <- ncol(x)
-  n <- nrow(x)
+  p <- NCOL(x)
+  n <- NROW(x)
   ny <- NCOL(y)
   nsol <- 2
   ndsol <- 2
@@ -102,7 +104,7 @@ wh <- function(object, tau){
                 big =  as.double(big),
                 lci1 = as.logical(lci1),
                 PACKAGE = "quantreg")
-  return(z$wh[1:ncol(x)])
+  return(z$wh[1:NCOL(x)])
 }
 
 
@@ -110,6 +112,7 @@ plot.br <- function(object, tau){
   y <- matrix(object$y, ncol = 1)
   colnames(y) <-'y'
   x <- object$x
+  x <- as.matrix(x)
   ntau <- length(tau)
   h <- matrix(0, nrow = ntau, ncol = ncol(x))
   for (i in 1:ntau){
@@ -122,6 +125,7 @@ plot.br <- function(object, tau){
   print(h)
   if(colnames(object$x)[1] == '(Intercept)'){
     x <- object$x[,-1]
+    x <- as.matrix(x)
   }
   colnames(x) <- paste('x', 1:ncol(x), sep='')
   data_plot <- data.frame(index = 1:length(y), y, x)
@@ -139,6 +143,11 @@ plot.br <- function(object, tau){
     geom_point(data = choose_point2, aes(x = value, y = y,
                                          group = tau_flag,
                                          colour = tau_flag,
-                                         shape = obs))
+                                         shape = obs)) +
+    geom_line(data = choose_point2, aes(x = value, y = y,
+                                        group = tau_flag,
+                                        colour = tau_flag))
   return(plot_base)
 }
+
+
