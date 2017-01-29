@@ -1,15 +1,115 @@
 ---
-title: "Quokar vignette"
+title: "Quokar Vignette"
 author: "Wenjing Wang"
 date: "11/8/2016"
 output: html_document
 ---
 
-##Outlier detection of quantile regression model with R: a vignette
-###Quantile regression: robust to outliers?
-####How dose outliers affect quantile regression?
+## Outlier detection of quantile regression model with R: a vignette
+### Quantile regression: robust to outliers?
+
+Koenker et al(1978) extended the OLS regression by introducing quantile regression into linear model. Quantile regression methods 
+
+Let ${y_{t}:t=1,...T}$ be the random sample on a random variable which have distribution function $F$. OLS regression(also called mean regression) is based on the idea of minimizing the Euclidean distance between $y$ and $\hat{y}$. Following this idea, quantile regression trying to minimizing a so called $\rho_{\tau}$ 'distance' defined as:
+
+$$d_{\tau}{(y,\hat{y})}=\sum_{i=1}^{n}\rho_{\tau}(y_i-\hat{y})$$
+
+As $\hat{y}=X\hat{\beta_{\tau}}$, when miniming the objective function above, we get the estimatior of $\beta_\tau$. The minimizing process involved linear programming and typically yields a solution at a vertax. Koenker(1978) showed that the vertex solutions correspond to points in parameter space at which $p$ observations are interpolated when $p$ parameters are being estimated. The "exact-fit" property may confuse people for considering the sample size of doing quantile regression, as well as the reliability of quantile regression model for its ignoring all the other observations. However, actually all the observations are involved in the estimating process to determine which ones are eventually interpolated. 
+
+Many researchers hold the view that because the the weighted sum of absolute deviations give a robust measurement of location, the estimated coefficient vector of quantile regression is not sensitive to outlier obsercations on the dependent variable(Koenker(1978), Buchinsky(1998)). However, this conlusion was drawed on the overall estimations of different quantiles compared to the mean estimation from OLS regression. If we look at the quantiles separately, outliers actually will affect the estimation of quantile regression greatly. 
+
+The linear programming method used for estimating the quantile regression coefficients add difficulties to figure out how the outliers affect quantile regression model. We will discuss how the number, location and pattern of outliers affect quantile regressions based on simulation.
+
+* Outliers simulation study 1: location
+ 
+ The sample data indicate linear relationship between dependent and independent variable with changing slope for different x. We condaminate the data with outliers with same pattern while have distant location towards the others.  
+```{r}
+x <- sort(runif(100))
+y1 <- 40*x + x*rnorm(100, 0, 10)
+#locate the outliers
+selectedX <- sample(50:100,5) 
+y2 <- y1
+y2[selectedX] <- x[1:5]*rnorm(5, 0, 10)
+#keep moving down
+y3 <- y2
+y3[selectedX] <- y3[selectedX] - 5
+y4 <- y3
+y4[selectedX] <- y4[selectedX] - 5
+```
+Using the simulated data to construct quantile regression model. By comparing the four models, we have a brief idea of the effect of outliers' location.
+```{r}
+library(quantreg)
+library(purrr)
+library(tidyr)
+library(ggplot2)
+library(broom)
+install.packages('broom')
+df <- data.frame(x, y1, y2, y3, y4)
+df_m <- df %>% gather(variable, value, -x)
+df_m
+ggplot(df_m, aes(x=x, y=value)) + 
+  ylim(-20, 60) +
+  geom_point() + 
+  facet_wrap(~variable, ncol=2) +
+  geom_quantile(quantiles = seq(0.1, 0.9, 0.1))
+coefs <- 2:5 %>%
+             map(~ rq(df[, .] ~ x, data = df, seq(0.1, 0.9, 0.1))) %>%
+             map_df(~ as.data.frame(t(as.matrix(coef(.)))))
+coefs <- cbind(rep(0.1:0.9, 4), coefs)
+```
 
 
 
 
-####Conclusion on 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
