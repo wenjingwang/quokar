@@ -131,7 +131,8 @@ plot.br <- function(object, tau){
   data_plot <- data.frame(index = 1:length(y), y, x)
   data_plot_g <- data_plot %>% gather(variable, value, -c(1,2))
   choose_point <- h %>% gather(obs, index, -tau_flag)
-  merge_x_y <- merge(choose_point, data_plot, by ='index')
+  merge_x_y <- choose_point %>%
+    inner_join(data_plot, by ='index')
   choose_point2 <- merge_x_y %>% gather(variable, value,
                                         -c(index, tau_flag, obs, y))
   plot_base <- ggplot(data_plot_g,
@@ -149,5 +150,4 @@ plot.br <- function(object, tau){
                                         colour = tau_flag))
   return(plot_base)
 }
-
 
