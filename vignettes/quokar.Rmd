@@ -6,6 +6,12 @@ output: html_document
 ---
 
 ## Outlier detection of quantile regression model with R: a vignette
+### Talking about the fitting process
+
+BR algorithm
+
+FN algorithm
+
 ### Quantile regression: robust to outliers?
 
 Koenker et al(1978) extended the OLS regression by introducing quantile regression into linear model. Quantile regression methods 
