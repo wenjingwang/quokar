@@ -22,10 +22,8 @@ Imports:
     gridExtra,
     GIGrvg,
     dplyr,
-    Rcpp
 Type: Package
 NeedsCompilation: yes
 LazyLoad: false
 VignetteBuilder: knitr
 RoxygenNote: 5.0.1
-LinkingTo: Rcpp
