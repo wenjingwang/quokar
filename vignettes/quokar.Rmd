@@ -43,7 +43,6 @@ library(purrr)
 library(tidyr)
 library(ggplot2)
 library(broom)
-install.packages('broom')
 df <- data.frame(x, y1, y2, y3, y4)
 df_m <- df %>% gather(variable, value, -x)
 df_m
