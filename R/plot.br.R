@@ -1,3 +1,4 @@
+globalVariables(c("obs", "r", "d"))
 #' Dot plot for quantile regression fitting observations
 #'
 #' This is a function that can be used to create dot plot for the
@@ -7,16 +8,46 @@
 #' @param object quantile regression model using br method
 #' @param tau quantiles can be a single quantile or a vector of
 #' quantiles
-#' @import ggplot2, quantreg, purrr, tidyr, dplyr
+#' @importFrom ggplot2 ggplot,
+#'             quantreg rq,
+#'             purrr %>%,
+#'             tidyr gather,
+#'             dplyr inner_join
 #' @examples
 #' data(ais)
 #' tau <- c(0.1, 0.5, 0.9)
 #' object1 <- rq(BMI ~ LBM, tau, method = 'br', data = ais)
-#' plot.br(object1, tau)
+#' frame_br(object1, tau)
+#' ggplot(data_plot,
+#'  aes(x=value, y=data_plot[,2])) +
+#'  geom_point(alpha = 0.1) +
+#'  ylab('y') +
+#'  xlab('x') +
+#'  facet_wrap(~variable, scales = "free_x", ncol = 2) +
+#'  geom_point(data = choose, aes(x = value, y = y,
+#'                                       group = tau_flag,
+#'                                       colour = tau_flag,
+#'                                       shape = obs)) +
+#'  geom_line(data = choose, aes(x = value, y = y,
+#'                                      group = tau_flag,
+#'                                      colour = tau_flag))
+#'
 #' object2 <- rq(BMI ~ Ht + LBM + Wt, tau, method = 'br',
 #'             data = ais)
-#' plot.br(object2, tau)
-#'
+#' frame_br(object2, tau)
+#' ggplot(data_plot,
+#'  aes(x=value, y=data_plot[,2])) +
+#'  geom_point(alpha = 0.1) +
+#'  ylab('y') +
+#'  xlab('x') +
+#'  facet_wrap(~variable, scales = "free_x", ncol = 2) +
+#'  geom_point(data = choose, aes(x = value, y = y,
+#'                                       group = tau_flag,
+#'                                       colour = tau_flag,
+#'                                       shape = obs)) +
+#'  geom_line(data = choose, aes(x = value, y = y,
+#'                                      group = tau_flag,
+#'                                      colour = tau_flag))
 #'
 #'
 wh <- function(object, tau){
@@ -108,7 +139,7 @@ wh <- function(object, tau){
 }
 
 
-plot.br <- function(object, tau){
+frame_br <- function(object, tau){
   y <- matrix(object$y, ncol = 1)
   colnames(y) <-'y'
   x <- object$x
@@ -135,19 +166,7 @@ plot.br <- function(object, tau){
     inner_join(data_plot, by ='index')
   choose_point2 <- merge_x_y %>% gather(variable, value,
                                         -c(index, tau_flag, obs, y))
-  plot_base <- ggplot(data_plot_g,
-                      aes(x=value, y=data_plot_g[,2])) +
-    geom_point(alpha = 0.1) +
-    ylab('y') +
-    xlab('x') +
-    facet_wrap(~variable, ncol = 2) +
-    geom_point(data = choose_point2, aes(x = value, y = y,
-                                         group = tau_flag,
-                                         colour = tau_flag,
-                                         shape = obs)) +
-    geom_line(data = choose_point2, aes(x = value, y = y,
-                                        group = tau_flag,
-                                        colour = tau_flag))
-  return(plot_base)
+
+  return(list(data_plot = data_plot_g, choose = choose_point2))
 }
 

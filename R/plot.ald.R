@@ -1,3 +1,4 @@
+globalVariables(c("obs", "r", "d"))
 #' Density function plot for quantile regression fitting using
 #' Asymmetric Laplace Distribution
 #'
@@ -9,17 +10,25 @@
 #' density function
 #' @param error the convergence maximum error
 #' @param iter maximum iterations of the EM algorithm
-#' @import ALDqr ald ggplot2 tidyr dplyr
+#' @importFrom ALDqr EM.qr,
+#'             ald rALD dALD,
+#'             ggplot2 ggplot,
+#'             tidyr gather,
+#'             dplyr arrange group_by
 #' @examples
 #' data(ais)
 #' x <- matrix(ais$LBM, ncol = 1)
 #' y <- ais$BMI
 #' tau = c(0.1, 0.5, 0.9)
-#' plot.ald(y, x, tau, smooth = 10, error = 1e-6, iter = 2000)
-#'
+#' frame_ald(y, x, tau, smooth = 10, error = 1e-6, iter = 2000)
+#' ggplot(t_g_a) +
+#'  geom_line(aes(x = r, y = d, group = obs, colour = tau_flag)) +
+#'    facet_wrap(~tau_flag, ncol = 1) +
+#'    xlab('') +
+#'    ylab('Asymmetric Laplace Distribution Density Function')
 #'
 
-plot.ald <- function(y, x, tau, smooth, error, iter){
+frame_ald <- function(y, x, tau, smooth, error, iter){
   n <- length(y)
   ntau <- length(tau)
   y <- matrix(y, ncol = 1)
@@ -70,9 +79,5 @@ plot.ald <- function(y, x, tau, smooth, error, iter){
                     d = round(as.numeric(dald_list_g$d), 2))
   t_g_a <- group_by(t_g, tau_flag) %>%
     arrange(r)
-  ggplot(t_g_a) +
-    geom_line(aes(x = r, y = d, group = obs, colour = tau_flag)) +
-    facet_wrap(~tau_flag, ncol = 1) +
-    xlab('') +
-    ylab('Asymmetric Laplace Distribution Density Function')
+  return(t_g_a)
 }

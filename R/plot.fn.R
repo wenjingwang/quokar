@@ -7,7 +7,6 @@
 #'
 #'
 #' @author Wenjing Wang \email{wenjingwang1990@gmail.com}
-#' @useDynLib quokar
 #' @export
 #'
 NULL
