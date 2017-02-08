@@ -25,7 +25,7 @@
 #'\eqn{i}th case from the data set. Thus, the complete-data log-likelihhod
 #'function based on the data with \eqn{i}th cse deleted with be denoted by
 #'\eqn{l_{c}(\theta|y_{c(i)})}. Let \eqn{\hat{\theta_{p(i)}} = (\hat{\beta^{'}_{p(i)}},
-#'\hat{\sigam^{2}}_{(i)})^{'}} be the maximizer of the function
+#'\hat{\sigma^{2}}_{(i)})^{'}} be the maximizer of the function
 #'
 #'\deqn{Q_{(i)}(\theta|\hat{\theta})=E_{\hat{\theta}}[l_{c}(\theta|Y_{c(i)})|y]}
 #'

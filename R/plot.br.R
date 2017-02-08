@@ -134,7 +134,7 @@ wh <- function(object, tau){
                 tnmat = double(4 *  p),
                 big =  as.double(big),
                 lci1 = as.logical(lci1),
-                PACKAGE = "quantreg")
+                PACKAGE = "quokar")
   return(z$wh[1:NCOL(x)])
 }
 

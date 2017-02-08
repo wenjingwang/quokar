@@ -22,6 +22,8 @@ Imports:
     gridExtra,
     GIGrvg,
     dplyr,
+    tidyr,
+    ald,
 Type: Package
 NeedsCompilation: yes
 LazyLoad: false

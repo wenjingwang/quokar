@@ -26,11 +26,11 @@ where \eqn{\hat{\theta}(w)} is the estimate of \eqn{\theta} which maximizes
 
 \deqn{Q(\theta, w|\hat{\theta})=E{L_{c}(\theta, w|Y_{c})|Y_{o}, \hat{\theta}}}
 
-The benchmark of the q function distance is \eqn{\={M}(m_{0})+2S_{M}(m_{0})}
+The benchmark of the q function distance is \eqn{={M}(m_{0})+2S_{M}(m_{0})}
 
 where,
-\deqn{-2\"{Q} = \sum{\lambda_{i}e_{i}e_{i}^{'}}}
-\deqn{M(m_{0}) = \sum {\~{\lambda_{i}}e_{i}^{2}}}
+\deqn{-2{Q} = \sum{\lambda_{i}e_{i}e_{i}^{'}}}
+\deqn{M(m_{0}) = \sum {{\lambda_{i}}e_{i}^{2}}}
 }
 \references{
 Zhu H T, Lee S Y. Local influence for incomplete data models[J]
