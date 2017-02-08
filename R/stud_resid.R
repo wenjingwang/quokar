@@ -31,4 +31,3 @@ stud_resid <- function(object){
   sepr <- epson / sqrt(press_i / (length(object$y) - 2*ncol(object$x) - 1))
   return(sepr)
 }
-

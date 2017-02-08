@@ -95,6 +95,7 @@ qrod_bayes <- function(y, x, tau, M, method = c("bayes.prob", "bayes.kl")){
     stop("Method should be 'bayes.prob' or 'bayes.kl'")
   }
   if(method == "bayes.prob"){
+
     result <- bayesProb(y, x, tau, M)
     case_prob_kl <- data.frame(case = 1:length(y), result = result)
   }else if(method == "bayes.kl"){

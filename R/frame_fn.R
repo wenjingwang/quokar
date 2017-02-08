@@ -48,40 +48,76 @@ globalVariables(c("variable", "value"))
 #' computability of squared-error versus absolute-error estimators[J].
 #' Statistical Science, 1997, 12(4): 279-300.
 #' @export
+#' @example
+#' data(ais)
+#' y <- ais$BMI
+#' x <- cbind(1, ais$LBM)
+#' tau <- c(0.1, 0.5, 0.9)
+#' frame_fn <- frame_fn(y, x, tau)
+#' #plot the path
+#' frame_fn_0.1 <- frame_fn[[1]]
+#' ggplot(frame_fn_0.1, aes(x = value, y = objective)) +
+#'    geom_point() +
+#'    geom_wrap() +
+#'    facet_wrap(~ variable, scale = 'free')
 #'
+#'
+
 frame_fn <- function(y, x, tau){
   z <- list()
   path <- list()
   path_m <- list()
+  beta <- 0.99995
+  eps <- 1e-06
+  n <- length(y)
+  x <- as.matrix(x)
+  p <- ncol(x)
+  if (n != nrow(x))
+    stop("x and y don't match n")
+  if (tau < eps || tau > 1 - eps)
+    stop("No parametric Frisch-Newton method.
+         Set tau in (0,1)")
+  d <- rep(1, n)
+  u <- rep(1, n)
+  wn <- rep(0, 10 * n)
   1:length(tau) %>%
     map(function(i){
-      z[[i]] <- .Fortran(.tau[i]...)
-      coef_path <- z[[i]]$routine
-      coef_path <- as.matrix(coef_path)
+      rhs <- (1 - tau[i]) * apply(x, 2, sum)
+      wn[1:n] <- (1 - tau[i])
+      z[[i]] <- .Fortran("rqfnb",
+                         n = as.integer(n),
+                         p = as.integer(p),
+                         a = as.double(t(as.matrix(x))),
+                         c = as.double(-y),
+                         rhs = as.double(rhs),
+                         d = as.double(d),
+                         u = as.double(u),
+                         beta = as.double(beta),
+                         eps = as.double(eps),
+                         wn = as.double(wn),
+                         wp = double((p + 3) * p),
+                         it.count = integer(3),
+                         info = integer(1),
+                         it.routine = double(50*p),
+                         PACKAGE = "quokar")
+      iter <- z[[i]]$it.count[1] + 1
+      coef_path <- -matrix(z[[i]]$it.routine, ncol = p, byrow = TRUE)[1:iter, ]
       colnames(coef_path) <- paste('x', 1:ncol(coef_path), sep = '')
-      n <- nrow(coef_path)
-      objective <- rep(0, n)
-      for (j in 1:n){
+      nn <- nrow(coef_path)
+      objective <- rep(0, nn)
+      for (j in 1:nn){
         resid <- data.frame(resid = y - x %*%
                               matrix(coef_path[j, ], ncol = 1))
-        left_half <- resid[resid <= 0]
-        right_half <- resid[resid > 0]
+        left_half <- abs(resid[resid <= 0])
+        right_half <- abs(resid[resid > 0])
         m1 <- (1 - tau[i]) * left_half
         m2 <- tau[i] * right_half
         objective[j] <- sum(m1) + sum(m2)
       }
-      path[[i]] <- data.frame(objective, coef_path)
+     path[[i]] <- data.frame(objective, coef_path)
       path_m[[i]] <- path[[i]] %>%
         gather(variable, value, -objective)
       tau_flag <- paste('tau=', tau[i], sep = "")
       path_m[[i]] <- cbind(tau_flag, path_m[[i]])
-    })
-
-
-  z <- list(z1 = list(routine = matrix(1:20, ncol = 2)),
-            z2 = list(routine = matrix(2:21, ncol = 2)),
-            z3 = list(routine = matrix(3:22, ncol = 2)))
-  y <- matrix(3:22, ncol = 1)
-  x <- cbind(1, 4:23)
-  nrow(x)
-  tau <- c(0.1, 0.5, 0.9)
+     })
+}

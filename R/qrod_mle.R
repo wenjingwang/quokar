@@ -70,7 +70,7 @@
 #'qrod_mle(y, x, tau = 0.1, error = 1e-10, iter = 2000, method = "cook.distance")
 #'qrod_mle(y, x, tau = 0.1, error = 1e-10, iter = 2000, method = "qfunction")
 #'
-#'
+#'@importFrom purrr %>% map
 #'
 #'@export
 #'
@@ -78,15 +78,22 @@
 qrod_mle <- function(y, x, tau, error, iter,
                  method = c("cook.distance", "qfunction")){
   method <- match.arg(method)
+  ntau <- length(tau)
+  n <- length(y)
+  distance <- list()
   if(!(method %in% c("cook.distance", "qfunction"))){
     stop("Method should be 'cook.distance' or 'qfunction'")
     }else if(method == "cook.distance"){
-      distance <- ALDqr_GCD(y, x, tau, error, iter)
-      case_distance <- data.frame(case = 1:length(y), distance = distance)
+      1 : ntau %>%
+        map(ald_gcd <- ALDqr_GCD(y, x, tau[i], error, iter),
+            tau_flag <- paste('tau=', tau[i], sep = ""),
+            distance[[i]] <- cbind(tau_flag, ald_gcd))
     }else if(method == "qfunction"){
-      distance <- ALDqr_QD(y, x, tau, error, iter)
-      case_distance <- data.frame(case = 1:length(y), distance = distance)
+      1 : ntau %>%
+        map(ald_qd <- ALDqr_QD(y, x, tau[i], error, iter),
+            tau_flag <- paste('tau=', tau[i], sep = ""),
+            distance[[i]] <- cbind(tau_flag, ald_qd))
     }
-  return(case_distance)
+  return(distance)
 }
 
