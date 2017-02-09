@@ -85,15 +85,18 @@ qrod_mle <- function(y, x, tau, error, iter,
     stop("Method should be 'cook.distance' or 'qfunction'")
     }else if(method == "cook.distance"){
       1 : ntau %>%
-        map(ald_gcd <- ALDqr_GCD(y, x, tau[i], error, iter),
-            tau_flag <- paste('tau=', tau[i], sep = ""),
-            distance[[i]] <- cbind(tau_flag, ald_gcd))
+        map(function(i){
+            ald_gcd <- ALDqr_GCD(y, x, tau[i], error, iter)
+            tau_flag <- paste('tau=', tau[i], sep = "")
+            distance[[i]] <- cbind(tau_flag, ald_gcd)
+            })
     }else if(method == "qfunction"){
       1 : ntau %>%
-        map(ald_qd <- ALDqr_QD(y, x, tau[i], error, iter),
-            tau_flag <- paste('tau=', tau[i], sep = ""),
-            distance[[i]] <- cbind(tau_flag, ald_qd))
+        map(function(i){
+            ald_qd <- ALDqr_QD(y, x, tau[i], error, iter)
+            tau_flag <- paste('tau=', tau[i], sep = "")
+            distance[[i]] <- cbind(tau_flag, ald_qd)
+            })
     }
-  return(distance)
 }
 

@@ -78,7 +78,7 @@
 #'simulation}, 81(11), 1565-1578.
 #'
 #'@seealso \code{qrod_mle}
-#'
+#'@importFrom purrr %>% map
 #'@examples
 #'data(ais)
 #'y <- ais$BMI
@@ -89,19 +89,27 @@
 #'@export
 #'
 #'
-qrod_bayes <- function(y, x, tau, M, method = c("bayes.prob", "bayes.kl")){
-  method <- match.arg(method)
+qrod_bayes <- function(y, x, tau, M,
+                       method = c("bayes.prob", "bayes.kl")){
+    method <- match.arg(method)
+    distance <- list()
+    ntau <- length(tau)
   if(!(method %in% c("bayes.prob","bayes.kl"))){
     stop("Method should be 'bayes.prob' or 'bayes.kl'")
   }
   if(method == "bayes.prob"){
-
-    result <- bayesProb(y, x, tau, M)
-    case_prob_kl <- data.frame(case = 1:length(y), result = result)
+      1 : ntau %>%
+          map(function(i){
+              result <- bayesProb(y, x, tau[i], M)
+              tau_flag <- paste('tau=', tau[i], sep = '')
+              distance[[i]] <- cbind(result, tau_flag)
+              })
   }else if(method == "bayes.kl"){
-    result <- bayesKL(y, x, tau, M)
-    case_prob_kl <- data.frame(case = 1:length(y), result = result)
+      1 : ntau %>%
+          map(function(i){
+              result <- bayesKL(y, x, tau[i], M)
+              tau_flag <- paste('tau=', tau[i], sep = '')
+              distance[[i]] <- cbind(result, tau_flag)
+              })
   }
 }
-
-
