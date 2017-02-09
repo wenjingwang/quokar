@@ -113,3 +113,7 @@ qrod_bayes <- function(y, x, tau, M,
               })
   }
 }
+
+
+
+

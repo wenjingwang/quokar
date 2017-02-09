@@ -1,5 +1,5 @@
 globalVariables(c("obs", "r", "d"))
-#' Density function plot for quantile regression fitting using
+#' @title Density function plot for quantile regression fitting using
 #' Asymmetric Laplace Distribution
 #'
 #' @param y vector, dependent variable of quantile regression

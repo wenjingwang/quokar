@@ -12,4 +12,3 @@ multiple outliers
 \details{
 multiple outliers
 }
-

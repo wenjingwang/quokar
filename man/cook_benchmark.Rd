@@ -12,4 +12,3 @@ cook_benchmark(n)
 \description{
 This function calculate the benchmark of cook distance
 }
-

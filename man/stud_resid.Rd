@@ -17,12 +17,11 @@ from a quantile regression fit.
 The \code{stud_resid} function provides a studentized
 residual on each quantile.
 }
-\author{
-Wenjing Wang \email{wenjingwang1990@gmail.com}
-}
 \references{
 Ranganai, E(2016). On studentized residuals in the quantile
 regression framework. University of South Africa.
 \emph{SpringerPlus}, 5(1), 1231.
 }
-
+\author{
+Wenjing Wang \email{wenjingwang1990@gmail.com}
+}

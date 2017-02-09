@@ -36,11 +36,14 @@
 #'and \eqn{\hat{\theta}} proposed by Zhu et al.(2001), we consider here the following
 #'generalized Cook distance:
 #'
-#'\deqn{GD_{i} = (\hat{\theta_{(i)}}-\hat{\theta{i}})^{'}{-Q(\hat{\theta}|\hat{\theta})}
+#'\deqn{GD_{i} = (\hat{\theta_{(i)}}-\hat{\theta{i}})^{'}
+#' {-Q(\hat{\theta}|\hat{\theta})}
 #'(\hat{\theta_{(i)}}-\hat{\theta{i}})}
 #'
-#'Another measure of the influence of the \eqn{i}th case is the following Q-distance
-#'function, similar to the likelihood distance \eqn{LD_{i}} (Cook and Weisberg, 1982),
+#'Another measure of the influence of the \eqn{i}th case is the
+#' following Q-distance
+#'function, similar to the likelihood distance \eqn{LD_{i}}
+#' (Cook and Weisberg, 1982),
 #'defined as
 #'
 #'\deqn{QD_{i} = 2{Q(\hat{\theta}|\hat{\theta})-Q(\hat{\theta_{(i)}})}}
@@ -48,10 +51,10 @@
 #'@author Wenjing Wang \email{wenjingwang1990@gmail.com}
 #'@keywords quantile regression outlier diagnostics
 #'
-#'@references
-#'Sánchez B L, Lachos H V, Labra V F.(2013)``Likelihood based inference for quantile
-#'regression using the asymmetric Laplace distribution,\emph{
-#'Journal of Statistical Computation and Simulation}, 81: 1565-1578.
+#'@references Sánchez B L, Lachos H V, Labra V F.(2013)``Likelihood
+#'     based inference for quantile regression using the asymmetric
+#'     Laplace distribution,\emph{ Journal of Statistical Computation
+#'     and Simulation}, 81: 1565-1578.
 #'
 #'L E, Lachos V H, Vilca F E.(2015)``Case-Deletion
 #'Diagnostics for Quantile Regression Using the Asymmetric Laplace
@@ -70,7 +73,6 @@
 #'qrod_mle(y, x, tau = 0.1, error = 1e-10, iter = 2000, method = "cook.distance")
 #'qrod_mle(y, x, tau = 0.1, error = 1e-10, iter = 2000, method = "qfunction")
 #'
-#'@importFrom purrr %>% map
 #'
 #'@export
 #'
@@ -83,20 +85,23 @@ qrod_mle <- function(y, x, tau, error, iter,
   distance <- list()
   if(!(method %in% c("cook.distance", "qfunction"))){
     stop("Method should be 'cook.distance' or 'qfunction'")
-    }else if(method == "cook.distance"){
-      1 : ntau %>%
-        map(function(i){
-            ald_gcd <- ALDqr_GCD(y, x, tau[i], error, iter)
-            tau_flag <- paste('tau=', tau[i], sep = "")
-            distance[[i]] <- cbind(tau_flag, ald_gcd)
-            })
+  }else if(method == "cook.distance"){
+      for(i in 1:ntau){
+          distance[[i]] <- ALDqr_GCD(y, x, tau[i],
+                                     error=1e-06, iter=100)
+            names(distance[i]) <- paste('tau=', tau[i], sep = '')
+      }
     }else if(method == "qfunction"){
-      1 : ntau %>%
-        map(function(i){
-            ald_qd <- ALDqr_QD(y, x, tau[i], error, iter)
-            tau_flag <- paste('tau=', tau[i], sep = "")
-            distance[[i]] <- cbind(tau_flag, ald_qd)
-            })
+        for(i in 1:ntau){
+            i=1
+            distance[[i]] <- ALDqr_QD(y, x, tau[i], error, iter)
+            names(distance[i]) <- paste('tau=', tau[i], sep = '')
+      }
     }
+  return(distance)
 }
+
+
+
+
 

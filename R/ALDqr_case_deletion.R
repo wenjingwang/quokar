@@ -62,3 +62,4 @@ ALDqr_case_deletion <- function(y, x, tau, error, iter)
   theta_i <- list(beta_i = beta_i, sigma_i = sigma_i)
   return(theta_i)
 }
+

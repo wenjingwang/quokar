@@ -1,13 +1,15 @@
 globalVariables(c("obs", "r", "d"))
-#' Dot plot for quantile regression fitting observations
+#' @title Observations used in quantile regression fitting using br algorithem
 #'
-#' This is a function that can be used to create dot plot for the
-#' observations used in quantile regression fitting based on 'br'
-#' method.
+#' @details This is a function that can be used to create point plot
+#' for the observations used in quantile regression fitting based
+#' on 'br'method.
 #'
 #' @param object quantile regression model using br method
 #' @param tau quantiles can be a single quantile or a vector of
 #' quantiles
+#' @return All observations and the observations used in quantile
+#' regression fitting using br algorithem
 #' @importFrom ggplot2 ggplot,
 #'             quantreg rq,
 #'             purrr %>%,
@@ -27,10 +29,7 @@ globalVariables(c("obs", "r", "d"))
 #'  geom_point(data = choose, aes(x = value, y = y,
 #'                                       group = tau_flag,
 #'                                       colour = tau_flag,
-#'                                       shape = obs)) +
-#'  geom_line(data = choose, aes(x = value, y = y,
-#'                                      group = tau_flag,
-#'                                      colour = tau_flag))
+#'                                       shape = obs))
 #'
 #' object2 <- rq(BMI ~ Ht + LBM + Wt, tau, method = 'br',
 #'             data = ais)
@@ -44,11 +43,7 @@ globalVariables(c("obs", "r", "d"))
 #'  geom_point(data = choose, aes(x = value, y = y,
 #'                                       group = tau_flag,
 #'                                       colour = tau_flag,
-#'                                       shape = obs)) +
-#'  geom_line(data = choose, aes(x = value, y = y,
-#'                                      group = tau_flag,
-#'                                      colour = tau_flag))
-#'
+#'                                       shape = obs))
 #'
 wh <- function(object, tau){
   x <- object$x
@@ -169,4 +164,3 @@ frame_br <- function(object, tau){
 
   return(list(data_plot = data_plot_g, choose = choose_point2))
 }
-

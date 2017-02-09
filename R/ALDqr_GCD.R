@@ -1,5 +1,4 @@
-#'Calculating generalized cook distance of the MLE estimation of quantile regression
-#'based on asymmetric laplace distribution
+#'Calculating generalized cook distance of the MLE estimation of quantile regression using asymmetric laplace distribution
 #'@param y Dependent variable in quantile regression. Note that: we suppose
 #'y follows asymmetric laplace distribution.
 #'
@@ -11,13 +10,16 @@
 #'
 #'@param tau quantile
 #'
-#'@param error The EM algorithm accuracy of error used in MLE estimation
+#'@param error The EM algorithm accuracy of error used in
+#' MLE estimation
 #'
-#'@param iter the iteration frequancy for EM algorithm used in MLE estimation
+#'@param iter the iteration frequancy for EM algorithm used
+#' in MLE estimation
 #'
 #'
 #'@details
-#'Case-deletion is a classical approach to study the effects of dropping the
+#'Case-deletion is a classical approach to study the effects
+#' of dropping the
 #'\eqn{i}th case from the data set. Thus, the complete-data log-likelihhod
 #'function based on the data with \eqn{i}th cse deleted with be denoted by
 #'\eqn{l_{c}(\theta|y_{c(i)})}. Let \eqn{\hat{\theta_{p(i)}} = (\hat{\beta^{'}_{p(i)}},
@@ -57,18 +59,17 @@ ALDqr_GCD <- function(y, x, tau, error, iter)
   delta2 <- (y - x %*% beta_qr)^2/(taup2 * sigma_qr)
   gamma2 <- (2 + thep^2/taup2)/sigma_qr
   muc <- y - x %*% beta_qr
-  vchpN <- besselK(sqrt(delta2 * gamma2), 0.5 - 1)/(besselK(sqrt(delta2 *
-                            gamma2), 0.5)) * (sqrt(delta2 / gamma2))^(-1)
+  vchpN <- besselK(sqrt(delta2 * gamma2), 0.5 - 1)/
+      (besselK(sqrt(delta2* gamma2), 0.5))*(sqrt(delta2 / gamma2))^(-1)
 
-  vchp1 <- besselK(sqrt(delta2 * gamma2), 0.5 + 1)/(besselK(sqrt(delta2 *
-                            gamma2), 0.5)) * (sqrt(delta2 / gamma2))
+  vchp1 <- besselK(sqrt(delta2 * gamma2), 0.5 + 1)/(besselK(sqrt(delta2              *gamma2), 0.5)) * (sqrt(delta2 / gamma2))
   E1 <- matrix(0, nrow = p, ncol = n)
   for(i in 1:n){
-    suma2 <- x[-i,] * c(vchpN[-i] * (y[-i] - x[-i,] %*% beta_qr) - thep)
-    E1[,i] <- apply(suma2, 2, sum)/(taup2)
+      suma2 <- x[-i,] * c(vchpN[-i] * (y[-i] - x[-i,] %*% beta_qr) - thep)
+      E1[,i] <- apply(suma2, 2, sum)/(taup2)
   }
   E2 <- 1: n %>%
-    map(function(i) {
+      map(function(i) {
       muc_i <- y[-i] - x[-i, ]%*%beta_qr
       sum(3*sigma_qr - (vchpN[-i] * muc_i^2 -
                           2 * muc_i * thep + vchp1[-i] *(thep^2 + 2 * taup2))/taup2)

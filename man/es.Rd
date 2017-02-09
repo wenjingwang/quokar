@@ -13,4 +13,3 @@ es(object)
 Function for computing studentised residuals
 from a quantile regression fit.
 }
-

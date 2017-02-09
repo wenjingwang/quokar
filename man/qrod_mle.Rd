@@ -60,11 +60,6 @@ x <- cbind(1, ais$LBM, ais$sexInd)
 qrod_mle(y, x, tau = 0.1, error = 1e-10, iter = 2000, method = "cook.distance")
 qrod_mle(y, x, tau = 0.1, error = 1e-10, iter = 2000, method = "qfunction")
 
-
-
-}
-\author{
-Wenjing Wang \email{wenjingwang1990@gmail.com}
 }
 \references{
 Sánchez B L, Lachos H V, Labra V F.(2013)``Likelihood based inference for quantile
@@ -82,8 +77,10 @@ Koenker R, Bassett Jr G.(1978)`` Regression quantiles,
 \seealso{
 \code{covMCD} from package `robustbase`
 }
+\author{
+Wenjing Wang \email{wenjingwang1990@gmail.com}
+}
 \keyword{diagnostics}
 \keyword{outlier}
 \keyword{quantile}
 \keyword{regression}
-

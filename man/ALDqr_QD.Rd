@@ -34,9 +34,6 @@ defined as
 
 \deqn{QD_{i} = 2{Q(\hat{\theta}|\hat{\theta})-Q(\hat{\theta_{(i)}})}}
 }
-\author{
-Wenjing Wang \email{wenjingwang1990@gmail.com}
-}
 \references{
 Benites L E, Lachos V H, Vilca F E.(2015)``Case-Deletion
 Diagnostics for Quantile Regression Using the Asymmetric Laplace
@@ -45,4 +42,6 @@ Distribution,\emph{arXiv preprint arXiv:1509.05099}.
 \seealso{
 \code{ALDqr_GCD}
 }
-
+\author{
+Wenjing Wang \email{wenjingwang1990@gmail.com}
+}

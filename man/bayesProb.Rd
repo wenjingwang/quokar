@@ -48,4 +48,3 @@ outliers,\emph{arXiv:1601.07344}
 \seealso{
 \code{bayesKL}
 }
-

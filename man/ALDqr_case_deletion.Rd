@@ -24,4 +24,3 @@ matrix with the first column is one.}
 \description{
 Calculating the case-deletion coefficience of quantile regression
 }
-

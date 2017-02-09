@@ -17,4 +17,3 @@ stud_resid_benchmark(alpha, p, n)
 \description{
 Benchmark of studentized residuals
 }
-
