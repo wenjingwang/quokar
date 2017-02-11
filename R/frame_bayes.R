@@ -18,6 +18,7 @@
 #'
 #' @importFrom purrr %>%
 #' @importFrom tidyr gather
+#' @export
 #' @seealso qrod_bayes
 #' @examples
 #' data(ais)

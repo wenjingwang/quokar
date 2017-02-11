@@ -17,6 +17,7 @@ globalVariables(c("variable", "value"))
 #' plot general cook distance or qfunction distance
 #' @seealso see documentation of qrod_mle
 #' @importFrom tidyr gather
+#' @export
 #' @examples
 #' data(ais)
 #' y <- ais$BMI

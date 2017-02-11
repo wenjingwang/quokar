@@ -15,6 +15,7 @@ globalVariables(c("obs", "r", "d"))
 #' @importFrom ald dALD rALD
 #' @importFrom tidyr gather
 #' @importFrom dplyr group_by arrange
+#' @export
 #' @examples
 #' data(ais)
 #' x <- matrix(ais$LBM, ncol = 1)
