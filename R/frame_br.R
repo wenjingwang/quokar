@@ -1,4 +1,4 @@
-globalVariables(c("obs", "index", "variable", "value", "tcrit", "alpha"))
+#globalVariables(c("obs", "index", "variable", "value", "tcrit", "alpha"))
 #' @title Observations used in quantile regression fitting using br algorithem
 #'
 #' @details This is a function that can be used to create point plot
@@ -19,7 +19,8 @@ globalVariables(c("obs", "index", "variable", "value", "tcrit", "alpha"))
 #' data(ais)
 #' tau <- c(0.1, 0.5, 0.9)
 #' object1 <- rq(BMI ~ LBM, tau, method = 'br', data = ais)
-#' frame_br(object1, tau)
+#' data_plot <- frame_br(object1, tau)$data_plot
+#' choose <- frame_br(object1, tau)$choose
 #' ggplot(data_plot,
 #'  aes(x=value, y=data_plot[,2])) +
 #'  geom_point(alpha = 0.1) +
@@ -33,7 +34,8 @@ globalVariables(c("obs", "index", "variable", "value", "tcrit", "alpha"))
 #'
 #' object2 <- rq(BMI ~ Ht + LBM + Wt, tau, method = 'br',
 #'             data = ais)
-#' frame_br(object2, tau)
+#' data_plot <- frame_br(object1, tau)$data_plot
+#' choose <- frame_br(object1, tau)$choose
 #' ggplot(data_plot,
 #'  aes(x=value, y=data_plot[,2])) +
 #'  geom_point(alpha = 0.1) +

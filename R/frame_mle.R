@@ -1,4 +1,4 @@
-globalVariables(c("variable", "value"))
+#globalVariables(c("variable", "value"))
 #' @title General cook distance or Qfunction distance of quantile regression
 #' @param y dependent variable for quantile regression
 #' @param x design matrix for quantile regression

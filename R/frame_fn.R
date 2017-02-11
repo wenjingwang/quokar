@@ -1,4 +1,4 @@
-globalVariables(c("variable", "value"))
+#globalVariables(c("variable", "value"))
 #' @title Function to create data frame to plot the fitting path
 #' of quantile regression using interior point method
 #' @param y dependent variable in quantile regression

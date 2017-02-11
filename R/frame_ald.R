@@ -1,4 +1,4 @@
-globalVariables(c("obs", "r", "d"))
+#globalVariables(c("obs", "r", "d"))
 #' @title Density function plot for quantile regression fitting using
 #' Asymmetric Laplace Distribution
 #'
@@ -15,6 +15,7 @@ globalVariables(c("obs", "r", "d"))
 #' @importFrom ald dALD rALD
 #' @importFrom tidyr gather
 #' @importFrom dplyr group_by arrange
+#' @importFrom ggplot2 ggplot
 #' @export
 #' @examples
 #' data(ais)
