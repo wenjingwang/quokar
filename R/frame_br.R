@@ -14,7 +14,8 @@
 #' @importFrom purrr %>%
 #' @importFrom tidyr gather
 #' @importFrom dplyr inner_join
-#' @importFrom stats qt qnorm lm
+#' @importFrom stats qt qnorm lm coefficients
+#' @importFrom quantreg bandwidth.rq rq.fit.br
 #' @examples
 #' library(ggplot2)
 #' library(quantreg)
@@ -107,7 +108,7 @@ frame_br <- function(object, tau){
         cutoff <- 0
       }
     }
-z <- .Fortran("rqbr",
+    z <- .Fortran("rqbr",
                   n = as.integer(n),
                   p = as.integer(p),
                   n5 = as.integer( n + 5),
