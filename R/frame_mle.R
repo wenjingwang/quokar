@@ -16,7 +16,6 @@
 #' @details This function used to prepare the data frame to
 #' plot general cook distance or qfunction distance
 #' @seealso see documentation of qrod_mle
-#' @importFrom tidyr gather
 #' @export
 #' @examples
 #' library(ggplot2)
@@ -44,7 +43,9 @@
 #'
 
 frame_mle <- function(y, x, tau, error = 1e-06,
-                      iter = 100, method){
+                      iter = 100, method = c("cook.distance",
+                                             "qfunction")){
+  method <- match.arg(method)
     ntau <- length(tau)
     if(method == 'cook.distance'){
     distances <- qrod_mle(y, x, tau, error,

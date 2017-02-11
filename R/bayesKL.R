@@ -30,7 +30,6 @@
 #'the MCMC draws from the posterior of each latent vaiable, we estimate the densities
 #'using a normal kernel and we compute the integral using the trapezoidal rule.
 #'
-#'@importFrom GIGrvg rgig
 #'@references
 #'Santos B, Bolfarine H.(2016)``On Baysian quantile regression and
 #'outliers,\emph{arXiv:1601.07344}

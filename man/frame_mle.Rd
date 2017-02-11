@@ -62,5 +62,5 @@ ggplot(QD_m, aes(x = case, y = value)) +
 see documentation of qrod_mle
 }
 \author{
-Wenjing Wang<wenjingwang1990@gmail.com>
+Wenjing Wang\href{mailto:wenjingwang1990@gmail.com}{wenjingwang1990@gmail.com}
 }

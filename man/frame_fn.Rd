@@ -80,6 +80,6 @@ ggplot(frame_fn_0.1, aes(x = value, y = objective)) +
 }
 \references{
 Portnoy S, Koenker R. The Gaussian hare and the Laplacian tortoise:
-computability of squared-error versus absolute-error estimators[J].
+computability of squared-error versus absolute-error estimators\link{J}.
 Statistical Science, 1997, 12(4): 279-300.
 }

@@ -13,7 +13,6 @@
 #'
 #'@param iter The iteration frequancy for EM algorithm used in MLE estimation
 #'
-#'@importFrom purrr %>% map
 #'
 #'
 #'

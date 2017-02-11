@@ -5,7 +5,7 @@
 \title{Mean probability of posterior distribution  and
 Kullback-Leibler divergence}
 \usage{
-frame_bayes(y, x, tau, M, method)
+frame_bayes(y, x, tau, M, method = c("bayes.prob", "bayes.kl"))
 }
 \arguments{
 \item{y}{dependent variable in quantile regression}

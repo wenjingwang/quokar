@@ -49,8 +49,6 @@
 #' algebra of each iteration is essentially unchanged, only the form
 #' of the diagonal weighting matrix \eqn{W} has chagned.
 #'
-#' @importFrom purrr %>% map
-#' @importFrom tidyr gather
 #' @references Portnoy S, Koenker R. The Gaussian hare and the Laplacian tortoise:
 #' computability of squared-error versus absolute-error estimators[J].
 #' Statistical Science, 1997, 12(4): 279-300.

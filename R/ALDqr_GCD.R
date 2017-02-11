@@ -37,7 +37,6 @@
 #'\deqn{GD_{i} = (\hat{\theta_{(i)}}-\hat{\theta{i}})^{'}{-Q(\hat{\theta}|\hat{\theta})}
 #'(\hat{\theta_{(i)}}-\hat{\theta{i}})}
 #'
-#'@importFrom purrr %>% map
 #'
 #'@references
 #'Benites L E, Lachos V H, Vilca F E.(2015)``Case-Deletion

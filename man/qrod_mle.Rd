@@ -67,20 +67,19 @@ qrod_mle(y, x, tau = 0.1, error = 1e-10, iter = 2000, method = "qfunction")
 }
 \references{
 Sánchez B L, Lachos H V, Labra V F.(2013)``Likelihood
-    based inference for quantile regression using the asymmetric
-    Laplace distribution,\emph{ Journal of Statistical Computation
-    and Simulation}, 81: 1565-1578.
+based inference for quantile regression using the asymmetric
+Laplace distribution,\emph{ Journal of Statistical Computation
+and Simulation}, 81: 1565-1578.
 
 L E, Lachos V H, Vilca F E.(2015)``Case-Deletion
 Diagnostics for Quantile Regression Using the Asymmetric Laplace
 Distribution,\emph{arXiv preprint arXiv:1509.05099}.
 
-
 Koenker R, Bassett Jr G.(1978)`` Regression quantiles,
 \emph{Econometrica},\bold{1}, 33-50.
 }
 \seealso{
-\code{covMCD} from package `robustbase`
+\code{covMCD} from package \code{robustbase}
 }
 \author{
 Wenjing Wang \email{wenjingwang1990@gmail.com}

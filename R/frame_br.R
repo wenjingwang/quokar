@@ -11,11 +11,6 @@
 #' @return All observations and the observations used in quantile
 #' regression fitting using br algorithem
 #' @description get the observation used in br algorithem
-#' @importFrom purrr %>%
-#' @importFrom tidyr gather
-#' @importFrom dplyr inner_join
-#' @importFrom stats qt qnorm lm coefficients
-#' @importFrom quantreg bandwidth.rq rq.fit.br
 #' @examples
 #' library(ggplot2)
 #' library(quantreg)

@@ -11,11 +11,6 @@
 #' @param error the convergence maximum error
 #' @param iter maximum iterations of the EM algorithm
 #' @description density function used in quantile regression fitting
-#' @importFrom ALDqr EM.qr
-#' @importFrom ald dALD rALD
-#' @importFrom tidyr gather
-#' @importFrom dplyr group_by arrange
-#' @importFrom ggplot2 ggplot
 #' @export
 #' @examples
 #' library(ggplot2)

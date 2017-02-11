@@ -87,14 +87,11 @@ qrod_mle <- function(y, x, tau, error, iter,
     stop("Method should be 'cook.distance' or 'qfunction'")
   }else if(method == "cook.distance"){
       for(i in 1:ntau){
-          distance[[i]] <- ALDqr_GCD(y, x, tau[i],
-                                     error=1e-06, iter=100)
-            names(distance[i]) <- paste('tau=', tau[i], sep = '')
+          distance[[i]] <- ALDqr_GCD(y, x, tau[i], error, iter)
       }
     }else if(method == "qfunction"){
         for(i in 1:ntau){
             distance[[i]] <- ALDqr_QD(y, x, tau[i], error, iter)
-            names(distance[i]) <- paste('tau=', tau[i], sep = '')
       }
     }
   return(distance)

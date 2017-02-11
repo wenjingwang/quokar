@@ -3,8 +3,7 @@
 #'@param y dependent variable in quantile regression
 #'
 #'@param x indepdent variables in quantile regression.
-#'Note that: x is the independent variable matrix with first column
-#'being one, indicate the intercept
+#'Note that: x is the independent variable matrix
 #'
 #'@param tau quantile
 #'
@@ -78,7 +77,6 @@
 #'simulation}, 81(11), 1565-1578.
 #'
 #'@seealso \code{qrod_mle}
-#'@importFrom purrr %>% map
 #'@examples
 #'data(ais)
 #'y <- ais$BMI
@@ -100,16 +98,14 @@ qrod_bayes <- function(y, x, tau, M,
   if(method == "bayes.prob"){
       1 : ntau %>%
           map(function(i){
-              result <- bayesProb(y, x, tau[i], M)
-              tau_flag <- paste('tau=', tau[i], sep = '')
-              distance[[i]] <- cbind(result, tau_flag)
+            names(distance[i]) <- paste('tau=', tau[i], sep = '')
+            distance[[i]] <- bayesProb(y, x, tau[i], M)
               })
   }else if(method == "bayes.kl"){
       1 : ntau %>%
           map(function(i){
-              result <- bayesKL(y, x, tau[i], M)
-              tau_flag <- paste('tau=', tau[i], sep = '')
-              distance[[i]] <- cbind(result, tau_flag)
+          names(distance[i]) <- paste('tau=', tau[i], sep = '')
+          distance[[i]] <- bayesProb(y, x, tau[i], M)
               })
   }
 }

@@ -26,6 +26,7 @@ on 'br'method.
 }
 \examples{
 library(ggplot2)
+library(quantreg)
 data(ais)
 tau <- c(0.1, 0.5, 0.9)
 object1 <- rq(BMI ~ LBM, tau, method = 'br', data = ais)
