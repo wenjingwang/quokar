@@ -17,6 +17,7 @@
 #' @importFrom stats qt qnorm lm
 #' @examples
 #' library(ggplot2)
+#' library(quantreg)
 #' data(ais)
 #' tau <- c(0.1, 0.5, 0.9)
 #' object1 <- rq(BMI ~ LBM, tau, method = 'br', data = ais)
@@ -53,14 +54,12 @@ frame_br <- function(object, tau){
   wh <- function(object, tau){
     x <- object$x
     y <- object$y
-    ci <- FALSE
-    iid <- TRUE
     tol <- .Machine$double.eps^(2/3)
     eps <- tol
     big <- .Machine$double.xmax
     x <- as.matrix(x)
-    p <- NCOL(x)
-    n <- NROW(x)
+    p <- ncol(x)
+    n <- nrow(x)
     ny <- NCOL(y)
     nsol <- 2
     ndsol <- 2
@@ -73,7 +72,8 @@ frame_br <- function(object, tau){
       qn <- rep(0, p)
       cutoff <- 0
       tau <- -1
-    } else {
+    }
+    else {
       if (p == 1)
         ci <- FALSE
       if (ci) {
@@ -82,20 +82,32 @@ frame_br <- function(object, tau){
           cutoff <- qt(1 - alpha/2, n - p)
         else cutoff <- qnorm(1 - alpha/2)
         if (!iid) {
+          h <- bandwidth.rq(tau, n, hs = TRUE)
+          bhi <- rq.fit.br(x, y, tau + h, ci = FALSE)
+          bhi <- coefficients(bhi)
+          blo <- rq.fit.br(x, y, tau - h, ci = FALSE)
+          blo <- coefficients(blo)
+          dyhat <- x %*% (bhi - blo)
+          if (any(dyhat <= 0)) {
+            pfis <- (100 * sum(dyhat <= 0))/n
+            warning(paste(pfis, "percent fis <=0"))
+          }
+          f <- pmax(eps, (2 * h)/(dyhat - eps))
           qn <- rep(0, p)
           for (j in 1:p) {
-            qnj <- lm(x[, j] ~ x[, -j] - 1,
-                      weights = f)$ resid
+            qnj <- lm(x[, j] ~ x[, -j] - 1, weights = f)$resid
             qn[j] <- sum(qnj * qnj)
           }
-        } else qn <- 1/diag(solve(crossprod(x)))
-      } else {
+        }
+        else qn <- 1/diag(solve(crossprod(x)))
+      }
+      else {
         lci1 <- FALSE
         qn <- rep(0, p)
         cutoff <- 0
       }
     }
-    z <- .Fortran("rqbr",
+z <- .Fortran("rqbr",
                   n = as.integer(n),
                   p = as.integer(p),
                   n5 = as.integer( n + 5),

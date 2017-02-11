@@ -63,6 +63,7 @@ Koenker and Bassett(1978) introduced asymmetric weight on positive
 and negative residuals, and solves the slightly modified l1-problem.
 }
 \examples{
+library(ggplot2)
 data(ais)
 y <- ais$BMI
 x <- cbind(1, ais$LBM)

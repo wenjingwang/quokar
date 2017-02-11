@@ -26,7 +26,7 @@
 #' ald_data <- frame_ald(y, x, tau, smooth = 10, error = 1e-6,
 #'                   iter = 2000)
 #' ggplot(ald_data) +
-#'  geom_line(aes(x = r, y = d, group = obs, colour = tau_flag)) +
+#'    geom_line(aes(x = r, y = d, group = obs, colour = tau_flag)) +
 #'    facet_wrap(~tau_flag, ncol = 1) +
 #'    xlab('') +
 #'    ylab('Asymmetric Laplace Distribution Density Function')
@@ -84,5 +84,3 @@ frame_ald <- function(y, x, tau, smooth, error, iter){
   t_g_a <- group_by(t_g, tau_flag) %>% arrange(r)
   return(t_g_a)
 }
-
-

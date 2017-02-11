@@ -16,7 +16,6 @@ Imports:
     ALDqr, 
     bayesQR, 
     MCMCpack,
-    HyperbolicDist, 
     ggplot2,
     knitr,
     gridExtra,
@@ -29,3 +28,8 @@ NeedsCompilation: yes
 LazyLoad: false
 VignetteBuilder: knitr
 RoxygenNote: 6.0.1
+URL: https://github.com/wenjingwang/quokar
+BugReports: https://github.com/wenjingwang/quokar/issues
+LazyData: true
+RoxygenNote: 6.0.0
+Roxygen: list(markdown = TRUE)
