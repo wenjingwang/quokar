@@ -10,17 +10,18 @@ globalVariables(c("obs", "r", "d"))
 #' density function
 #' @param error the convergence maximum error
 #' @param iter maximum iterations of the EM algorithm
-#' @importFrom ALDqr EM.qr,
-#'             ald rALD dALD,
-#'             ggplot2 ggplot,
-#'             tidyr gather,
-#'             dplyr arrange group_by
+#' @description density function used in quantile regression fitting
+#' @importFrom ALDqr EM.qr
+#' @importFrom ald dALD rALD
+#' @importFrom tidyr gather
+#' @importFrom dplyr group_by arrange
 #' @examples
 #' data(ais)
 #' x <- matrix(ais$LBM, ncol = 1)
 #' y <- ais$BMI
 #' tau = c(0.1, 0.5, 0.9)
-#' frame_ald(y, x, tau, smooth = 10, error = 1e-6, iter = 2000)
+#' t_g_a <- frame_ald(y, x, tau, smooth = 10, error = 1e-6,
+#'                   iter = 2000)
 #' ggplot(t_g_a) +
 #'  geom_line(aes(x = r, y = d, group = obs, colour = tau_flag)) +
 #'    facet_wrap(~tau_flag, ncol = 1) +
@@ -77,7 +78,8 @@ frame_ald <- function(y, x, tau, smooth, error, iter){
                     obs = rald_list_g$obs,
                     r = round(as.numeric(rald_list_g$r), 2),
                     d = round(as.numeric(dald_list_g$d), 2))
-  t_g_a <- group_by(t_g, tau_flag) %>%
-    arrange(r)
+  t_g_a <- group_by(t_g, tau_flag) %>% arrange(r)
   return(t_g_a)
 }
+
+

@@ -2,8 +2,8 @@
 % Please edit documentation in R/frame_fn.R
 \name{frame_fn}
 \alias{frame_fn}
-\title{Function to create data frame to plot the fitting path of quantile
-regression using interior point method}
+\title{Function to create data frame to plot the fitting path
+of quantile regression using interior point method}
 \usage{
 frame_fn(y, x, tau)
 }
@@ -15,48 +15,52 @@ frame_fn(y, x, tau)
 \item{tau}{quantiles}
 }
 \description{
-Function to create data frame to plot the fitting path of quantile
-regression using interior point method
+observations used in quantile regression fitting
+
+\deqn{min_{b \in R^{p}}\sum_{i=1}^{n}\rho_{\tau}(y_i-x_{i}^{'}b)}
+
+where \eqn{\rho_{\tau}(r)=r[\tau-I(r<0)]$ for $\tau \in (0,1)}. This
+yields the modified linear program
+
+\deqn{min(\tau e^{'}u+(1-\tau)e^{'}v|y=Xb+u-v,(u,v) \in
+R_{+}^{2n})}
+
+Adding slack variables, \eqn{s}, satisfying the constrains
+\eqn{a+s=e}, we
+obtain the barrier function
+
+\deqn{B(a, s, u) = y^{'}a+\mu \sum_{i=1}^{n}(loga_{i}+logs_{i})}
+
+which should be maximized subject to the constrains
+\eqn{X^{'}a=(1-\tau)X^{'}e} and \eqn{a+s=e}. The Newton step
+\eqn{\delta_{a}}
+solving
+
+\deqn{max{y^{'}\delta_{a}+\mu \delta^{'}_{a}(A^{-1}-S^{-1})e-
+\frac{1}{2}\mu \delta_{a}^{'}(A^{-2}+S^{-2})\delta_{a}}}
+
+subject to \eqn{X{'}\delta_{a}=0}, satisfies
+
+\deqn{y+\mu(A^{-1}-S^{-1})e-\mu(A^{-2}+S^{-2})\delta_{a}=Xb}
+
+for some \eqn{b\in R^{p}}, and \eqn{\delta_{a}} such that
+\eqn{X^{'}\delta_{a}=0}.
+Using the constraint, we can solve explicitly for the vector
+\eqn{b},
+
+\deqn{b=(X^{'}WX)^{-1}X^{'}W[y+\mu(A^{-1}-S^{-1})e]}
+
+where \eqn{W=(A^{-2}+S^{-2})^{-1}}. This is a form of the primal log
+barrier algorithm described above. Setting \eqn{\mu=0} in each step
+yields an affine scaling variant of the algorithm. The basic linear
+algebra of each iteration is essentially unchanged, only the form
+of the diagonal weighting matrix \eqn{W} has chagned.
 }
 \details{
 This function used to illustrate the fitting process of
 quantile regression using interior point method.
 Koenker and Bassett(1978) introduced asymmetric weight on positive
 and negative residuals, and solves the slightly modified l1-problem.
-
-$$min_{b \in R^{p}}\sum_{i=1}^{n}\rho_{\tau}(y_i-x_{i}^{'}b)$$
-
-where $\rho_{\tau}(r)=r[\tau-I(r<0)]$ for $\tau \in (0,1)$. This
-yields the modified linear program
-
-$$min(\tau e^{'}u+(1-\tau)e^{'}v|y=Xb+u-v,(u,v) \in R_{+}^{2n})$$
-
-Adding slack variables, $s$, satisfying the constrains $a+s=e$, we
-obtain the barrier function
-
-$$B(a, s, u) = y^{'}a+\mu \sum_{i=1}^{n}(loga_{i}+logs_{i})$$
-
-which should be maximized subject to the constrains
-$X^{'}a=(1-\tau)X^{'}e$ and $a+s=e$. The Newton step $\delta_{a}$
-solving
-
-$$max{y^{'}\delta_{a}+\mu \delta^{'}_{a}(A^{-1}-S^{-1})e-
-\frac{1}{2}\mu \delta_{a}^{'}(A^{-2}+S^{-2})\delta_{a}}$$
-
-subject to $X{'}\delta_{a}=0$, satisfies
-
-$$y+\mu(A^{-1}-S^{-1})e-\mu(A^{-2}+S^{-2})\delta_{a}=Xb$$
-
-for some $b\in R^{p}$, and \delta_{a}$ such that $X^{'}\delta_{a}=0$.
-Using the constraint, we can solve explicitly for the vector $b$,
-
-$$b=(X^{'}WX)^{-1}X^{'}W[y+\mu (A^{-1}-S^{-1})e]$$
-
-where $W=(A^{-2}+S^{-2})^{-1}$. This is a form of the primal log
-barrier algorithm described above. Setting $\mu=0$ in each step
-yields an affine scaling variant of the algorithm. The basic linear
-algebra of each iteration is essentially unchanged, only the form
-of the diagonal weighting matrix $W$ has chagned.
 }
 \examples{
 data(ais)

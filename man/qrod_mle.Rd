@@ -43,11 +43,14 @@ as influential. Based on the metric for measuring the distance between \eqn{\hat
 and \eqn{\hat{\theta}} proposed by Zhu et al.(2001), we consider here the following
 generalized Cook distance:
 
-\deqn{GD_{i} = (\hat{\theta_{(i)}}-\hat{\theta{i}})^{'}{-Q(\hat{\theta}|\hat{\theta})}
+\deqn{GD_{i} = (\hat{\theta_{(i)}}-\hat{\theta{i}})^{'}
+{-Q(\hat{\theta}|\hat{\theta})}
 (\hat{\theta_{(i)}}-\hat{\theta{i}})}
 
-Another measure of the influence of the \eqn{i}th case is the following Q-distance
-function, similar to the likelihood distance \eqn{LD_{i}} (Cook and Weisberg, 1982),
+Another measure of the influence of the \eqn{i}th case is the
+following Q-distance
+function, similar to the likelihood distance \eqn{LD_{i}}
+(Cook and Weisberg, 1982),
 defined as
 
 \deqn{QD_{i} = 2{Q(\hat{\theta}|\hat{\theta})-Q(\hat{\theta_{(i)}})}}
@@ -60,11 +63,13 @@ x <- cbind(1, ais$LBM, ais$sexInd)
 qrod_mle(y, x, tau = 0.1, error = 1e-10, iter = 2000, method = "cook.distance")
 qrod_mle(y, x, tau = 0.1, error = 1e-10, iter = 2000, method = "qfunction")
 
+
 }
 \references{
-Sánchez B L, Lachos H V, Labra V F.(2013)``Likelihood based inference for quantile
-regression using the asymmetric Laplace distribution,\emph{
-Journal of Statistical Computation and Simulation}, 81: 1565-1578.
+Sánchez B L, Lachos H V, Labra V F.(2013)``Likelihood
+    based inference for quantile regression using the asymmetric
+    Laplace distribution,\emph{ Journal of Statistical Computation
+    and Simulation}, 81: 1565-1578.
 
 L E, Lachos V H, Vilca F E.(2015)``Case-Deletion
 Diagnostics for Quantile Regression Using the Asymmetric Laplace

@@ -27,6 +27,8 @@
 #'Diagnostics for Quantile Regression Using the Asymmetric Laplace
 #'Distribution,\emph{arXiv preprint arXiv:1509.05099}.
 #'
+#'@importFrom ALDqr EM.qr
+#'
 #'@seealso \code{ALDqr_GCD}
 
 ALDqr_QD <- function(y, x, tau, error, iter)

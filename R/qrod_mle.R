@@ -93,7 +93,6 @@ qrod_mle <- function(y, x, tau, error, iter,
       }
     }else if(method == "qfunction"){
         for(i in 1:ntau){
-            i=1
             distance[[i]] <- ALDqr_QD(y, x, tau[i], error, iter)
             names(distance[i]) <- paste('tau=', tau[i], sep = '')
       }

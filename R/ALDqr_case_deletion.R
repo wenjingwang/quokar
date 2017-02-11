@@ -13,7 +13,7 @@
 #'
 #'@param iter The iteration frequancy for EM algorithm used in MLE estimation
 #'
-#'@importFrom purrr %>%
+#'@importFrom purrr %>% map
 #'
 #'
 #'
@@ -39,7 +39,7 @@ ALDqr_case_deletion <- function(y, x, tau, error, iter)
     E1[,i] <- apply(suma2, 2, sum)/(taup2)
   }
   E2 <- 1: n %>%
-    purrr::map(function(i) {
+    map(function(i) {
       muc_i <- y[-i] - x[-i, ]%*%beta_qr
       sum(3*sigma_qr - (vchpN[-i] * muc_i^2 -
           2 * muc_i * thep + vchp1[-i] *(thep^2 + 2 * taup2))/taup2)
@@ -57,7 +57,7 @@ ALDqr_case_deletion <- function(y, x, tau, error, iter)
     beta_i[,i] <- beta_qr + taup2*solve(suma1)%*% E1[,i]
   }
   sigma_i2 <- 1:n %>%
-    purrr::map(function(i) sigma_qr^2 - solve(Q2_sigma)*E2[i]/(2*sigma_qr^2))
+    map(function(i) sigma_qr^2 - solve(Q2_sigma)*E2[i]/(2*sigma_qr^2))
   sigma_i <- sqrt(simplify2array(sigma_i2))
   theta_i <- list(beta_i = beta_i, sigma_i = sigma_i)
   return(theta_i)

@@ -23,15 +23,15 @@ density function}
 \item{iter}{maximum iterations of the EM algorithm}
 }
 \description{
-Density function plot for quantile regression fitting using
-Asymmetric Laplace Distribution
+density function used in quantile regression fitting
 }
 \examples{
 data(ais)
 x <- matrix(ais$LBM, ncol = 1)
 y <- ais$BMI
 tau = c(0.1, 0.5, 0.9)
-frame_ald(y, x, tau, smooth = 10, error = 1e-6, iter = 2000)
+t_g_a <- frame_ald(y, x, tau, smooth = 10, error = 1e-6,
+                  iter = 2000)
 ggplot(t_g_a) +
  geom_line(aes(x = r, y = d, group = obs, colour = tau_flag)) +
    facet_wrap(~tau_flag, ncol = 1) +

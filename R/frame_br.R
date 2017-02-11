@@ -1,4 +1,4 @@
-globalVariables(c("obs", "r", "d"))
+globalVariables(c("obs", "index", "variable", "value", "tcrit", "alpha"))
 #' @title Observations used in quantile regression fitting using br algorithem
 #'
 #' @details This is a function that can be used to create point plot
@@ -10,11 +10,11 @@ globalVariables(c("obs", "r", "d"))
 #' quantiles
 #' @return All observations and the observations used in quantile
 #' regression fitting using br algorithem
-#' @importFrom ggplot2 ggplot,
-#'             quantreg rq,
-#'             purrr %>%,
-#'             tidyr gather,
-#'             dplyr inner_join
+#' @description get the observation used in br algorithem
+#' @importFrom purrr %>%
+#' @importFrom tidyr gather
+#' @importFrom dplyr inner_join
+#' @importFrom stats qt qnorm lm
 #' @examples
 #' data(ais)
 #' tau <- c(0.1, 0.5, 0.9)
@@ -77,17 +77,6 @@ wh <- function(object, tau){
         cutoff <- qt(1 - alpha/2, n - p)
       else cutoff <- qnorm(1 - alpha/2)
       if (!iid) {
-        h <- bandwidth.rq(tau, n, hs = TRUE)
-        bhi <- rq.fit.br(x, y, tau + h, ci = FALSE)
-        bhi <- coefficients(bhi)
-        blo <- rq.fit.br(x, y, tau - h, ci = FALSE)
-        blo <- coefficients(blo)
-        dyhat <- x %*% (bhi - blo)
-        if (any(dyhat <= 0)) {
-          pfis <- (100 * sum(dyhat <= 0))/n
-          warning(paste(pfis, "percent fis <=0"))
-        }
-        f <- pmax(eps, (2 * h)/(dyhat - eps))
         qn <- rep(0, p)
         for (j in 1:p) {
           qnj <- lm(x[, j] ~ x[, -j] - 1,

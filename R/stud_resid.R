@@ -13,7 +13,7 @@
 #' Ranganai, E(2016). On studentized residuals in the quantile
 #' regression framework. University of South Africa.
 #' \emph{SpringerPlus}, 5(1), 1231.
-#'@importFrom purrr %>% map
+#' @importFrom purrr %>% map
 #' @export
 #'
 stud_resid <- function(object){

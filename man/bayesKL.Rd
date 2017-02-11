@@ -2,7 +2,7 @@
 % Please edit documentation in R/bayesKL.R
 \name{bayesKL}
 \alias{bayesKL}
-\title{Calculating Kullback-Leibler divergence vased on the bayes estimating procedure of
+\title{Calculating Kullback-Leibler divergence based on the bayes estimating procedure of
 of quantile regression with asymmetric laplace distribution}
 \usage{
 bayesKL(y, x, tau, M)
@@ -18,7 +18,7 @@ Note that: x is the independent variable matrix}
 \item{M}{the iteration frequancy for MCMC used in Baysian Estimation}
 }
 \description{
-Calculating Kullback-Leibler divergence vased on the bayes estimating procedure of
+Calculating Kullback-Leibler divergence based on the bayes estimating procedure of
 of quantile regression with asymmetric laplace distribution
 }
 \details{

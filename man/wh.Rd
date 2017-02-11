@@ -2,7 +2,7 @@
 % Please edit documentation in R/frame_br.R
 \name{wh}
 \alias{wh}
-\title{Dot plot for quantile regression fitting observations}
+\title{Observations used in quantile regression fitting using br algorithem}
 \usage{
 wh(object, tau)
 }
@@ -12,10 +12,17 @@ wh(object, tau)
 \item{tau}{quantiles can be a single quantile or a vector of
 quantiles}
 }
+\value{
+All observations and the observations used in quantile
+regression fitting using br algorithem
+}
 \description{
-This is a function that can be used to create dot plot for the
-observations used in quantile regression fitting based on 'br'
-method.
+get the observation used in br algorithem
+}
+\details{
+This is a function that can be used to create point plot
+for the observations used in quantile regression fitting based
+on 'br'method.
 }
 \examples{
 data(ais)
@@ -31,10 +38,7 @@ ggplot(data_plot,
  geom_point(data = choose, aes(x = value, y = y,
                                       group = tau_flag,
                                       colour = tau_flag,
-                                      shape = obs)) +
- geom_line(data = choose, aes(x = value, y = y,
-                                     group = tau_flag,
-                                     colour = tau_flag))
+                                      shape = obs))
 
 object2 <- rq(BMI ~ Ht + LBM + Wt, tau, method = 'br',
             data = ais)
@@ -48,10 +52,6 @@ ggplot(data_plot,
  geom_point(data = choose, aes(x = value, y = y,
                                       group = tau_flag,
                                       colour = tau_flag,
-                                      shape = obs)) +
- geom_line(data = choose, aes(x = value, y = y,
-                                     group = tau_flag,
-                                     colour = tau_flag))
-
+                                      shape = obs))
 
 }

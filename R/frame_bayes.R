@@ -1,0 +1,57 @@
+#'@title Mean probability of posterior distribution  and
+#' Kullback-Leibler divergence
+#'@param y dependent variable in quantile regression
+#'
+#'@param x indepdent variables in quantile regression.
+#'Note that: x is the independent variable matrix with first column
+#'being one, indicate the intercept
+#'
+#'@param tau quantile
+#'
+#'@param M the iteration frequancy for MCMC used in Baysian Estimation
+#'
+#'@param method the diagnostic method for outlier detection
+#'
+#'
+#'@description
+#'This function give the data frame to plot  the mean probability of posterior and Kullback-leibler divergence of quantile regression model with asymmetric laplace distribution based on bayes estimation procedure.
+#'
+#' @importFrom purrr %>%
+#' @importFrom tidyr gather
+#' @seealso qrod_bayes
+#' @examples
+#' data(ais)
+#' y <- ais$BMI
+#' x <- cbind(1, ais$LBM)
+#' tau <- c(0.1, 0.5, 0.9)
+#' case <- rep(1:length(y), length(tau))
+#' prob <- frame_bayes(y, x, tau, M =  100,
+#'                  method = 'bayes.prob')
+#' prob_m <- cbind(case, prob)
+#' ggplot(prob_m, aes(x = case, y = value )) +
+#'   geom_point() +
+#'   facet_wrap(~variable, scale = 'free') +
+#'   xlab("case number") +
+#'   ylab("Mean probability of posterior distribution")
+#' kl <- frame_bayes(y, x, tau, M = 100,
+#'                 method = 'bayes.kl')
+#' kl_m <- cbind(case, kl)
+#' ggplot(kl_m, aes(x = case, y = value)) +
+#'   geom_point() +
+#'   facet_wrap(~variable, scale = 'free')+
+#'   xlab('case number') +
+#'   ylab('Kullback-Leibler')
+#'
+frame_bayes <- function(y, x, tau, M, method){
+    ntau <- length(tau)
+    if(method == 'bayes.prob'){
+        distances <- qrod_bayes(y, x, tau, M, method = "bayes.prob")
+    }else if(method == 'bayes.kl'){
+        distances <- qrod_bayes(y, x, tau, M, method = 'bayes.kl')
+    }
+    distance_m <- matrix(Reduce(c, distances),
+                         ncol = ntau, byrow = FALSE)
+    distance_f <- data.frame(distance_m)
+    colnames(distance_f) <- paste('tau=', tau, sep = "")
+    distance_g <- distance_f %>% gather(variable, value)
+}

@@ -8,6 +8,7 @@ globalVariables(c("variable", "value"))
 #' quantile regression using interior point method.
 #' Koenker and Bassett(1978) introduced asymmetric weight on positive
 #' and negative residuals, and solves the slightly modified l1-problem.
+#' @description observations used in quantile regression fitting
 #'
 #' \deqn{min_{b \in R^{p}}\sum_{i=1}^{n}\rho_{\tau}(y_i-x_{i}^{'}b)}
 #'
@@ -48,7 +49,8 @@ globalVariables(c("variable", "value"))
 #' algebra of each iteration is essentially unchanged, only the form
 #' of the diagonal weighting matrix \eqn{W} has chagned.
 #'
-#' @importFrom tidyr gather, ggplot2 ggplot
+#' @importFrom purrr %>% map
+#' @importFrom tidyr gather
 #' @references Portnoy S, Koenker R. The Gaussian hare and the Laplacian tortoise:
 #' computability of squared-error versus absolute-error estimators[J].
 #' Statistical Science, 1997, 12(4): 279-300.
@@ -120,8 +122,8 @@ frame_fn <- function(y, x, tau){
         objective[j] <- sum(m1) + sum(m2)
       }
      path[[i]] <- data.frame(objective, coef_path)
-      path_m[[i]] <- path[[i]] %>%
-        gather(variable, value, -objective)
+      path_m[[i]] <- tidyr::gather(path[[i]], variable,
+                                   value, -objective)
       tau_flag <- paste('tau=', tau[i], sep = "")
       path_m[[i]] <- cbind(tau_flag, path_m[[i]])
      })

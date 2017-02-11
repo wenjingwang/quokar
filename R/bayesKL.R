@@ -1,4 +1,4 @@
-#'Calculating Kullback-Leibler divergence vased on the bayes estimating procedure of
+#'Calculating Kullback-Leibler divergence based on the bayes estimating procedure of
 #'of quantile regression with asymmetric laplace distribution
 #'@param y dependent variable in quantile regression
 #'

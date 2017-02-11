@@ -2,8 +2,7 @@
 % Please edit documentation in R/ALDqr_GCD.R
 \name{ALDqr_GCD}
 \alias{ALDqr_GCD}
-\title{Calculating generalized cook distance of the MLE estimation of quantile regression
-based on asymmetric laplace distribution}
+\title{Calculating generalized cook distance of the MLE estimation of quantile regression using asymmetric laplace distribution}
 \usage{
 ALDqr_GCD(y, x, tau, error, iter)
 }
@@ -19,16 +18,18 @@ matrix with the first column is one.}
 
 \item{tau}{quantile}
 
-\item{error}{The EM algorithm accuracy of error used in MLE estimation}
+\item{error}{The EM algorithm accuracy of error used in
+MLE estimation}
 
-\item{iter}{the iteration frequancy for EM algorithm used in MLE estimation}
+\item{iter}{the iteration frequancy for EM algorithm used
+in MLE estimation}
 }
 \description{
-Calculating generalized cook distance of the MLE estimation of quantile regression
-based on asymmetric laplace distribution
+Calculating generalized cook distance of the MLE estimation of quantile regression using asymmetric laplace distribution
 }
 \details{
-Case-deletion is a classical approach to study the effects of dropping the
+Case-deletion is a classical approach to study the effects
+of dropping the
 \eqn{i}th case from the data set. Thus, the complete-data log-likelihhod
 function based on the data with \eqn{i}th cse deleted with be denoted by
 \eqn{l_{c}(\theta|y_{c(i)})}. Let \eqn{\hat{\theta_{p(i)}} = (\hat{\beta^{'}_{p(i)}},
