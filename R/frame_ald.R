@@ -18,6 +18,7 @@
 #' @importFrom ggplot2 ggplot
 #' @export
 #' @examples
+#' library(ggplot2)
 #' data(ais)
 #' x <- matrix(ais$LBM, ncol = 1)
 #' y <- ais$BMI

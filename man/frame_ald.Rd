@@ -30,9 +30,9 @@ data(ais)
 x <- matrix(ais$LBM, ncol = 1)
 y <- ais$BMI
 tau = c(0.1, 0.5, 0.9)
-t_g_a <- frame_ald(y, x, tau, smooth = 10, error = 1e-6,
+ald_data <- frame_ald(y, x, tau, smooth = 10, error = 1e-6,
                   iter = 2000)
-ggplot(t_g_a) +
+ggplot(ald_data) +
  geom_line(aes(x = r, y = d, group = obs, colour = tau_flag)) +
    facet_wrap(~tau_flag, ncol = 1) +
    xlab('') +

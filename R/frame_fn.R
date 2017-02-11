@@ -56,6 +56,7 @@
 #' Statistical Science, 1997, 12(4): 279-300.
 #' @export
 #' @examples
+#' library(ggplot2)
 #' data(ais)
 #' y <- ais$BMI
 #' x <- cbind(1, ais$LBM)

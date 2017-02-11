@@ -21,6 +21,7 @@
 #' @export
 #' @seealso qrod_bayes
 #' @examples
+#' library(ggplot2)
 #' data(ais)
 #' y <- ais$BMI
 #' x <- cbind(1, ais$LBM)

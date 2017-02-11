@@ -16,6 +16,7 @@
 #' @importFrom dplyr inner_join
 #' @importFrom stats qt qnorm lm
 #' @examples
+#' library(ggplot2)
 #' data(ais)
 #' tau <- c(0.1, 0.5, 0.9)
 #' object1 <- rq(BMI ~ LBM, tau, method = 'br', data = ais)
