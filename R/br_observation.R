@@ -1,4 +1,4 @@
-wh <- function(object, tau){
+wh <- function(object, tau, ci = FALSE){
   x <- object$x
   y <- object$y
   tol <- .Machine$double.eps^(2/3)
