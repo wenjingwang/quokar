@@ -50,7 +50,7 @@
 #' of the diagonal weighting matrix \eqn{W} has chagned.
 #'
 #' @references Portnoy S, Koenker R. The Gaussian hare and the Laplacian tortoise:
-#' computability of squared-error versus absolute-error estimators[J].
+#' computability of squared-error versus absolute-error estimators\emph{[J]}.
 #' Statistical Science, 1997, 12(4): 279-300.
 #' @export
 #' @examples
@@ -64,10 +64,10 @@
 #' frame_fn_0.1 <- frame_fn[[1]]
 #' ggplot(frame_fn_0.1, aes(x = value, y = objective)) +
 #'    geom_point() +
-#'    geom_wrap() +
+#'    geom_path() +
 #'    facet_wrap(~ variable, scale = 'free')
 #'
-#'
+#'@useDynLib
 
 frame_fn <- function(y, x, tau){
   z <- list()
