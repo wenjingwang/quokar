@@ -10,8 +10,7 @@ qrod_bayes(y, x, tau, M, method = c("bayes.prob", "bayes.kl"))
 \item{y}{dependent variable in quantile regression}
 
 \item{x}{indepdent variables in quantile regression.
-Note that: x is the independent variable matrix with first column
-being one, indicate the intercept}
+Note that: x is the independent variable matrix}
 
 \item{tau}{quantile}
 

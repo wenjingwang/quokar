@@ -27,7 +27,7 @@ This function give the data frame to plot  the mean probability of posterior and
 library(ggplot2)
 data(ais)
 y <- ais$BMI
-x <- cbind(1, ais$LBM)
+x <- ais$LBM
 tau <- c(0.1, 0.5, 0.9)
 case <- rep(1:length(y), length(tau))
 prob <- frame_bayes(y, x, tau, M =  100,

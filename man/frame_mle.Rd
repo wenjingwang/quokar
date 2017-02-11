@@ -4,7 +4,8 @@
 \alias{frame_mle}
 \title{General cook distance or Qfunction distance of quantile regression}
 \usage{
-frame_mle(y, x, tau, error = 1e-06, iter = 100, method)
+frame_mle(y, x, tau, error = 1e-06, iter = 100,
+  method = c("cook.distance", "qfunction"))
 }
 \arguments{
 \item{y}{dependent variable for quantile regression}
