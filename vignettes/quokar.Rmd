@@ -5,109 +5,370 @@ date: "11/8/2016"
 output: html_document
 ---
 
-## Outlier detection of quantile regression model with R: a vignette
-### Quantile regression: robust to outliers?
 
-Koenker et al(1978) extended the OLS regression by introducing quantile regression into linear model. Quantile regression methods
+## Outlier diagnostics of quantile regression in R: a vignette
 
-Let ${y_{t}:t=1,...T}$ be the random sample on a random variable which have distribution function $F$. OLS regression(also called mean regression) is based on the idea of minimizing the Euclidean distance between $y$ and $\hat{y}$. Following this idea, quantile regression trying to minimizing a so called $\rho_{\tau}$ 'distance' defined as:
+### Abstract
 
-$$d_{\tau}{(y,\hat{y})}=\sum_{i=1}^{n}\rho_{\tau}(y_i-\hat{y})$$
+Outlier diagnostics is an important aspect of statistic
+inference. The interference effects or extra information provided by
+outliers and their diagnostic methods are recently being studied in
+quantile regression model. An implementation of these methods in R
+language is available in the package `quokar`. This vignette offers a
+brief tutorial introduction to the package. Package `quokar` is
+open-source and can be freely downloaded from Github:
+http://www.github.com/wenjingwang/quokar.
 
-As $\hat{y}=X\hat{\beta_{\tau}}$, when miniming the objective function above, we get the estimatior of $\beta_\tau$. The minimizing process involved linear programming and typically yields a solution at a vertax. Koenker(1978) showed that the vertex solutions correspond to points in parameter space at which $p$ observations are interpolated when $p$ parameters are being estimated. The "exact-fit" property may confuse people for considering the sample size of doing quantile regression, as well as the reliability of quantile regression model for its ignoring all the other observations. However, actually all the observations are involved in the estimating process to determine which ones are eventually interpolated.
+### Introduction
+
+Koenker et al(1978) extended the OLS regression by introducing
+quantile regression into linear model. In econometrics, social
+sciences and ecology field, quantile regression methods have been
+widely used to study wage determination, and income inequality.
+There are several reasons to use quantile regression: (1)it relexed
+the assumptions of classical regression model; (2)quantile regressions
+are based on every quantiles, they are robust when observations have
+outliers; (3)estimators of quantile regression have good large sample
+asymptotic properties.
+
+The distribution function of random variable $Y$ can be characterized
+as
+
+$$F(y)=Prob(Y \leq y) \enspace \enspace (1)$$
+
+For any $0<\tau<1$,
+
+$$Q(\tau)=inf{y:F(y)\geq \tauf} \enspace \enspace (2)$$
+
+is called the $\tau$th quantile of $Y$. The quantile function provides
+a complete characterization of $Y$.
+
+OLS regression(also called mean regression) is based on the idea of
+minimizing the Euclidean distance between $y$ and $\hat{y}$. Following
+this idea, quantile regression trying to minimizing a so called
+$\rho_{\tau}$ 'distance' which is defined as:
+
+$$d_{\tau}{(y,\hat{y})}=\sum_{i=1}^{n}\rho_{\tau}(y_i-\hat{y})
+\enspace \enspace (3)$$
+
+The linear conditional quantile fucntion,
+$Q_{Y}(\tau|X=x)=x^{'}_{i}\beta^{'}(\tau)$, can be estimated by
+solving
+
+$$\hat{\beta}(\tau)=argmin_{\beta \in
+R^{p}}\sum{\rho_{\tau}(y_i-x^{'}\beta)} \enspace \enspace (4)$$
+
+### Observations Used in Quantile Regression Fitting
+
+Computation of quantile regression estimators may be formulated as a
+linear programming problem and efficiently solved by simplex or
+barrier methods. The former method is used for relative small sample
+size $n < 1000$, while the latter can deal with large sample.
+
+#### Simplex Method for Quantile Regression Fitting
+
+As $\hat{y}=X\hat{\beta_{\tau}}$, when miniming the quantile
+regression estimating objective function $(3)$, we get the estimatior
+of $\beta_\tau$. The simplex method
+involved linear programming and typically yields a solution at a
+vertax. The 'exact-fit' property of simplex regression fitting may
+confuse people for considering the reliability of quantile regression
+model for its ignoring so many observation. While we should know that
+in order to locate the points used for soving the linear equation, all
+the observations are involved.
+
+Locating the points used in fitting process  will do great help in
+outlier detection. We explore the simplex method, and locate the
+observation in function "frame_br", based on which point chart can be
+easily drew.
+
+The dataset we use for explain the functions are Australia
+Institutions of Sports. This dataset contain 202 observations(102
+female and 100 male) and 14 variables. We use this data to explore how
+the varibales affect the
+BMI of human body. We focus on the female data only.
+
+```{r load}
+read_chunk('simplex.R')
+library(quokar)
+library(quantreg)
+library(ggplot2)
+data(ais)
+ais_female <- subset(ais, Sex == 0)
+tau <- c(0.1, 0.5, 0.9)
+br <- rq(BMI ~ LBM, tau = tau, data = ais_female, method = 'br')
+coef <- br$coef
+br_result <- frame_br(br, tau)
+origin_obs <- br_result$data_plot
+use_obs <- br_result$choose
+ggplot(origin_obs,
+    aes(x = value, y = y)) +
+    geom_point(alpha = 0.1) +
+    geom_abline(slope = coef[2, 1], intercept = coef[1,1]) +
+    geom_abline(slope = coef[2, 2], intercept = coef[1,2]) +
+    geom_abline(slope = coef[2, 3], intercept = coef[1,3]) +
+    ylab('y') +
+    xlab('x') +
+    facet_wrap(~variable, scales = "free_x", ncol = 2) +
+    geom_point(data = use_obs, aes(x = value, y = y,
+                                        group = tau_flag,
+                                        colour = tau_flag,
+                                        shape = obs))
+```
+#### Interior Point Method for Quantile Regression Fitting
+
+
+
+
+
+
+```{r load}
+library(quokar)
+frame2 <- frame_fn()
+
+```
+
+### Quantile Regression: Robust to Outliers?
 
 Many researchers hold the view that because the the weighted sum of absolute deviations give a robust measurement of location, the estimated coefficient vector of quantile regression is not sensitive to outlier obsercations on the dependent variable(Koenker(1978), Buchinsky(1998)). However, this conlusion was drawed on the overall estimations of different quantiles compared to the mean estimation from OLS regression. If we look at the quantiles separately, outliers actually will affect the estimation of quantile regression greatly.
 
 The linear programming method used for estimating the quantile regression coefficients add difficulties to figure out how the outliers affect quantile regression model. We will discuss how the number, location and pattern of outliers affect quantile regressions based on simulation.
 
-* Outliers simulation study 1: location
+#### Outliers simulation study 1: location
 
- The sample data indicate linear relationship between dependent and independent variable with changing slope for different x. We condaminate the data with outliers with same pattern while have distant location towards the others.
+ The sample data indicate linear relationship between dependent and
+ independent variable with changing slope for different x. We
+ condaminate the data with outliers with same pattern while have
+ distant location towards the others.
+
+ * Outliers moving in y direction
+
 ```{r}
 x <- sort(runif(100))
-y1 <- 40*x + x*rnorm(100, 0, 10)
+y <- 40*x + x*rnorm(100, 0, 10)
 #locate the outliers
 selectedX <- sample(50:100,5)
-y2 <- y1
-y2[selectedX] <- x[1:5]*rnorm(5, 0, 10)
+y_location_y1 <- y
+y_location_y1[selectedX] <- x[1:5]*rnorm(5, 0, 10)
 #keep moving down
-y3 <- y2
-y3[selectedX] <- y3[selectedX] - 5
-y4 <- y3
-y4[selectedX] <- y4[selectedX] - 5
+y_location_y2 <- y_location_y1
+y_location_y2[selectedX] <- y_location_y2[selectedX] - 10
+y_location_y3 <- y_location_y2
+y_location_y3[selectedX] <- y_location_y3[selectedX] - 10
 ```
-Using the simulated data to construct quantile regression model. By comparing the four models, we have a brief idea of the effect of outliers' location.
-```{r}
+
+Using the simulated data to construct quantile regression model. By
+comparing the four models, we have a brief idea of the effect of
+outliers' location. The results show that when outliers moving down in y direction for 10 unit, it pulls down the slope on every
+quantile(comparing the result of model rq(y1~x) and rq(y2
+~x)). However, keeping moving down the outliers does no change to the slopes.
+
+```{r message=FALSE,fig.align="center"}
 library(quantreg)
 library(purrr)
 library(tidyr)
 library(ggplot2)
-library(broom)
-df <- data.frame(x, y1, y2, y3, y4)
+df <- data.frame(x, y, y_location_y1, y_location_y2, y_location_y3)
 df_m <- df %>% gather(variable, value, -x)
-df_m
 ggplot(df_m, aes(x=x, y=value)) +
-  ylim(-20, 60) +
-  geom_point() +
-  facet_wrap(~variable, ncol=2) +
-  geom_quantile(quantiles = seq(0.1, 0.9, 0.1))
+    geom_point() +
+    xlab("x") +
+    ylab("y") +
+    facet_wrap(~variable, scale = 'free', ncol=2) +
+    geom_quantile(quantiles = seq(0.1, 0.9, 0.1))
 coefs <- 2:5 %>%
-             map(~ rq(df[, .] ~ x, data = df, seq(0.1, 0.9, 0.1))) %>%
-             map_df(~ as.data.frame(t(as.matrix(coef(.)))))
-coefs <- cbind(rep(0.1:0.9, 4), coefs)
+            map(~ rq(df[, .] ~ x, data = df, seq(0.1, 0.9, 0.1))) %>%
+            map_df(~ as.data.frame(t(as.matrix(coef(.)))))
+tau <- rep(seq(0.1, 0.9, by = 0.1), 4)
+model <- paste('rq', rep(1:4, each = 9), sep="")
+df_m1 <- data.frame(cbind(model, tau, coefs))
+ggplot(df_m1, aes(x = tau, y = x, colour = model)) +
+    geom_point() +
+    geom_line() +
+    xlab('quantile') +
+    ylab('coefficients')
 ```
 
+If moving outliers in same pattern moving on x direction, slopes
+change every time outlier moves. To go further, each move does
+different effect on different quantiles.
+
+```{r message=FALSE,fig.align="center"}
+#locate the outliers
+selectedX1 <- sample(50:100, 5)
+y_location_x1 <- y
+y_location_x1[selectedX1] <- x[1:5]*rnorm(5, 0, 10)
+#moving on x direction
+selectedX2 <- sample(50:100, 5)
+y_location_x2 <- y
+y_location_x2[selectedX2] <- x[1:5]*rnorm(5, 0, 10)
+selectedX3 <- sample(50:100, 5)
+y_location_x3 <- y
+y_location_x3[selectedX3] <- x[1:5]*rnorm(5, 0, 10)
+df <- data.frame(x, y, y_location_x1, y_location_x2, y_location_x3)
+df_m <- df %>% gather(variable, value, -x)
+ggplot(df_m, aes(x = x, y=value)) +
+    geom_point() +
+    xlab("x") +
+    ylab("y") +
+    facet_wrap(~variable, ncol=2) +
+    geom_quantile(quantiles = seq(0.1, 0.9, 0.1))
+coefs <- 2:5 %>%
+            map(~ rq(df[, .] ~ x, data = df, seq(0.1, 0.9, 0.1))) %>%
+            map_df(~ as.data.frame(t(as.matrix(coef(.)))))
+tau <- rep(seq(0.1, 0.9, by = 0.1), 4)
+model <- paste('rq', rep(1:4, each = 9), sep="")
+df_m1 <- data.frame(cbind(model, tau, coefs))
+ggplot(df_m1, aes(x = tau, y = x, colour = model)) +
+    geom_point() +
+    geom_line() +
+    xlab('quantile') +
+    ylab('coefficients')
+```
+
+#### Outliers simulation study 2: Number
+
+As to the 'exact fit' character of estimation process of quantile
+regression, the number of outliers should be an important factor
+influencing the robustness of the model. Our simulation result proved
+this assumption. With growing numbers of outliers, the slopes on each
+quantile change.
+
+```{r}
+selectedX1 <- sample(50:100, 5)
+y_number_y1 <- y
+y_number_y1[selectedX1] <- x[1:5]*rnorm(5, 0, 10)
+selectedX2 <- sample(50:100, 10)
+y_number_y2 <- y
+y_number_y2[selectedX2] <- x[1:10]*rnorm(10, 0, 10)
+selectedX3 <- sample(50:100, 15)
+y_number_y3 <- y
+y_number_y3[selectedX3] <- x[1:15]*rnorm(15, 0, 10)
+```
+
+```{r message=FALSE,fig.align="center"}
+df <- data.frame(x, y, y_number_y1, y_number_y2, y_number_y3)
+df_m <- df %>% gather(variable, value, -x)
+ggplot(df_m, aes(x=x, y=value)) +
+    geom_point() +
+    xlab("x") +
+    ylab("y") +
+    facet_wrap(~variable, ncol=2) +
+    geom_quantile(quantiles = seq(0.1, 0.9, 0.1))
+coefs <- 2:5 %>%
+            map(~ rq(df[, .] ~ x, data = df, seq(0.1, 0.9, 0.1))) %>%
+            map_df(~ as.data.frame(t(as.matrix(coef(.)))))
+tau <- rep(seq(0.1, 0.9, by = 0.1), 4)
+model <- paste('rq', rep(1:4, each = 9), sep="")
+df_m1 <- data.frame(cbind(model, tau, coefs))
+ggplot(df_m1, aes(x = tau, y = x, colour = model)) +
+    geom_point() +
+    geom_line() +
+    xlab('quantile') +
+    ylab('coefficients')
+```
+
+#### Outliers simulation study 3: Pattern
+
+Sometimes outliers do have certain patterns, such as sparse or
+clustered. We explore how the outlier patterns affect the estimation
+of quantile regression model.
+
+* Clustered outliers
+
+```{r}
+y_clustered_y1 <- y
+y_clustered_y1[96: 100] <- x[1:5]*rnorm(5, 0, 10)
+y_clustered_y2 <- y
+y_clustered_y2[91: 100] <- x[1:10]*rnorm(10, 0, 10)
+y_clustered_y3 <- y
+y_clustered_y3[86: 100] <- x[1:15]*rnorm(15, 0, 10)
+```
+
+```{r message=FALSE,fig.align="center"}
+df <- data.frame(x, y, y_clustered_y1, y_clustered_y2,
+                 y_clustered_y3)
+df_m <- df %>% gather(variable, value, -x)
+ggplot(df_m, aes(x=x, y=value)) +
+    geom_point() +
+    xlab("x") +
+    ylab("y") +
+    facet_wrap(~variable, ncol=2) +
+    geom_quantile(quantiles = seq(0.1, 0.9, 0.1))
+coefs <- 2:5 %>%
+            map(~ rq(df[, .] ~ x, data = df, seq(0.1, 0.9, 0.1))) %>%
+            map_df(~ as.data.frame(t(as.matrix(coef(.)))))
+tau <- rep(seq(0.1, 0.9, by = 0.1), 4)
+model <- paste('rq', rep(1:4, each = 9), sep="")
+df_m1 <- data.frame(cbind(model, tau, coefs))
+ggplot(df_m1, aes(x = tau, y = x, colour = model)) +
+    geom_point() +
+    geom_line() +
+    xlab('quantile') +
+    ylab('coefficients')
+```
+
+* Sparse outliers
+
+```{r}
+y_sparse_y1 <- y
+selectedX1 <- sample(50:100, 5, replace = FALSE)
+y_sparse_y1[selectedX1] <- x[1:5]*rnorm(5, 0, 10)
+y_sparse_y2 <- y
+selectedX2 <- sample(50:100, 10, replace = FALSE)
+y_sparse_y2[selectedX2] <- x[1:10]*rnorm(10, 0, 10)
+y_sparse_y3 <- y
+selectedX3 <- sample(50:100, 15, replace = FALSE)
+y_sparse_y3[selectedX3] <- x[1:15]*rnorm(15, 0, 10)
+```
+
+```{r message=FALSE,fig.align="center"}
+df <- data.frame(x, y, y_sparse_y1, y_sparse_y2, y_sparse_y3)
+df_m <- df %>% gather(variable, value, -x)
+ggplot(df_m, aes(x=x, y=value)) +
+    geom_point() +
+    xlab("x") +
+    ylab("y") +
+    facet_wrap(~variable, ncol=2) +
+    geom_quantile(quantiles = seq(0.1, 0.9, 0.1))
+coefs <- 2:5 %>%
+            map(~ rq(df[, .] ~ x, data = df, seq(0.1, 0.9, 0.1))) %>%
+            map_df(~ as.data.frame(t(as.matrix(coef(.)))))
+tau <- rep(seq(0.1, 0.9, by = 0.1), 4)
+model <- paste('rq', rep(1:4, each = 9), sep="")
+df_m1 <- data.frame(cbind(model, tau, coefs))
+ggplot(df_m1, aes(x = tau, y = x, colour = model)) +
+    geom_point() +
+    geom_line() +
+    xlab('quantile') +
+    ylab('coefficients')
+```
+In conclusion, in terms of each quantile, outliers can have
+tremendous influence on estimation results of quantile regression
+model. It is necessary to detect them effectively.
+
+### Outlier Dignostic Methods for Quantile Regression Model
+
+* Method 1: Studentized Residual
+
+* Method 2: Generalized Cook Distance
+
+* Method 3: Q Function Distance
+
+* Method 4: Posterior Mean Probability
+
+### Simulation Study
+
+* Linear model study
 
 
+* Non-linear model study
 
+### Application
 
+* Australia Institutions of Sport
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+* American House Price
 
 
 
