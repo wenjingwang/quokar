@@ -78,12 +78,13 @@
 #'
 #'@seealso \code{qrod_mle}
 #'@examples
+#'library(ALDqr)
 #'data(ais)
 #'y <- ais$BMI
 #'sexInd <- (ais$Sex == 1) + 0
 #'x <- cbind(ais$LBM, ais$sexInd)
-#'qrod_bayes(y, x, tau = 0.1, M = 10000, method = "bayes.prob")
-#'qrod_bayes(y, x, tau = 0.1, M = 10000, method = "bayes.kl")
+#'qrod_bayes(y, x, tau = 0.1, M = 100, method = "bayes.prob")
+#'qrod_bayes(y, x, tau = 0.1, M = 100, method = "bayes.kl")
 #'@export
 #'
 #'

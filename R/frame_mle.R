@@ -19,6 +19,7 @@
 #' @export
 #' @examples
 #' library(ggplot2)
+#' library(ALDqr)
 #' data(ais)
 #' y <- ais$BMI
 #' x <- cbind(1, ais$LBM)

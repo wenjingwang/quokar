@@ -45,7 +45,7 @@
 #'                                       colour = tau_flag,
 #'                                       shape = obs))
 #' @export
-#' @useDynLib
+#' @useDynLib quokar
 #'
 frame_br <- function(object, tau){
   y <- matrix(object$y, ncol = 1)

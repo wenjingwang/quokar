@@ -1,3 +1,4 @@
+#' @useDynLib quokar
 wh <- function(object, tau, ci = FALSE){
   x <- object$x
   y <- object$y

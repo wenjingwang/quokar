@@ -64,12 +64,13 @@ the MCMC draws from the posterior of each latent vaiable, we estimate the densit
 using a normal kernel and we compute the integral using the trapezoidal rule.
 }
 \examples{
+library(ALDqr)
 data(ais)
 y <- ais$BMI
 sexInd <- (ais$Sex == 1) + 0
 x <- cbind(ais$LBM, ais$sexInd)
-qrod_bayes(y, x, tau = 0.1, M = 10000, method = "bayes.prob")
-qrod_bayes(y, x, tau = 0.1, M = 10000, method = "bayes.kl")
+qrod_bayes(y, x, tau = 0.1, M = 100, method = "bayes.prob")
+qrod_bayes(y, x, tau = 0.1, M = 100, method = "bayes.kl")
 }
 \references{
 Benites L E, Lachos V H, Vilca F E.(2015)``Case-Deletion

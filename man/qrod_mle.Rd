@@ -56,6 +56,7 @@ defined as
 \deqn{QD_{i} = 2{Q(\hat{\theta}|\hat{\theta})-Q(\hat{\theta_{(i)}})}}
 }
 \examples{
+library(ALDqr)
 data(ais)
 y <- ais$BMI
 sexInd <- (ais$Sex == 1) + 0

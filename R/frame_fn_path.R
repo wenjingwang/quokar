@@ -1,8 +1,7 @@
 #globalVariables(c("variable", "value"))
 #' @title Function to create data frame to plot the fitting path
 #' of quantile regression using interior point method
-#' @param y dependent variable in quantile regression
-#' @param x design matrix in quantile regression
+#' @param object quantile regression model using interior point method
 #' @param tau quantiles
 #' @details This function used to illustrate the fitting process of
 #' quantile regression using interior point method.
@@ -50,27 +49,34 @@
 #' of the diagonal weighting matrix \eqn{W} has chagned.
 #'
 #' @references Portnoy S, Koenker R. The Gaussian hare and the Laplacian tortoise:
-#' computability of squared-error versus absolute-error estimators\emph{[J]}.
-#' Statistical Science, 1997, 12(4): 279-300.
+#' computability of squared-error versus absolute-error estimators.
+#' \emph{Statistical Science}, 1997, 12(4): 279-300.
 #' @export
 #' @examples
 #' library(ggplot2)
+#' library(quantreg)
 #' data(ais)
-#' y <- ais$BMI
-#' x <- cbind(1, ais$LBM)
 #' tau <- c(0.1, 0.5, 0.9)
-#' frame_fn <- frame_fn(y, x, tau)
+#' object <-rq(BMI ~ LBM + Ht, tau = tau, data = ais, method = 'fn')
+#' frame_fn <- frame_fn_path(object, tau)
 #' #plot the path
-#' frame_fn_0.1 <- frame_fn[[1]]
-#' ggplot(frame_fn_0.1, aes(x = value, y = objective)) +
+#' frame_fn1 <- frame_fn[[1]]
+#' ggplot(frame_fn1, aes(x = value, y = objective)) +
 #'    geom_point() +
 #'    geom_path() +
 #'    facet_wrap(~ variable, scale = 'free')
 #'
-#'@useDynLib
+#'@useDynLib quokar
 
-frame_fn <- function(y, x, tau){
-  z <- list()
+frame_fn_path <- function(object, tau){
+    y <- matrix(object$model[, 1], ncol = 1)
+    colnames(y) <- 'y'
+    if(attr(object$terms, "intercept") == 1){
+        x <- cbind(1, object$model[, -1])
+    }else{
+        x <- object$model[, -1]
+    }
+    z <- list()
   path <- list()
   path_m <- list()
   beta <- 0.99995
@@ -80,9 +86,6 @@ frame_fn <- function(y, x, tau){
   p <- ncol(x)
   if (n != nrow(x))
     stop("x and y don't match n")
-  if (tau < eps || tau > 1 - eps)
-    stop("No parametric Frisch-Newton method.
-         Set tau in (0,1)")
   d <- rep(1, n)
   u <- rep(1, n)
   wn <- rep(0, 10 * n)
@@ -107,8 +110,8 @@ frame_fn <- function(y, x, tau){
                          it.routine = double(50*p),
                          PACKAGE = "quokar")
       iter <- z[[i]]$it.count[1] + 1
-      coef_path <- -matrix(z[[i]]$it.routine, ncol = p, byrow = TRUE)[1:iter, ]
-      colnames(coef_path) <- paste('x', 1:ncol(coef_path), sep = '')
+      coef_path <- -matrix(z[[i]]$it.routine, ncol = p,
+                           byrow = TRUE)[1:iter, ]
       nn <- nrow(coef_path)
       objective <- rep(0, nn)
       for (j in 1:nn){
@@ -120,10 +123,18 @@ frame_fn <- function(y, x, tau){
         m2 <- tau[i] * right_half
         objective[j] <- sum(m1) + sum(m2)
       }
-     path[[i]] <- data.frame(objective, coef_path)
-      path_m[[i]] <- tidyr::gather(path[[i]], variable,
+           if(attr(object$terms, 'intercept') == 1){
+          coef_path <- -matrix(z[[i]]$it.routine, ncol = p,
+                               byrow = TRUE)[1:iter, -1]
+      }else{
+          coef_path <- -matrix(z[[i]]$it.routine, ncol = p,
+                               byrow = TRUE)[1:iter, ]
+      }
+      colnames(coef_path) <- paste("x", 1:ncol(coef_path), sep="")
+      path[[i]] <- data.frame(objective, coef_path)
+      path_m[[i]] <- gather(path[[i]], variable,
                                    value, -objective)
       tau_flag <- paste('tau=', tau[i], sep = "")
       path_m[[i]] <- cbind(tau_flag, path_m[[i]])
-     })
+    })
 }

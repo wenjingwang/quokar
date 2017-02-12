@@ -66,6 +66,7 @@
 #'
 #'@seealso \code{covMCD} from package `robustbase`
 #'@examples
+#'library(ALDqr)
 #'data(ais)
 #'y <- ais$BMI
 #'sexInd <- (ais$Sex == 1) + 0
