@@ -54,6 +54,7 @@
 #' @examples
 #' library(ggplot2)
 #' library(quantreg)
+#' library(tidyr)
 #' data(ais)
 #' tau <- c(0.1, 0.5, 0.9)
 #' object <- rq(BMI ~ LBM + Ht, data = ais, tau = tau, method = 'fn')
