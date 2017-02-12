@@ -78,6 +78,7 @@
 #'
 #'@seealso \code{qrod_mle}
 #'@examples
+#'\dontrun{
 #'library(ALDqr)
 #'data(ais)
 #'y <- ais$BMI
@@ -85,6 +86,8 @@
 #'x <- cbind(ais$LBM, ais$sexInd)
 #'qrod_bayes(y, x, tau = 0.1, M = 100, method = "bayes.prob")
 #'qrod_bayes(y, x, tau = 0.1, M = 100, method = "bayes.kl")
+#'}
+#'
 #'@export
 #'
 #'

@@ -53,6 +53,7 @@
 #' \emph{Statistical Science}, 1997, 12(4): 279-300.
 #' @export
 #' @examples
+#' \dontrun{
 #' library(ggplot2)
 #' library(quantreg)
 #' data(ais)
@@ -65,7 +66,7 @@
 #'    geom_point() +
 #'    geom_path() +
 #'    facet_wrap(~ variable, scale = 'free')
-#'
+#'}
 #'@useDynLib quokar
 
 frame_fn_path <- function(object, tau){
