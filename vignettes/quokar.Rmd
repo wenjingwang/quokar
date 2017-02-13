@@ -88,11 +88,13 @@ female and 100 male) and 14 variables. We use this data to explore how
 the varibales affect the
 BMI of human body. We focus on the female data only.
 
-```{r load}
-read_chunk('simplex.R')
+```{r include = FALSE}
 library(quokar)
 library(quantreg)
 library(ggplot2)
+library(gridExtra)
+library(purrr)
+library(tidyr)
 data(ais)
 ais_female <- subset(ais, Sex == 0)
 tau <- c(0.1, 0.5, 0.9)
@@ -117,22 +119,141 @@ ggplot(origin_obs,
 ```
 #### Interior Point Method for Quantile Regression Fitting
 
+Interior point method is used for large sample size quantile
+regression model. Stephen & Roger(1997) introduced interior point
+method into quantiler regression model for estimating the
+coefficients.
 
+The objective function of quantile regression fitting is
 
+$$min_{b \in \R^{p}}\sum_{i=1}^{n}\rho_{\tau}(y_i-x_{i}^{'}b)$$
 
+where $\rho_{\tau}(r)=r[\tau-I(r<0])]$ for $\tau \in (0,1)$. This
+produce the linear program
 
+$$min{\tau e^{'}u+(1-\tau)e^{'}v|y=Xb+u-v, (u,v)\in \R_{+}^{2n}$$
 
-```{r load}
-library(quokar)
-frame2 <- frame_fn()
+and the dual formulation is
 
+$$max{y^{'}d|X^{'}d=0, d\in [\tau -1, \tau]^{n}}$$
+
+and, if we setting $a=d+1-\tau$, the formulation will become
+
+$$max{y^{'}}a|X^{'}a=(1-\tau)X^{'}e, a \in [0,1]^{n}}$$
+
+Adding slack variables, $s$, satisfying the constraint $a+s=e$, we
+can get the barrier function
+
+$$B(a,s,u)=y^{'}a+\mu \sum_{i=1}^{n}(loga_{i}+logs_{i})$$
+
+We should maximized the barrier function based on the constrains
+$X^{'}a=(1-\tau)X^{'}e$ and $a+s=e$. To get the coefficient, the
+Newton method will be used. The Newton step $\delta_{a}$ solving
+
+$$max{y^{'}\delta_{a}+\mu
+\delta^{'}_{a}(A^{-1}-S^{-1})e-\frac{1}{2}\mu\delta^{'}_{a}(A^{-2}+S^{-2})\delta_{a}}$$
+
+shubject to $X^{'}\delta_{a}=0$, satisfies
+
+$$y+\mu(A^{-1}-S^{-1})e-\mu(A^{-2}+S^{-2})\delta_{a}=Xb$$
+
+It is easy to solve explicitly for the coefficient vector $b$,
+
+$$b=(X^{'}WX)^{-1}X^{'}W[y+\mu(A^{-1}-S^{-1})e]$$
+
+where $W=(A^{-2}+S^{-2})^{-1}$. In each iteration, we set $\mu=0$ and
+the basic linear algebra will keep unchange, while the the weighting
+matrix $W$ changes.
+
+We use function "frame_fn_obs" to plot the weighted observations used
+in model fitting.
+
+```{r include = FALSE}
+fn <- rq(BMI ~ LBM, data = ais_female, tau = tau, method = 'fn')
+w_obs <- frame_fn_obs(fn, tau)
+## For tau=0.1
+w1 <- w_obs[[1]]
+case <- 1:nrow(w1)
+w1 <- cbind(case, w1)
+p1 <- ggplot(w1, aes(x = x1, y = y)) +
+    geom_point(colour = 'red') +
+    geom_text(aes(label = case))
+## For tau = 0.5
+w2 <- w_obs[[2]]
+case <- 1:nrow(w2)
+w2 <- cbind(case, w2)
+p2 <- ggplot(w2, aes(x = x1, y = y)) +
+    geom_point(colour = 'red') +
+    geom_text(aes(label = case))
+## For tau = 0.9
+w3 <- w_obs[[3]]
+case <- 1:nrow(w3)
+w3 <- cbind(case, w3)
+p3 <- ggplot(w3, aes(x = x1, y = y)) +
+    geom_point(colour = 'red') +
+    geom_text(aes(label = case))
+grid.arrange(p1, p2, p3, ncol =3)
+
+##For multi-variables
+fn_multi <- rq(BMI ~ LBM + Ht, data = ais_female, tau = tau,
+               method = 'fn')
+fn_multi$residuals
+w_obs <- frame_fn_obs(fn_multi, tau)
+head(w_obs)
+## For tau=0.1
+w1 <- w_obs[[1]]
+case <- 1:nrow(w1)
+w1 <- cbind(case, w1)
+w1_f <- w1 %>% gather(variable, value, -case, -tau_flag, -y)
+p1 <- ggplot(w1_f, aes(x = value, y = y)) +
+    geom_point(colour = 'red') +
+    geom_text(aes(label = case))+
+    facet_wrap(~variable, scale = 'free_x')
+## For tau = 0.5
+w2 <- w_obs[[2]]
+case <- 1:nrow(w2)
+w2 <- cbind(case, w2)
+w2_f <- w2 %>% gather(variable, value, -case, -tau_flag, -y)
+p2 <- ggplot(w2_f, aes(x = value, y = y)) +
+    geom_point(colour = 'red') +
+    geom_text(aes(label = case))+
+    facet_wrap(~variable, scale = 'free_x')
+## For tau = 0.9
+w3 <- w_obs[[3]]
+case <- 1:nrow(w3)
+w3 <- cbind(case, w3)
+w3_f <- w3 %>% gather(variable, value, -case, -tau_flag, -y)
+p3 <- ggplot(w3_f, aes(x = value, y = y)) +
+    geom_point(colour = 'red') +
+    geom_text(aes(label = case))+
+    facet_wrap(~variable, scale = 'free_x')
+grid.arrange(p1, p2, p3, ncol = 1)
 ```
+we notice that, there are $p$ observations get larger weights than
+other observations, and these $p$ sample obvservations are the same
+$p$ ones used in simplex method.
 
-### Quantile Regression: Robust to Outliers?
+In conclusion, the quantile regression fitting process are based on
+linear programming. In each fitting process, if we have $p$ parameters
+to estimate, $p$ observations will be used or $p$ observations will be
+put on larger weights.
 
-Many researchers hold the view that because the the weighted sum of absolute deviations give a robust measurement of location, the estimated coefficient vector of quantile regression is not sensitive to outlier obsercations on the dependent variable(Koenker(1978), Buchinsky(1998)). However, this conlusion was drawed on the overall estimations of different quantiles compared to the mean estimation from OLS regression. If we look at the quantiles separately, outliers actually will affect the estimation of quantile regression greatly.
-
-The linear programming method used for estimating the quantile regression coefficients add difficulties to figure out how the outliers affect quantile regression model. We will discuss how the number, location and pattern of outliers affect quantile regressions based on simulation.
+### How does outliers affect quantile regression model
+Many researchers hold the view that because the the weighted sum of
+absolute deviations give a robust measurement of location, the
+estimated coefficient vector of quantile regression is not sensitive
+to outlier obsercations on the dependent variable(Koenker(1978),
+Buchinsky(1998)). And based on the 'exact-fit' property of
+coefficients estimating, it is obvious that the quantile regression is
+robust comparing to ols regression. However, this conlusion was drawed
+on the overall estimations of different quantiles compared to the mean
+estimation from OLS regression. If we look at the quantiles
+separately, outliers actually will affect the estimation of quantile
+regression greatly. Further more, the linear programming method used
+for estimating the quantile regression coefficients add difficulties
+to figure out how the outliers affect quantile regression model. We
+will discuss the role of outliers based on its number, location and
+pattern.
 
 #### Outliers simulation study 1: location
 
@@ -156,18 +277,15 @@ y_location_y2[selectedX] <- y_location_y2[selectedX] - 10
 y_location_y3 <- y_location_y2
 y_location_y3[selectedX] <- y_location_y3[selectedX] - 10
 ```
-
 Using the simulated data to construct quantile regression model. By
 comparing the four models, we have a brief idea of the effect of
-outliers' location. The results show that when outliers moving down in y direction for 10 unit, it pulls down the slope on every
+outliers' location. The results show that when outliers moving down in
+y direction for 10 unit, it pulls down the slope on every
 quantile(comparing the result of model rq(y1~x) and rq(y2
-~x)). However, keeping moving down the outliers does no change to the slopes.
+~x)). However, keeping moving down the outliers does no change to the
+slopes.
 
 ```{r message=FALSE,fig.align="center"}
-library(quantreg)
-library(purrr)
-library(tidyr)
-library(ggplot2)
 df <- data.frame(x, y, y_location_y1, y_location_y2, y_location_y3)
 df_m <- df %>% gather(variable, value, -x)
 ggplot(df_m, aes(x=x, y=value)) +
@@ -188,7 +306,6 @@ ggplot(df_m1, aes(x = tau, y = x, colour = model)) +
     xlab('quantile') +
     ylab('coefficients')
 ```
-
 If moving outliers in same pattern moving on x direction, slopes
 change every time outlier moves. To go further, each move does
 different effect on different quantiles.
@@ -346,6 +463,15 @@ ggplot(df_m1, aes(x = tau, y = x, colour = model)) +
 In conclusion, in terms of each quantile, outliers can have
 tremendous influence on estimation results of quantile regression
 model. It is necessary to detect them effectively.
+
+### Quantile regression using asymmetric laplace distribution
+
+
+
+
+
+
+
 
 ### Outlier Dignostic Methods for Quantile Regression Model
 
