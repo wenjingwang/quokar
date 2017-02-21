@@ -19,6 +19,7 @@
 #' @export
 #' @seealso qrod_bayes
 #' @examples
+#' \dontrun{
 #' library(ggplot2)
 #' data(ais)
 #' y <- ais$BMI
@@ -41,7 +42,7 @@
 #'   facet_wrap(~variable, scale = 'free')+
 #'   xlab('case number') +
 #'   ylab('Kullback-Leibler')
-#'
+#'}
 frame_bayes <- function(y, x, tau, M,
                         method = c("bayes.prob", "bayes.kl")){
   method <- match.arg(method)

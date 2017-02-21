@@ -1,5 +1,6 @@
 #' @importFrom purrr map
-#' @importFrom stats lm qt qnorm coefficients
+#' @importFrom stats lm qt qnorm coefficients as.formula cov formula getInitial lsfit numericDeriv qchisq setNames optim
+#' @importFrom utils flush.console
 #' @importFrom tidyr gather
 #' @importFrom dplyr inner_join group_by arrange
 #' @importFrom quantreg bandwidth.rq rq.fit.br
@@ -9,6 +10,7 @@
 #' @importFrom ald dALD rALD
 #' @importFrom GIGrvg rgig
 #' @importFrom bayesQR bayesQR
+#' @importFrom robustbase covMcd
 NULL
 
 

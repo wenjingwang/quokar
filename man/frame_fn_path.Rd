@@ -61,6 +61,7 @@ Koenker and Bassett(1978) introduced asymmetric weight on positive
 and negative residuals, and solves the slightly modified l1-problem.
 }
 \examples{
+\dontrun{
 library(ggplot2)
 library(quantreg)
 data(ais)
@@ -73,7 +74,7 @@ ggplot(frame_fn1, aes(x = value, y = objective)) +
    geom_point() +
    geom_path() +
    facet_wrap(~ variable, scale = 'free')
-
+}
 }
 \references{
 Portnoy S, Koenker R. The Gaussian hare and the Laplacian tortoise:

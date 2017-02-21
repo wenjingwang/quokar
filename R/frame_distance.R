@@ -55,6 +55,7 @@
 #' against the robust MCD distance. This display is used to diagnose
 #' both vertical outlier and horizontal leverage points.
 #' @author Wenjing Wang
+#' @export
 #' @examples
 #' library(quantreg)
 #' library(ggplot2)

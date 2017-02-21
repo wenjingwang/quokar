@@ -1,10 +1,6 @@
 ###====== Nonlinear quantile regression with an interior point algorithm ======
 ## This code is in package `quantreg`
 ## We modified it to add the weighting matrix of non-linear quantile regression  process.
-#' @title weigting of the non-linear quantile regression
-
-
-
 "nlrq.control" <- function (maxiter=100, k=2, InitialStepSize = 1,
 	big=1e+20, eps=1.0e-07, beta=0.97)
 {
@@ -147,7 +143,7 @@
     m
 }
 
-"nlrq" <- function (formula, data=parent.frame(), start, tau=0.5,
+nlrq_m <- function (formula, data=parent.frame(), start, tau=0.5,
 	control, trace=FALSE, method = "L-BFGS-B")
 {
     mf <- match.call()
@@ -207,7 +203,7 @@
         model.step <- function(lambda, Step, model, pars) {
             model$setPars(pars + lambda * Step)
             model$deviance()
-       }
+        }
         w <- rep(0, length(model$resid()))
         snew <- model$deviance()
         sold <- ctrl$big
@@ -219,7 +215,7 @@
             optim.ctrl <- list(trace=0)
         }
         lam0 <- ctrl$InitialStepSize
-        D2 <- matrix()
+        D <- list()
         while(sold - snew > ctrl$eps & nit < ctrl$maxiter) {
             z <- meketon(model$gradient(),as.vector(model$resid()), w, tau=tau, ctrl=ctrl)
             Step <- z$coef
@@ -240,11 +236,11 @@
             if (trace) {model$trace()}
             if (R.Version()$os == "Win32") {flush.console()}
             nit <- nit + 1
-            D2[, nit] <- z$d
+             D[[nit]] <- z$d
         }
         Rho <- function(u,tau) u * (tau - (u < 0))
     	model$rho <- sum(Rho(model$resid(),tau))
-        model$D2 <- D2
+        model$D <- D
         model
     }
     nlrq.out <- list(m=nlrq.calc(m, ctrl, trace), data=substitute(data),

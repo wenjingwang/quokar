@@ -24,6 +24,7 @@ being one, indicate the intercept}
 This function give the data frame to plot  the mean probability of posterior and Kullback-leibler divergence of quantile regression model with asymmetric laplace distribution based on bayes estimation procedure.
 }
 \examples{
+\dontrun{
 library(ggplot2)
 data(ais)
 y <- ais$BMI
@@ -46,7 +47,7 @@ ggplot(kl_m, aes(x = case, y = value)) +
   facet_wrap(~variable, scale = 'free')+
   xlab('case number') +
   ylab('Kullback-Leibler')
-
+}
 }
 \seealso{
 qrod_bayes

@@ -22,6 +22,7 @@ Imports:
     GIGrvg,
     dplyr,
     tidyr,
+    robustbase,
     ald
 Type: Package
 NeedsCompilation: yes
