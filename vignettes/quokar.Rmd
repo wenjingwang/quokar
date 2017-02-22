@@ -34,11 +34,11 @@ asymptotic properties.
 The distribution function of random variable $Y$ can be characterized
 as
 
-$$F(y)=Prob(Y \leq y) \enspace \enspace (1)$$
+$$F(y)=P\{Y \leq y \} \enspace \enspace (1)$$
 
 For any $0<\tau<1$,
 
-$$Q(\tau)=inf{y:F(y)\geq \tauf} \enspace \enspace (2)$$
+$$Q(\tau)=\inf \{y:F(y)\geq \tau\} \enspace \enspace (2)$$
 
 is called the $\tau$th quantile of $Y$. The quantile function provides
 a complete characterization of $Y$.
@@ -48,15 +48,15 @@ minimizing the Euclidean distance between $y$ and $\hat{y}$. Following
 this idea, quantile regression trying to minimizing a so called
 $\rho_{\tau}$ 'distance' which is defined as:
 
-$$d_{\tau}{(y,\hat{y})}=\sum_{i=1}^{n}\rho_{\tau}(y_i-\hat{y})
+$$d_{\tau}(y,\hat{y})=\sum_{i=1}^{n}\rho_{\tau}(y_i-\hat{y})
 \enspace \enspace (3)$$
 
 The linear conditional quantile fucntion,
 $Q_{Y}(\tau|X=x)=x^{'}_{i}\beta^{'}(\tau)$, can be estimated by
 solving
 
-$$\hat{\beta}(\tau)=argmin_{\beta \in
-R^{p}}\sum{\rho_{\tau}(y_i-x^{'}\beta)} \enspace \enspace (4)$$
+$$\hat{b}_{\tau}=argmin_{b \in
+R^{p}}\sum{\rho_{\tau}(y_i-x^{'}b_{\tau})} \enspace \enspace (4)$$
 
 ### Observations Used in Quantile Regression Fitting
 
@@ -67,9 +67,9 @@ size $n < 1000$, while the latter can deal with large sample.
 
 #### Simplex Method for Quantile Regression Fitting
 
-As $\hat{y}=X\hat{\beta_{\tau}}$, when miniming the quantile
+As $\hat{y}=X\hat{b_{\tau}}$, when miniming the quantile
 regression estimating objective function $(3)$, we get the estimatior
-of $\beta_\tau$. The simplex method
+of $b_\tau$. The simplex method
 involved linear programming and typically yields a solution at a
 vertax. The 'exact-fit' property of simplex regression fitting may
 confuse people for considering the reliability of quantile regression
@@ -88,13 +88,14 @@ female and 100 male) and 14 variables. We use this data to explore how
 the varibales affect the
 BMI of human body. We focus on the female data only.
 
-```{r include = FALSE}
+```{r include = FALSE, message = FALSE}
 library(quokar)
 library(quantreg)
 library(ggplot2)
 library(gridExtra)
 library(purrr)
 library(tidyr)
+library(dplyr)
 data(ais)
 ais_female <- subset(ais, Sex == 0)
 tau <- c(0.1, 0.5, 0.9)
@@ -126,20 +127,20 @@ coefficients.
 
 The objective function of quantile regression fitting is
 
-$$min_{b \in \R^{p}}\sum_{i=1}^{n}\rho_{\tau}(y_i-x_{i}^{'}b)$$
+$$min_{b \in R^{p}}\sum_{i=1}^{n}\rho_{\tau}(y_i-x_{i}^{'}b_{\tau})$$
 
 where $\rho_{\tau}(r)=r[\tau-I(r<0])]$ for $\tau \in (0,1)$. This
 produce the linear program
 
-$$min{\tau e^{'}u+(1-\tau)e^{'}v|y=Xb+u-v, (u,v)\in \R_{+}^{2n}$$
+$$\min \{\tau e^{'}u+(1-\tau)e^{'}v|y=Xb+u-v, (u,v)\in R_{+}^{2n}\}$$
 
 and the dual formulation is
 
-$$max{y^{'}d|X^{'}d=0, d\in [\tau -1, \tau]^{n}}$$
+$$\max\{y^{'}d|X^{'}d=0, d\in [\tau -1, \tau]^{n}\}$$
 
 and, if we setting $a=d+1-\tau$, the formulation will become
 
-$$max{y^{'}}a|X^{'}a=(1-\tau)X^{'}e, a \in [0,1]^{n}}$$
+$$\max\{y^{'}\} a|X^{'}a=(1-\tau)X^{'}e, a \in [0,1]^{n}}$$
 
 Adding slack variables, $s$, satisfying the constraint $a+s=e$, we
 can get the barrier function
@@ -169,7 +170,61 @@ We use function "frame_fn_obs" to plot the weighted observations used
 in model fitting.
 
 ```{r include = FALSE}
-fn <- rq(BMI ~ LBM, data = ais_female, tau = tau, method = 'fn')
+tau <- c(0.1, 0.5, 0.9)
+fn <- rq(BMI ~ LBM + Ht, data = ais_female, tau = tau, method = 'fn')
+fn <- frame_fn_obs(fn, tau)
+##For tau = 0.1, plot the observations used in quantile regression
+##fitting based on interior point method
+fn1 <- fn[[1]]
+case <- 1: length(fn1)
+fn1 <- cbind(case, fn1)
+m <- data.frame(y = ais_female$BMI, x1 = ais_female$LBM, x2 =                            ais_female$Ht, fn1)
+p <- length(attr(object$coefficients, "dimnames")[[1]])
+m_f <- m %>% gather(variable, value, -case, -fn1, -y)
+mf_a <- m_f %>%
+  group_by(variable) %>%
+  arrange(variable, desc(fn1)) %>%
+  filter(row_number() %in% 1:p )
+p1 <- ggplot(m_f, aes(x = value, y = y)) +
+ geom_point(alpha = 0.1) +
+  geom_point(data = mf_a, size = 3) +
+  facet_wrap(~variable, scale = "free_x")
+ ## For tau = 0.5, plot the observations used in quantile regression
+ ##fitting based on interior point method
+ fn2 <- fn[[2]]
+ case <- 1: length(fn2)
+ fn2 <- cbind(case, fn2)
+ m <- data.frame(y = ais_female$BMI, x1 = ais_female$LBM, 
+                 x2 = ais_female$Ht, fn2)
+ p <- length(attr(object$coefficients, "dimnames")[[1]])
+ m_f <- m %>% gather(variable, value, -case, -fn2, -y)
+ mf_a <- m_f %>%
+    group_by(variable) %>%
+    arrange(variable, desc(fn2)) %>%
+    filter(row_number() %in% 1:p )
+ p2 <- ggplot(m_f, aes(x = value, y = y)) +
+    geom_point(alpha = 0.1) +
+    geom_point(data = mf_a, size = 3) +
+    facet_wrap(~variable, scale = "free_x")
+ ## For tau = 0.9
+ fn3 <- fn[[3]]
+ case <- 1: length(fn3)
+ fn3 <- cbind(case, fn3)
+ m <- data.frame(y = ais_female$BMI, x1 = ais_female$LBM, 
+                 x2 = ais_female$Ht, fn3)
+ p <- length(attr(object$coefficients, "dimnames")[[1]])
+ m_f <- m %>% gather(variable, value, -case, -fn3, -y)
+ mf_a <- m_f %>%
+   group_by(variable) %>%
+   arrange(variable, desc(fn3)) %>%
+   filter(row_number() %in% 1:p )
+ p3 <- ggplot(m_f, aes(x = value, y = y)) +
+   geom_point(alpha = 0.1) +
+   geom_point(data = mf_a, size = 3) +
+   facet_wrap(~variable, scale = "free_x")
+ grid.arrange(p1, p2, p3, ncol = 1)
+ 
+##display the weighting matrix
 w_obs <- frame_fn_obs(fn, tau)
 ## For tau=0.1
 w1 <- w_obs[[1]]
@@ -228,6 +283,7 @@ p3 <- ggplot(w3_f, aes(x = value, y = y)) +
     geom_text(aes(label = case))+
     facet_wrap(~variable, scale = 'free_x')
 grid.arrange(p1, p2, p3, ncol = 1)
+
 ```
 we notice that, there are $p$ observations get larger weights than
 other observations, and these $p$ sample obvservations are the same
@@ -239,6 +295,7 @@ to estimate, $p$ observations will be used or $p$ observations will be
 put on larger weights.
 
 ### How does outliers affect quantile regression model
+
 Many researchers hold the view that because the the weighted sum of
 absolute deviations give a robust measurement of location, the
 estimated coefficient vector of quantile regression is not sensitive
@@ -277,6 +334,7 @@ y_location_y2[selectedX] <- y_location_y2[selectedX] - 10
 y_location_y3 <- y_location_y2
 y_location_y3[selectedX] <- y_location_y3[selectedX] - 10
 ```
+
 Using the simulated data to construct quantile regression model. By
 comparing the four models, we have a brief idea of the effect of
 outliers' location. The results show that when outliers moving down in
@@ -306,6 +364,7 @@ ggplot(df_m1, aes(x = tau, y = x, colour = model)) +
     xlab('quantile') +
     ylab('coefficients')
 ```
+
 If moving outliers in same pattern moving on x direction, slopes
 change every time outlier moves. To go further, each move does
 different effect on different quantiles.
@@ -464,9 +523,9 @@ In conclusion, in terms of each quantile, outliers can have
 tremendous influence on estimation results of quantile regression
 model. It is necessary to detect them effectively.
 
+
+
 ### Quantile regression using asymmetric laplace distribution
-
-
 
 
 
