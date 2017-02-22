@@ -49,22 +49,6 @@ the breakdown value for the MCD algorithm equals
 \eqn{\frac{(n-h)}{n}}. This means the MCD estimates is reliable,
 even if up to \eqn{\frac{100(n-h)}{n}}% observations in the data
 set are contaminated.
-It is possible that the original data is in \eqn{p} dimensional
-space, but the \eqn{h}-point subset that yields the minimum
-covariance determinant lies in a lower-dimensional hyperplane.
-Applying the canonical MCD algorithm to such a data set would result
-in a singular covariance problem, so that the relevant robust
-distances cannot be computed. To deal with the singularity problem
-and provide further leverage point analysis. We implement a
-generalized MCD algorithm to distinguish in-(hyper) plane points
-from off-(byper) plane points, and performs MCD leverage point
-analysis in the dimension-reduced space by projecting all point
-onto the hyperplane.
-leverage point and outlier detection
-the regular variable leverage is defined as
-\deqn{leverage=\left\{begin{array}{rcl} 0 & \mbox{if RD(x_i) \leq
-C(p) \\ 1 & \mbox{otherwise}} \end{array}\right}
-where \eqn{C(p)=\sqrt{\chisq^{2}_{p;1-\alpha}}} is the cutoff value.
 }
 \examples{
 library(quantreg)

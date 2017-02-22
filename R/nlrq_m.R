@@ -1,6 +1,7 @@
 ###====== Nonlinear quantile regression with an interior point algorithm ======
 ## This code is in package `quantreg`
-## We modified it to add the weighting matrix of non-linear quantile regression  process.
+## We modified it to add the weighting matrix of non-linear quantile regression
+## process.
 "nlrq.control" <- function (maxiter=100, k=2, InitialStepSize = 1,
 	big=1e+20, eps=1.0e-07, beta=0.97)
 {
@@ -8,7 +9,6 @@
 	big=big, eps=eps, beta=beta)
 }
 
-# Still needs to be cleaned up: several parts of the code not used here (QR,...)
 "nlrqModel" <- function (form, tau, data, start)
 {
     thisEnv <- environment()
