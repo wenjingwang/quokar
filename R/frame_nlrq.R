@@ -1,7 +1,7 @@
 #' @title Explore fitting process of non-linear quantile  regression
 #' @description This function explore the fitting process of nonlinear
 #' quantile regression
-#' @param object non-linear quantile regression model
+#' @param formula non-linear quantile regression model
 #' @param data data frame
 #' @param tau quantiles
 #' @author Wenjing Wang
@@ -30,6 +30,7 @@
 #' x <- rep(1:25, 20)
 #' y <- SSlogis(x, 10, 12, 2) * rnorm(500, 1, 0.1)
 #' Dat <- data.frame(x = x, y = y)
+#' formula <- y ~ SSlogis(x, Aysm, mid, scal)
 #' nlrq_m <- frame_nlrq(formula, data = Dat, tau = c(0.1, 0.5, 0.9))
 #' weights <- nlrq_m$weights
 #' m <- data.frame(Dat, weights)
@@ -44,7 +45,7 @@ frame_nlrq <- function(formula, data, tau){
   D_s <- matrix(0, nrow = n, ncol = ntau)
   resid <- matrix(0, nrow = n, ncol = ntau)
   for(i in 1:ntau){
-   model <- nlrq_m(formula, data = data, tau = tau[i], trace = FALSE)
+   model <- nlrq_m(formula, data = data, tau = tau[1], trace = FALSE)
    D <- model$m$D
    ##turn list into matrix
    D_m <- simplify2array(D)^2
@@ -55,3 +56,4 @@ frame_nlrq <- function(formula, data, tau){
   colnames(resid) <- paste("tau", tau, sep = "")
   return(list(weights = D_s, resid = resid))
 }
+

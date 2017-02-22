@@ -239,7 +239,7 @@ nlrq_m <- function (formula, data=parent.frame(), start, tau=0.5,
              D[[nit]] <- z$d
         }
         Rho <- function(u,tau) u * (tau - (u < 0))
-    	model$rho <- sum(Rho(model$resid(),tau))
+    	  model$rho <- sum(Rho(model$resid(),tau))
         model$D <- D
         model
     }

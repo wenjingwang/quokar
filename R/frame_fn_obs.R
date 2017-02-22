@@ -55,14 +55,16 @@
 #' library(ggplot2)
 #' library(quantreg)
 #' library(tidyr)
+#' library(dplyr)
+#' library(gridExtra)
 #' data(ais)
 #' tau <- c(0.1, 0.5, 0.9)
 #' object <- rq(BMI ~ LBM + Ht, data = ais, tau = tau, method = 'fn')
-#" fn <- frame_fn_obs(object, tau)
+#' fn <- frame_fn_obs(object, tau)
 #' ##For tau = 0.1, plot the observations used in quantile regression
 #' ##fitting based on interior point method
 #' fn1 <- fn[[1]]
-#' case <- 1: length(fn1)
+#' case <- 1:length(fn1)
 #' fn1 <- cbind(case, fn1)
 #' m <- data.frame(y = ais$BMI, x1 = ais$LBM, x2 = ais$Ht, fn1)
 #' p <- length(attr(object$coefficients, "dimnames")[[1]])

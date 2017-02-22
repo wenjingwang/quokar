@@ -4,10 +4,10 @@
 \alias{frame_nlrq}
 \title{Explore fitting process of non-linear quantile  regression}
 \usage{
-frame_nlrq(object, data, tau)
+frame_nlrq(formula, data, tau)
 }
 \arguments{
-\item{object}{non-linear quantile regression model}
+\item{formula}{non-linear quantile regression model}
 
 \item{data}{data frame}
 
@@ -35,6 +35,23 @@ Thus, as proposed by Osborne and Watson(1971), one approach to
 solving  \eqn{min_{t\in R^{p}} \sum{|f_{i}(t)|}} is to solve a
 succession of linearized \eqn{l_1} problems minimizing
 \deqn{\sum |f_{i}(t)-J_{i}(t)^{'}\delta|}
+}
+\examples{
+library(tidyr)
+library(ggplot2)
+library(purrr)
+x <- rep(1:25, 20)
+y <- SSlogis(x, 10, 12, 2) * rnorm(500, 1, 0.1)
+Dat <- data.frame(x = x, y = y)
+formula <- y ~ SSlogis(x, Aysm, mid, scal)
+nlrq_m <- frame_nlrq(formula, data = Dat, tau = c(0.1, 0.5, 0.9))
+weights <- nlrq_m$weights
+m <- data.frame(Dat, weights)
+m_f <- m \%>\% gather(tau_flag, value, -x, -y)
+ggplot(m_f, aes(x = x, y = y)) +
+ geom_point(aes(size = value)) +
+ facet_wrap(~tau_flag)
+
 }
 \author{
 Wenjing Wang
