@@ -63,7 +63,7 @@
 #' fn <- frame_fn_obs(object, tau)
 #' ##For tau = 0.1, plot the observations used in quantile regression
 #' ##fitting based on interior point method
-#' fn1 <- fn[[1]]
+#' fn1 <- fn[ ,1]
 #' case <- 1:length(fn1)
 #' fn1 <- cbind(case, fn1)
 #' m <- data.frame(y = ais$BMI, x1 = ais$LBM, x2 = ais$Ht, fn1)
@@ -79,7 +79,7 @@
 #'  facet_wrap(~variable, scale = "free_x")
 #' ## For tau = 0.5, plot the observations used in quantile regression
 #' ##fitting based on interior point method
-#' fn2 <- fn[[2]]
+#' fn2 <- fn[,2]
 #' case <- 1: length(fn2)
 #' fn2 <- cbind(case, fn2)
 #' m <- data.frame(y = ais$BMI, x1 = ais$LBM, x2 = ais$Ht, fn2)
@@ -94,7 +94,7 @@
 #'    geom_point(data = mf_a, size = 3) +
 #'    facet_wrap(~variable, scale = "free_x")
 #' ## For tau = 0.9
-#' fn3 <- fn[[3]]
+#' fn3 <- fn[,3
 #' case <- 1: length(fn3)
 #' fn3 <- cbind(case, fn3)
 #' m <- data.frame(y = ais$BMI, x1 = ais$LBM, x2 = ais$Ht, fn3)
@@ -129,12 +129,12 @@ frame_fn_obs <- function(object, tau){
     d <- rep(1, n)
     u <- rep(1, n)
     wn <- rep(0, 10 * n)
-    W <- matrix(0, nrow = )
-    1:length(tau) %>%
-        map(function(i){
-            rhs <- (1 - tau[i]) * apply(x, 2, sum)
-            wn[1:n] <- (1 - tau[i])
-            z[[i]] <- .Fortran("rqfnb",
+    ntau <- length(tau)
+    W <- matrix(0, nrow = n, ncol = ntau)
+    for(i in 1:ntau){
+        rhs <- (1 - tau[i]) * apply(x, 2, sum)
+        wn[1:n] <- (1 - tau[i])
+        z[[i]] <- .Fortran("rqfnb",
                                n = as.integer(n),
                                p = as.integer(p),
                                a = as.double(t(as.matrix(x))),
@@ -150,9 +150,9 @@ frame_fn_obs <- function(object, tau){
                                info = integer(1),
                                it.routine = double(50*p),
                                PACKAGE = "quokar")
-            W <- z[[i]]$d
-            W <- z[[i]]$d/sum(z[[i]]$d)
-            print(W)
+            W[, i] <- z[[i]]$d
+            W[, i] <- z[[i]]$d/sum(z[[i]]$d)
+    }
             #x <- as.matrix(object$model[, -1])
             #wx <- diag(sqrt(W)) %*% x
             #wy <- diag(sqrt(W)) %*% y
@@ -161,7 +161,8 @@ frame_fn_obs <- function(object, tau){
             #tau_flag <- paste('tau', tau[i], sep = '')
             #w_obs[[i]] <- data.frame(wy, wx)
             #w_obs[[i]] <- cbind(tau_flag, w_obs[[i]])
-        })
+    colnames(W) <- paste("tau", tau, sep ="")
+    return(W)
 }
 
 
