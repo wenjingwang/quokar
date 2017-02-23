@@ -94,7 +94,7 @@
 #'    geom_point(data = mf_a, size = 3) +
 #'    facet_wrap(~variable, scale = "free_x")
 #' ## For tau = 0.9
-#' fn3 <- fn[,3
+#' fn3 <- fn[,3]
 #' case <- 1: length(fn3)
 #' fn3 <- cbind(case, fn3)
 #' m <- data.frame(y = ais$BMI, x1 = ais$LBM, x2 = ais$Ht, fn3)

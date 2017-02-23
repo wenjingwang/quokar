@@ -70,7 +70,7 @@ object <- rq(BMI ~ LBM + Ht, data = ais, tau = tau, method = 'fn')
 fn <- frame_fn_obs(object, tau)
 ##For tau = 0.1, plot the observations used in quantile regression
 ##fitting based on interior point method
-fn1 <- fn[[1]]
+fn1 <- fn[ ,1]
 case <- 1:length(fn1)
 fn1 <- cbind(case, fn1)
 m <- data.frame(y = ais$BMI, x1 = ais$LBM, x2 = ais$Ht, fn1)
@@ -86,7 +86,7 @@ p1 <- ggplot(m_f, aes(x = value, y = y)) +
  facet_wrap(~variable, scale = "free_x")
 ## For tau = 0.5, plot the observations used in quantile regression
 ##fitting based on interior point method
-fn2 <- fn[[2]]
+fn2 <- fn[,2]
 case <- 1: length(fn2)
 fn2 <- cbind(case, fn2)
 m <- data.frame(y = ais$BMI, x1 = ais$LBM, x2 = ais$Ht, fn2)
@@ -101,7 +101,7 @@ p2 <- ggplot(m_f, aes(x = value, y = y)) +
    geom_point(data = mf_a, size = 3) +
    facet_wrap(~variable, scale = "free_x")
 ## For tau = 0.9
-fn3 <- fn[[3]]
+fn3 <- fn[,3]
 case <- 1: length(fn3)
 fn3 <- cbind(case, fn3)
 m <- data.frame(y = ais$BMI, x1 = ais$LBM, x2 = ais$Ht, fn3)
