@@ -1,6 +1,5 @@
 #' @title Weighting Matrix of Quantile regression using Asymmetric Laplace Distrubtion
-#' @decription This function calulate the weighting matrix in quantile regression
-#' fitting process which based on asymmetric laplace distribution.
+#' @description This function calulate the weighting matrix
 #' @param y dependent variable of quantile regression
 #' @param x design matrix of quantile regression
 #' @param tau quantile must be a scaler
@@ -15,6 +14,7 @@
 #' \eqn{\beta_{(k)^p}}, which tends to be small for outlying observations.
 #'
 #' @author Wenjing Wang
+#' @export
 #' @examples
 #' library(ggplot2)
 #' library(dplyr)

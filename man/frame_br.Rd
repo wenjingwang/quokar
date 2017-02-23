@@ -30,8 +30,8 @@ library(quantreg)
 data(ais)
 tau <- c(0.1, 0.5, 0.9)
 object1 <- rq(BMI ~ LBM, tau, method = 'br', data = ais)
-data_plot <- frame_br(object1, tau)$data_plot
-choose <- frame_br(object1, tau)$choose
+data_plot <- frame_br(object1, tau)$all_observation
+choose <- frame_br(object1, tau)$fitting_point
 ggplot(data_plot,
  aes(x=value, y=data_plot[,2])) +
  geom_point(alpha = 0.1) +
@@ -45,8 +45,8 @@ ggplot(data_plot,
 
 object2 <- rq(BMI ~ Ht + LBM + Wt, tau, method = 'br',
             data = ais)
-data_plot <- frame_br(object1, tau)$data_plot
-choose <- frame_br(object1, tau)$choose
+data_plot <- frame_br(object1, tau)$all_observation
+choose <- frame_br(object1, tau)$fitting_point
 ggplot(data_plot,
  aes(x=value, y=data_plot[,2])) +
  geom_point(alpha = 0.1) +

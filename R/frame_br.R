@@ -17,8 +17,8 @@
 #' data(ais)
 #' tau <- c(0.1, 0.5, 0.9)
 #' object1 <- rq(BMI ~ LBM, tau, method = 'br', data = ais)
-#' data_plot <- frame_br(object1, tau)$data_plot
-#' choose <- frame_br(object1, tau)$choose
+#' data_plot <- frame_br(object1, tau)$all_observation
+#' choose <- frame_br(object1, tau)$fitting_point
 #' ggplot(data_plot,
 #'  aes(x=value, y=data_plot[,2])) +
 #'  geom_point(alpha = 0.1) +
@@ -32,8 +32,8 @@
 #'
 #' object2 <- rq(BMI ~ Ht + LBM + Wt, tau, method = 'br',
 #'             data = ais)
-#' data_plot <- frame_br(object1, tau)$data_plot
-#' choose <- frame_br(object1, tau)$choose
+#' data_plot <- frame_br(object1, tau)$all_observation
+#' choose <- frame_br(object1, tau)$fitting_point
 #' ggplot(data_plot,
 #'  aes(x=value, y=data_plot[,2])) +
 #'  geom_point(alpha = 0.1) +
@@ -75,5 +75,5 @@ frame_br <- function(object, tau){
   choose_point2 <- merge_x_y %>% gather(variable, value,
                                         -c(index, tau_flag, obs, y))
 
-  return(list(data_plot = data_plot_g, choose = choose_point2))
+  return(list(all_observation = data_plot_g, fitting_point = choose_point2))
 }
