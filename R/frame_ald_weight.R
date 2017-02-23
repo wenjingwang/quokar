@@ -8,7 +8,7 @@
 #'
 #' @details In the estimation procedure in EM algorithm, we can see that
 #' \eqn{\varepsilon} is inversely proportional to
-#' \eqn{d_i = |y_i-x^{'}_{i}\beta^{(k)}_{p}|/\sigam}.
+#' \eqn{d_i = |y_i-x^{'}_{i}\beta^{(k)}_{p}|/\sigma}.
 #' Hence, \eqn{u_i(\theta^{k})=\varepsilon_{-1i}(\theta^{(k)})}
 #' can be interpreted as a type of weight for \eqn{i}th case in the estimates of
 #' \eqn{\beta_{(k)^p}}, which tends to be small for outlying observations.
