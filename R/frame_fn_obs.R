@@ -151,6 +151,7 @@ frame_fn_obs <- function(object, tau){
                                it.routine = double(50*p),
                                PACKAGE = "quokar")
             W <- z[[i]]$d
+            W <- z[[i]]$d/sum(z[[i]]$d)
             print(W)
             #x <- as.matrix(object$model[, -1])
             #wx <- diag(sqrt(W)) %*% x

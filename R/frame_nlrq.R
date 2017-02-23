@@ -50,6 +50,7 @@ frame_nlrq <- function(formula, data, tau){
    ##turn list into matrix
    D_m <- simplify2array(D)^2
    D_s[,i] <- apply(D_m, 1, mean)
+   D_s[,i] <- D_s[, i]/sum(D_s[,i])
    resid[,i] <- model$m$resid()[1:n]
   }
   colnames(D_s) <- paste("tau", tau, sep="")
