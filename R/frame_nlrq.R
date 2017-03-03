@@ -45,7 +45,7 @@ frame_nlrq <- function(formula, data, tau){
   D_s <- matrix(0, nrow = n, ncol = ntau)
   resid <- matrix(0, nrow = n, ncol = ntau)
   for(i in 1:ntau){
-   model <- nlrq_m(formula, data = data, tau = tau[1], trace = FALSE)
+   model <- nlrq_m(formula, data = data, tau = tau[i], trace = FALSE)
    D <- model$m$D
    ##turn list into matrix
    D_m <- simplify2array(D)^2
