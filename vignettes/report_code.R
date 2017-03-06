@@ -205,6 +205,19 @@ p1 <- ggplot(m_f, aes(x = value, y = y)) +
                position_jitter(width = 0.04, height = 0.04))+
    facet_wrap( ~ type,scale="free_y")
 
+##---- frame_nlrq
+x <- rep(1:25, 20)
+y <- SSlogis(x, 10, 12, 2) * rnorm(500, 1, 0.1)
+Dat <- data.frame(x = x, y = y)
+formula <- y ~ SSlogis(x, Aysm, mid, scal)
+nlrq_m <- frame_nlrq(formula, data = Dat, tau = c(0.1, 0.5, 0.9))
+weights <- nlrq_m$weights
+m <- data.frame(Dat, weights)
+m_f <- m %>% gather(tau_flag, value, -x, -y)
+ggplot(m_f, aes(x = x, y = y, colour = tau_flag)) +
+  geom_point(aes(size = value), alpha = 0.5) +
+  facet_wrap(~tau_flag)
+
 ##---- move_y
 x <- sort(runif(100))
 y <- 40*x + x*rnorm(100, 0, 10)
@@ -360,7 +373,7 @@ ald_data <- frame_ald(y, x, tau, smooth = 10, error = 1e-6,
                    iter = 2000)
 ggplot(ald_data) +
     geom_line(aes(x = r, y = d, group = obs, colour = tau_flag)) +
-    facet_wrap(~tau_flag, ncol = 1) +
+    facet_wrap(~tau_flag, ncol = 1,scales = "free_y") +
     xlab('') +
     ylab('Asymmetric Laplace Distribution Density Function')
 
