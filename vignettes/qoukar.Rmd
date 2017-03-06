@@ -75,10 +75,10 @@ library(knitr)
 read_chunk('report_code.R')
 ```
 
-```{r library}
+```{r library,warning=FALSE,message=FALSE}
 ```
 
-```{r simplex_method}
+```{r simplex_method,warning=FALSE,message=FALSE}
 ```
 
 
@@ -143,6 +143,8 @@ linear programming. In each fitting process, if we have $p$ parameters
 to estimate, $p$ observations will be used or $p$ observations will be
 put on larger weights.
 
+```{r fn_method,warning=FALSE,message=FALSE}
+```
 #### What about non-linear quantile regression?
 
 Koenker(1996) provided an algorithm for computing quantile regression
@@ -195,7 +197,7 @@ modificaiton of the constraint set $[-1, 1]^{n}$ to $[\theta -1, \theta]^{n}$.
 
 We display the weighting result in R using function nlrq.
 
-```{r frame_nlrq}
+```{r frame_nlrq,warning=FALSE,message=FALSE}
 
 ```
 
@@ -234,13 +236,13 @@ quantile(comparing the result of model rq(y1~x) and rq(y2
 ~x)). However, keeping moving down the outliers does no change to the
 slopes.
 
-```{r move_y}
+```{r move_y,warning=FALSE,message=FALSE}
 ```
 
-```{r lm_case}
+```{r lm_case,warning=FALSE,message=FALSE}
 ```
 
-```{r move_y_multi}
+```{r move_y_multi,warning=FALSE,message=FALSE}
 ```
 
 * Outlier move in x direction
@@ -249,7 +251,7 @@ If moving outliers in same pattern moving on x direction, slopes
 change every time outlier moves. To go further, each move does
 different effect on different quantiles.
 
-```{r move_x}
+```{r move_x,warning=FALSE,message=FALSE}
 ```
 
 
@@ -261,7 +263,7 @@ influencing the robustness of the model. Our simulation result proved
 this assumption. With growing numbers of outliers, the slopes on each
 quantile change.
 
-```{r outlier_number}
+```{r outlier_number,warning=FALSE,message=FALSE}
 ```
 
 ## Quantile regression using asymmetric laplace distribution
@@ -287,7 +289,7 @@ parameter, $-\infty, +\infty$.
 ALD$(\mu, \sigma, \tau)$ is skewed to left when $\tau>0.5$, and skewed
 to right when $\tau<0.5$.
 
-```{r ALD}
+```{r ALD,warning=FALSE,message=FALSE}
 ```
 
 ALD distribution can be separated into hierarchical representation.
@@ -502,7 +504,7 @@ $$
 where $\sigma$ is computed as the corrected median of the absolute
 residuals $\sigma=\text{median}\{|r_i|/\beta_0, i = 1,...,n\}$.
 
-```{r Residual_Robust}
+```{r Residual_Robust,warning=FALSE,message=FALSE}
 
 ```
 
@@ -547,7 +549,7 @@ $\hat{\theta}$. We consider generalized cook distance as follows.
 $$GD_{i} =
 (\hat{\theta}_{[i]}-\hat{\theta})^{'}\{-Q(\hat{\theta}|\hat{\theta})\}(\hat{\theta}_{[i]}-\hat{\theta}), i=1,...,n$$
 
-```{r GCD}
+```{r GCD,warning=FALSE,message=FALSE}
 ```
 
 
@@ -559,7 +561,7 @@ defined as
 
 $$QD_{i}=2\{Q(\hat{\theta}|\hat{\theta})-Q(\hat{\theta}_{[i]}|\hat{\theta})\}$$
 
-```{r QD}
+```{r QD,warning=FALSE,message=FALSE}
 ```
 
 
@@ -597,7 +599,7 @@ $$P(O_i = 1)=\frac{1}{M}I(v^{(l)_i}>max_{k \in 1:M}v^{(k)}_j)$$
 where $M$ is the size of the chain of $v_i$ after the burn-in perior
 and $v^{(l)}_i$ is the $l$th draw of this chain.
 
-```{r BP}
+```{r BP,warning=FALSE,message=FALSE}
 ```
 
 ### Kullback-Leibler divergence
@@ -619,7 +621,7 @@ $$KL(f_i)=\frac{1}{n-1}\sum_{j\neq i}K(f_i, f_j)$$
 The outliers should show a high probability value for this
 divergence. We compute the integral using the trapezoidal rule.
 
-```{r BKL}
+```{r BKL,warning=FALSE,message=FALSE}
 ```
 
 ## Model Evaluation
