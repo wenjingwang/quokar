@@ -2,8 +2,8 @@
 % Please edit documentation in R/frame_distance.R
 \name{frame_distance}
 \alias{frame_distance}
-\title{Function to compute minimum covariance determinant and draw
-mcd-residual plot to diagnose outliers}
+\title{Function to compute robust distance and draw residual-robust
+distance plot to diagnose outliers}
 \usage{
 frame_distance(object, tau)
 }
