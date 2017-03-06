@@ -1,0 +1,665 @@
+---
+title: "R Notebook"
+output:
+  pdf_document: default
+  html_notebook: default
+  html_document: default
+---
+
+
+## Abstract
+
+Outlier diagnostics is an important aspect of statistic inference. The interference effects or extra information provided by outliers and their diagnostic methods are recently being studied in quantile regression model. An implementation of these methods in R language is available in the package `quokar`. This vignette offers a brief tutorial introduction to the package. Package `quokar` is open-source and can be freely downloaded from Github: http://www.github.com/wenjingwang/quokar.
+
+## Introduction
+
+Outliers in quantile regression are observations that show extreme pattern that can not be explained by the quantile regression model. These points may casue bias in the parameter estimates. It should be discussed even if its presence is reasonable.
+
+Koenker et al(1978) extended the OLS regression by introducing quantile regression into linear model. In econometrics, social sciences and ecology field, quantile regression methods have been widely used. There are several reasons to use quantile regression: (a)it relexed the assumptions of classical regression model; (b)it is based on every quantiles, and they are robust when observations have outliers; (c)estimators of quantile regression have good large sample asymptotic properties.
+
+The distribution function of random variable $Y$ can be characterized as
+
+$$F(y)=P\{Y \leq y \} \enspace \enspace (1)$$
+
+For any $0<\tau<1$,
+
+$$Q(\tau)=\inf \{y:F(y)\geq \tau\} \enspace \enspace (2)$$
+
+is called the $\tau$th quantile of $Y$. The quantile function provides a complete characterization of $Y$.
+
+OLS regression(also called mean regression) is based on the idea of minimizing the euclidean distance between $y$ and $\hat{y}$. Following this idea, quantile regression trying to minimizing a so called $\rho_{\tau}$ 'distance' which is defined as:
+
+$$d_{\tau}(y,\hat{y})=\sum_{i=1}^{n}\rho_{\tau}(y_i-\hat{y}_{i})
+\enspace \enspace (3)$$
+
+The linear conditional quantile fucntion, $Q_{Y}(\tau|\boldsymbol{X}=x)=\boldsymbol{X}^{'}\boldsymbol{\beta}_{\tau}$, can be estimated by solving
+
+$$\hat{\boldsymbol{\beta}}_{\tau}=\arg \min_{b \in
+	R^{p}}\sum_{i=1}^{n}{\rho_{\tau}(y_i-x_{i}^{'}\boldsymbol{\beta}_{\tau})} \enspace \enspace (4)$$
+
+### Observations Used in Quantile Regression Fitting
+
+Computation of quantile regression estimators may be formulated as a
+linear programming problem and efficiently solved by simplex or
+barrier methods. The former method is used for relative small sample
+size $n < 1000$, while the latter can deal with large sample.
+
+#### Simplex Method for Quantile Regression Fitting
+
+As $\hat{\boldsymbol{Y}}=\boldsymbol{X}^{'}\hat{\boldsymbol{\beta}}_{\tau}$, when miniming the quantile
+regression estimating objective function $(3)$, we get the estimatior
+of $\boldsymbol{\beta}_{\tau}$. The simplex method
+involved linear programming and typically yields a solution at a
+vertax. The 'exact-fit' property of simplex regression fitting may
+confuse people for considering the reliability of quantile regression
+model for its ignoring so many observation. While we should know that
+in order to locate the points used for soving the linear equation, all
+the observations are involved.
+
+Locating the points used in fitting process  will do great help in
+outlier detection. We explore the simplex method, and locate the
+observation in function `frame_br`, based on which point chart can be
+easily drew.
+
+The dataset we use for explain the functions are Australia
+Institutions of Sports. This dataset contain 202 observations(102
+female and 100 male)
+and 14 variables. We use this data to explore how
+the varibales affect the BMI of human body. We focus on the female data only.
+
+In terms of multi-variable quantile regression, we can display the
+simplex method fitting result using `rggobi`.
+
+```{r include = FALSE}
+library(knitr)
+read_chunk('report_code.R')
+```
+
+```{r library}
+```
+
+```{r simplex_method}
+```
+
+
+### Interior Point Method for Quantile Regression Fitting
+
+Interior point method is used for large sample size quantile
+regression model. Stephen $\&$ Roger(1997) introduced interior point
+algrithm to quantile regression model to estimate its coefficients.
+
+The objective function of quantile regression fitting is
+
+$$\min_{b \in R^{p}}\sum_{i=1}^{n}\rho_{\tau}(y_i-x_{i}^{'}\boldsymbol{\beta}_{\tau})$$
+
+where $\rho_{\tau}(r)=r[\tau-I(r<0])]$ for $\tau \in (0,1)$. This
+will produce the linear program
+
+$$\min \{\tau e^{'}u+(1-\tau)e^{'}v|y=\boldsymbol{X\beta}+u-v, (u,v)\in R_{+}^{2n}\}$$
+
+and the dual formulation is
+
+$$\max\{y^{'}\boldsymbol{d}|\boldsymbol{X^{'}d}=0, \boldsymbol{d}\in [\tau -1, \tau]^{n}\}$$
+
+and, if we setting $a=d+1-\tau$, the formulation will become
+
+$$\max\{y^{'}a|\boldsymbol{X}^{'}a=(1-\tau)\boldsymbol{X}^{'}e, a \in [0,1]^{n}$$
+
+Adding slack variables, $s$, satisfying the constraint $a+s=e$, we
+can get the barrier function
+
+$$B(a,s,u)=y^{'}a+\mu \sum_{i=1}^{n}(\log a_{i}+\log s_{i})$$
+
+We should maximized the barrier function based on the constrains
+$\boldsymbol{X^{'}a}=(1-\tau)\boldsymbol{X^{'}e}$ and $\boldsymbol{a+s=e}$. To get the coefficient, the
+Newton method will be used. The Newton step $\delta_{a}$ solving
+
+$$\max \{y^{'}\delta_{a}+\mu
+\delta^{'}_{a}(A^{-1}-S^{-1})e-\frac{1}{2}
+\mu\delta^{'}_{a}(A^{-2}+S^{-2})\delta_{a}\}$$
+
+
+subject to $\boldsymbol{X^{'}\delta_{a}}=0$, satisfies
+
+$$y+\mu(A^{-1}-S^{-1})e-\mu(A^{-2}+S^{-2})\boldsymbol{\delta_{a}}=\boldsymbol{X\beta}$$
+
+It is easy to solve explicitly for the coefficient vector $\boldsymbol{\beta}$,
+
+$$\boldsymbol{\beta}=(X^{'}WX)^{-1}X^{'}W[y+\mu(A^{-1}-S^{-1})e]$$
+
+where $W=(A^{-2}+S^{-2})^{-1}$. In each iteration, we set $\mu=0$ and
+the basic linear algebra will keep unchange, while the the weighting
+matrix $W$ changes.
+
+We use function `frame_fn_obs` to plot the weighted observations used
+in model fitting.
+
+we notice that, there are $p$ observations get larger weights than
+other observations, and these $p$ sample obvservations are the same
+$p$ ones used in simplex method.
+
+In conclusion, the quantile regression fitting process are based on
+linear programming. In each fitting process, if we have $p$ parameters
+to estimate, $p$ observations will be used or $p$ observations will be
+put on larger weights.
+
+#### What about non-linear quantile regression?
+
+Koenker(1996) provided an algorithm for computing quantile regression
+estimates for problems in which the response function is non-linear in
+parameters. This algorithm is closely related to interior point
+methods for solving linear programs.
+
+As to a non-linear $l_1$ problem,
+
+$$\min_{t \in R^{p}} \sum|f_i(t)|  \quad (*)$$
+
+El Attar et al(1979) noted that to solve $(*)$, the necessary
+condition for $t^{*}$ is that there exists a vector $d \in [-1,1]^{n}$ such that
+
+$$J(t^{*})^{'}d=0 \quad (*)$$
+$$f(t^{*})^{'}d=\sum|f_i(t^{*})|$$
+
+where $f(t)=(f_i(t))$ and $J(t)=(\partial f_{i}(t)/\partial t_j)$
+
+Thus, one approach to solving  $(*)$ is to minimize
+
+$$\sum|f_i(t) - J_i(t)^{'}|\delta$$
+
+choosing a step length, $\lambda$, at each iteration, by line search
+in the resulting direction $\delta$. We have to solve an $l_{1}$
+problem at each iteration and the result search directions may
+actually be inferior to directions determined by incomplete solutions
+to the sequence of linearized problems.
+
+Let $t$ be the value of the parameter at the current iteration, and
+consider the dual problem
+
+$$\max \{f^{'}d|d\in [-1, 1]^{n}, J^{'}d=0 \}$$
+
+If the model were linear so
+
+$$f(s)=f(t)-K(s-t)$$
+
+for some fixed matrix $K$, then a solution could be found by applying
+Meketon's algorithm to find $d^{*}$ to solve, computing
+
+$$\delta^{*}=(K^{'}D^{2}K)^{-1}K^{'}D^{2}f$$
+
+where $D=\text{diag}(\min\{1-d^{*}_{i}, 1 + d^{*}_{i}\})$ and setting
+$t^{*}=t + \delta^{*}$.
+
+As in the case of the linear problem the generalization of the $l_{1}$
+problem to other quantiles is straightforward involving only a
+modificaiton of the constraint set $[-1, 1]^{n}$ to $[\theta -1, \theta]^{n}$.
+
+We display the weighting result in R using function nlrq.
+
+```{r frame_nlrq}
+
+```
+
+## How does outliers affect quantile regression model
+
+Many researchers hold the view that because the the weighted sum of
+absolute deviations give a robust measurement of location, the
+nestimated coefficient vector of quantile regression is not sensitive
+to outlier obsercations on the dependent variable(Koenker(1978),
+Buchinsky(1998)). And based on the 'exact-fit' property of
+coefficients estimating, it is obvious that the quantile regression is
+robust comparing to ols regression. However, this conlusion was drawed
+on the overall estimations of different quantiles compared to the mean
+estimation from OLS regression. If we look at the quantiles
+separately, outliers actually will affect the estimation of quantile
+regression greatly. Further more, the linear programming method used
+for estimating the quantile regression coefficients add difficulties
+to figure out how the outliers affect quantile regression model. We
+will discuss the role of outliers based on its number, location and
+pattern.
+
+### Outliers simulation study 1: location
+
+The sample data indicate linear relationship between dependent and
+independent variable with changing slope for different x. We
+condaminate the data with outliers with same pattern while have
+distant location towards the others.
+
+* Outliers moving in y direction
+
+Using the simulated data to construct quantile regression model. By
+comparing the four models, we have a brief idea of the effect of
+outliers' location. The results show that when outliers moving down in
+y direction for 10 unit, it pulls down the slope on every
+quantile(comparing the result of model rq(y1~x) and rq(y2
+~x)). However, keeping moving down the outliers does no change to the
+slopes.
+
+```{r move_y}
+```
+
+```{r lm_case}
+```
+
+```{r move_y_multi}
+```
+
+* Outlier move in x direction
+
+If moving outliers in same pattern moving on x direction, slopes
+change every time outlier moves. To go further, each move does
+different effect on different quantiles.
+
+```{r move_x}
+```
+
+
+### outliers simulation study 2: Number
+
+As to the 'exact fit' character of estimation process of quantile
+regression, the number of outliers should be an important factor
+influencing the robustness of the model. Our simulation result proved
+this assumption. With growing numbers of outliers, the slopes on each
+quantile change.
+
+```{r outlier_number}
+```
+
+## Quantile regression using asymmetric laplace distribution
+
+All selected likelihoods may not be true but some are
+working.Komunjej(2005) noted that likelihood should belong a
+tick-exponential family of densities-family whose role in quantile
+regression is analog to the role of the linear exponential family in
+mean regression estimation. The well-known member of the
+tick-exponential family in the asymmetric Laplace density.
+
+Mean regression corresponds to loss function $L(u)=u^{2}$ and normal
+likelihood with pdf
+$f_{N}(u)=\frac{1}{\sqrt{2\pi}\sigma}exp(-\frac{(y-u)}{2\sigma^{2}})$
+. Quantile regression corresponds to check function $\rho_{\tau}(u)$
+and the asymmetric Laplace Likelihood with pdf
+
+$$f_{ALD}(u)=\frac{\tau(1-\tau)}{\sigma}exp(-\rho_{\tau}(\frac{y-u}{\sigma}))$$
+
+where $0<\tau<1$ is the skew parameter, $\sigma>0$ is the scale
+parameter, $-\infty, +\infty$.
+
+ALD$(\mu, \sigma, \tau)$ is skewed to left when $\tau>0.5$, and skewed
+to right when $\tau<0.5$.
+
+```{r ALD}
+```
+
+ALD distribution can be separated into hierarchical representation.
+
+$$Y=\mu+\mathcal{v_p}U+\tau_{p}\sqrt{\sigma U}Z$$
+
+where $\mathcal{v_p}=\frac{1-2\tau}{\tau(1-\tau)}$ and
+$\tau^{2}_p=\frac{2}{\tau(1-\tau)}$, and $=$ denotes equality in
+distribution. Then we can have,
+
+
+$$Y|U=u ~ N(\mu+\mathcal{v_{p}}u, \tau^{2}_{p}\sigma u)\\
+U \sim exp(\sigma)\\
+U|Y=y \sim  GIG(\frac{1}{2}, \delta, \gamma)
+$$
+
+where $\delta=\frac{|y-\mu|}{\tau_{p}\sqrt{\sigma}}$ and $\gamma=
+\sqrt{\frac{1}{\sigma}(2+\frac{\mathcal{v^{2}_{p}}}{\tau^{2}_{p}})}$,$GIG(,,)$
+is generalized inverse gaussian distribution.
+
+### Maximum likelihood estimation
+
+Minimizing the check funtion equals to maximizing an ALD-based likelihood
+function.
+
+Suppose that $y_i \sim \text{ALD}(x^{T}_{i}\beta_{p}, \sigma, \tau),
+i=1,...n$ are independent. The likelihood function for $n$
+observations is
+
+$$L(\beta, \sigma|y) = \frac{\tau^{n}(1-\tau)^{n}}{\sigma^{n}}
+exp\{-\sum^{n}_{i=1}\rho_{\tau}(\frac{y_i-x^{'}_{i}\beta_{\tau}}{\sigma})\}$$
+
+Sanchez et al(2013) provided EM algorithm for ML estimation in QR model.
+
+EM algorithm is useful when maximizing $l_{obs}$ can be difficult but
+maximizing the complete data log-likelihood $l$ is simple.
+
+The quantile regression model can be expressed as
+
+\begin{align*}
+Y_i|U_i=u_i &\sim N(x^{'}_{i}\beta_{\tau}+v_{p}u_i)\\
+U_i &\sim Exp(\sigma), i = 1,...n
+\end{align*}
+
+
+Let $y=(y_1, ...y_n)$ and $u=(u_i,...,u_n)$ be the observated data and
+the missing data, respectively. Then, the complete data log-likelihood
+function of $\theta=(\beta^{'}_p, \sigma)^{'}$ given $(y, u)$,
+ignoring additive constant terms, is given by 
+
+$$l_c(\theta, u)=
+\sum^{n}_{i=1}l_{c}(\theta|y_i, u_i)$$
+
+where
+
+$$l_{c}(\theta|y_i,u_i)=-\frac{1}{2}log(2\pi\tau^{2}_{p})-\frac{3}{2}log(\sigma)-
+\frac{1}{2}log(u_i)-\frac{1}{2\sigma\tau^{2}_{p}}u^{-1}_{i}(y_i-x^{'}_{i}\beta_p-
+\mathcal{v_p}u_i)^2-\frac{1}{\sigma}u_i$$
+
+
+The E-step of the EM algorithm requires evaluation of the Q-function
+
+$$Q(\theta|\theta^(k))=E[l_{c}(\theta|y,u)|y,\theta^{(k)}]$$
+
+the superscript $(k)$ indicates the estimate of the related parameter
+at the stage $k$ of the algorithm.
+
+Observe that the expression of the Q-function is completely determined
+by the knowledge of the expectations
+
+$$\mathcal{E}_{s}(\theta^{(k)})=E[U^{s}_{i}|y_i, \theta^{(k)}], \quad
+s=-1,1$$
+
+E-step: Given $\theta=\theta^{(k)}$, compute
+$\mathcal{E_{si}}(\theta^{(k)})$, for $s=-1,1$, given by
+
+$$E[U^{s}_{i}|y_i,\theta^{(k)}=
+(\frac{\delta^{(k)}_{i}}{\gamma^{(k)}}^s)
+\frac{K_{1/2+s}(\lambda^{(k)}_i)}{K_{1/2}(\lambda^{(k)}_i)}$$
+
+where
+$\delta^{(k)}_{i}=|y_i-x^{'}_{i}\beta^{(k)}_p|/\tau_{p}\sqrt{\sigma^{(k)}}$,
+$\gamma^{(k)}=\tau_p/2\sqrt{\sigma^{(k)}}$ and
+$\lambda^{(k)}_{i}=\delta^{(k)}_{i}\gamma^{(k)}$
+
+M-step: Update $\theta^{(k)}$ by maximizing $Q(\theta|\theta^{(k)})$
+over $\theta$, which leads to the following expressions
+
+$$\beta^{(k+1)}_{p}=(X^{'}D(\xi^{(k)}_{-1})X)^{-1}X^{'}
+(D(\xi^{(k)}_{-1})Y-\mathcal{v}_{p}\mathcal{1}_n)$$
+
+$$\sigma^{(k+1)}=\frac{1}{3n\tau^{2}_{p}}[Q(\beta^{(k+1)},
+\xi^{(k)}_{-1})-2\boldsymbol{1}^{'}_{n}(Y-X\beta^{(k+1)})\mathcal{v_p}+
+\frac{\tau^{4}_{p}}{4}\boldsymbol{1}^{'}_{n}\xi^{(k)}_{1}]$$
+
+The process is iterated until some distance involving two successive
+evaluation of the actual log-likelihood $l(\theta)$, like
+$||l(\theta^{(k+1)})-l(\theta)^{(k)}||$ or
+$||l(\theta^{(k+1)})/l(\theta^{(k)}-1)||$ is small enough.
+
+
+### Bayesian estimation
+
+If we add posterior distribution of the paramters, we will get the
+bayesian quantile regression estimation. Regarding the regression
+parameters $boldsymbol{\beta}$ from a linear QR model $Q_{\tau}(Y|x)=\boldsymbol{x}^{'}\boldsymbol{\beta}$
+as a random variable, aiming at its posterior distribution according
+to Bayes Theorem
+
+$$Pr(\beta|.) \approx Pr(\beta) \times Pr(.|\beta)$$
+
+Asymmetric laplace distribution is a mixture of normals
+
+\begin{align*}
+f_{\tau}(y;\mu,\sigma)&=\frac{\tau(1-\tau)}{\sigma}exp\{-\rho_{\tau}(\frac{y-\mu}{\sigma})\}
+\\
+&=\int_{0}^{\infty}\frac{1}{2\sqrt{\pi\sigma w}}exp\{-\frac{1}{4\sigma
+w}\{y-\mu-(1-2\tau)w\}^{2}\}\\
+& \times \frac{\tau(1-\tau)}{\sigma}exp\{-\frac{\tau(1-\tau)}{\sigma}w \}dw
+\end{align*}
+
+where the error term can be represented by
+
+$$\epsilon=\mu U+\tau_p\sqrt{\sigma U}Z$$
+
+where $\mathcal{v_p}=\frac{1-2\tau}{\tau(1-\tau)}$ and
+$\tau^{2}_{\tau}=\frac{2}{\tau(1-\tau)}$. $U$ and $Z$ are independent and
+follow standard exponential distribution and normal distribution
+respectively: $U \sim Exp(1/\sigma)$ and $Z \sim N(0,1)$.
+
+Therefore, the conditional distribution $f(y|\beta,\sigma,U)$ consists
+of independent normal distribution $N(\beta^{'}X_t+\mu\sigma Z_t,\tau^{2}\sigma^{2}Z_t)$
+
+If the normal-Gamma conjugate prior of a normal distribution is
+provided for $(\boldsymbol{\beta}, \sigma)$, we can construct a Gibbs sampler for
+inference of the posterior conditional densities of all quantities.
+
+The prior distributions are
+
+$$\beta \sim \text{N}(\beta_0, B_0)$$
+$$\sigma \sim \text{IG}(n_0/3, s_0/2)$$
+
+where $\text{IG}(a,b)$ is an inverse gamma distribution.
+
+Then hte posterior of $\boldsymbol{\beta}$ still follows normal distrbution
+
+$$\beta|y, U, \sigma \sim \text{N}(\beta_p, B_p)$$
+
+with
+$B^{-1}_{p}=\sum^{n}_{i=1}(X_iX^{'}_{i}/\tau^2\sigma U_i)+B^{-1}_{0}$
+and
+$\beta_{p}=B_{p}(\sum^{n}_{i=1}(X_{i}(Y_{i}-\mu U_{i})/\tau^2\sigma U_i)+B^{-1}_{p}\beta_{0})$
+
+The posterior distirbution for U_i follows a generalized inverse
+gaussian distribution
+
+$$U_i|y,\beta,\sigma \sim \text{GIG}(\frac{1}{2}, \alpha_i, \gamma_i)$$
+
+with $\alpha^{2}_{i}=(Y_i-\beta^{'}X_i)^2/\tau^2\sigma$ and
+$\gamma^{2}_{i}=2/\sigma+\mu^2/\tau^2\sigma$
+
+The posterior distribution for $\sigma$ follows an inverse Gamma
+distribution
+
+$$\sigma|y,\beta, U \sim IG(\frac{n^{*}}{2}, \frac{s^{*}}{2})$$
+
+with $n^{*}=n_0+3n$ and
+$s^{*}=s_0+2\sum^{n}_{i=1}U_i+\sum^{n}_{i=1}(Y_i-\beta^{'}X_{'}-\mu U_i)^2/\tau^2U_i$
+
+A gibbs sampler successively sampling from
+
+$$\sigma|\beta, U, y$$
+$$U|\beta, \sigma, y$$
+$$\beta|\sigma, U, y$$
+
+converges to $p(\beta, \sigma, U|y)$.
+
+## Outlier Dignostic Methods for Quantile Regression Model
+
+### Residual-Robust Distance Plot
+
+Mahalanobis distance is defined as
+
+$$MD(x_i)=[(x_i-\bar{x})^{'}\bar{C}(A)^{-1}(x_i-\bar{x})]^{1/2}$$
+
+where $\bar{x}=\frac{1}{n}\sum_{i=1}^{n}x_i$ and
+$\bar{C}=\frac{1}{n-1}\sum_{i=1}^{n}
+(x_i-\bar{x})^{'}(x_i-\bar{x})$. $x_i=(x_{i1},...,x_{i(p-1)})^{'}$
+does not include the intercept variable.
+
+
+Robust distance is defined as
+
+$$RD(x_i)=[(x_i-T(A))^{'}C(A)^{-1}(x_i-T(A))]^{1/2}$$
+
+where $T(A)$ and $C(A)$ are robust multivariate location and scale
+estimates computed with the minimum covariance determinant(MCD) method
+of Rouss
+eeuw and Van Driessen(1999).
+
+Residuals $r_i, i = 1,...,n$ based on quantile regression estimates
+are used to detect vertical outliers. Outliers are defined as:
+
+$$ OUTLIER=\left\{
+\begin{aligned}
+&0 \quad &if \ |r_i| \leq k\sigma \\
+&1 \quad &otherwise
+\end{aligned}
+\right.
+$$
+
+where $\sigma$ is computed as the corrected median of the absolute
+residuals $\sigma=\text{median}\{|r_i|/\beta_0, i = 1,...,n\}$.
+
+```{r Residual_Robust}
+
+```
+
+
+### Generalized Cook Distance
+
+To assess the influence of the $i$th case on the coefficient
+estimation of quantile regression, we compare the difference between
+$\hat{\theta}_{[
+i]}$ and $\hat{\theta}$.
+
+Case-deletion is a classical approach to study the effects of dropping
+the $i$th observation deleted. Thus, the complete-data log-likelihood
+function based on the data with the $i$th case deleted willbe denoted
+by $L_{c}(\theta|y_{c[i]})$. Let
+$\hat{\theta}_{[i]}=(\hat{\beta}^{'}_{p[i]},
+\hat{\sigma}^{2}_{[i]})^{'}$ be the maximizer of the function
+$Q_{[i]}(\theta|\hat{\theta})=E_{\hat{\theta}}[l_{c}(\theta|Y_{c[i]})|
+y]$, where $\hat{\theta}=(\hat{\beta}^{'}, \hat{\sigma}^{2})^{'}$ is
+the ML estimate of $\theta$. To calculate the case-deletion estimate
+$\hat{\theta}_{[i]}$ of $\theta$, proposed the following one-step
+approximation based on Q-function,
+
+$$\hat{\theta}_{[i]}=\hat{\theta}+\{-Q(\hat{\theta}|
+\hat{\theta})\}^{-1}Q_{[i]}(\hat{\theta}|\hat{\theta})$$
+
+where
+
+$$Q(\hat{\theta}|\hat{\theta})=\frac{\partial^{2}Q(\theta|\hat{\theta})}{\partial
+\theta\partial \theta^{'}}|_{\theta=\hat{\theta}}$$
+
+$$Q_{[i]}(\hat{\theta}|\hat{\theta})=\frac{\partial Q_{[i]}(\theta|\hat{\theta})}
+{\partial\theta}|_{\theta=\hat{\theta}}$$
+
+
+are the Hessian matrix and the gradient vector evaluated at
+$\hat{\theta}$, respectively.
+
+For measuring the distance between $\hat{\theta}_{[i]}$ and
+$\hat{\theta}$. We consider generalized cook distance as follows.
+
+$$GD_{i} =
+(\hat{\theta}_{[i]}-\hat{\theta})^{'}\{-Q(\hat{\theta}|\hat{\theta})\}(\hat{\theta}_{[i]}-\hat{\theta}), i=1,...,n$$
+
+```{r GCD}
+```
+
+
+### Q Function Distance
+
+The measurement of the influence of the $i$th case is based on the
+Q-distance function, similar to the likelihood distance $LD_{i}$,
+defined as
+
+$$QD_{i}=2\{Q(\hat{\theta}|\hat{\theta})-Q(\hat{\theta}_{[i]}|\hat{\theta})\}$$
+
+```{r QD}
+```
+
+
+### Mean Posterior Probability
+Posterior mean probability is
+
+Baysian quantile regression added a latent variable $v_i$ into model
+for each observation. Every $v_i$ is assumed to have an exponential
+distribution with mean $\sigma$, that with the likelihood produces a
+posterior distributed according to a generalized inverse Gaussian with
+parameters.
+
+$$v=\frac{1}{2},
+\delta^{2}_{i}=\frac{(y_i-x^{'}_{i}\beta(\tau))}{\varepsilon^{2}\sigma}$$,
+
+$$\zeta^2=\frac{2}{\sigma}+\frac{\theta^2}{\varepsilon^{2}\sigma}$$
+
+In the generalized inverse guassian distribution parameters, only
+$\delta^{2}_{i}$ varies for each observation. And its value is the
+weighted squared residual of the quantile fit. The posterior
+distribution of the latent variable $v_i$ has a greater expected
+value.
+
+If we define the variable $O_i$, which takes value equal to 1 when the
+$i$th observation is an outlier, and 0 otherwise. Then we propose to
+calculate the probability of an observation being an outlier as
+
+$$P(O_i=1)=\frac{1}{n-1}\sum_{j \neq i}P(v_i > v_j|data)$$
+
+The probability in the expression above can be approximated given the
+MCMC draws, as follows:
+
+$$P(O_i = 1)=\frac{1}{M}I(v^{(l)_i}>max_{k \in 1:M}v^{(k)}_j)$$
+
+where $M$ is the size of the chain of $v_i$ after the burn-in perior
+and $v^{(l)}_i$ is the $l$th draw of this chain.
+
+```{r BP}
+```
+
+### Kullback-Leibler divergence
+
+In baysian quantile regression, we suggest the use of the
+Kullback-Leibler divergence proposed by Kullback and Leibler(1951),
+as a more precise method of measuring the distance between those
+latent variables.
+
+$$K(f_i, f_j)=\int log(\frac{f_i(x)}{f_j(x)}f_{i}(x))dx$$
+
+where $f_i$ could be the posterior conditional distribution of $v_i$
+and $f_j$ the posterior conditional distribution of $v_j$. We should
+average this divergence for one observation based on the distance
+from all others,
+
+$$KL(f_i)=\frac{1}{n-1}\sum_{j\neq i}K(f_i, f_j)$$
+
+The outliers should show a high probability value for this
+divergence. We compute the integral using the trapezoidal rule.
+
+```{r BKL}
+```
+
+## Model Evaluation
+We want to see the performance of different models based on visualizing in data space.
+
+### Method: add-one-in
+
+We used leave-one-out idea to diagnose outliers in quantile regression model. As to the generalized cook distance model, we calculate:
+
+$$GD_{i}=(\hat{\theta}_{[-i]}-\hat{\theta})^{'}\{-Q(\hat{\theta}|\hat{\theta})\}(\hat{\theta}_{[-i]}-\hat{\theta}),\quad i = 1,...,n$$
+And the Q-function model, 
+
+$$QD_{i}=2\{Q(\hat{\theta}|\hat{\theta})-Q(\hat{\theta}_{[-i]}|\hat{\theta})\}$$
+
+To get the boundary of normal data and outliers in quantile regression, we consider add-one-in method by useing data in model surface calculating the following distance,
+
+$$GD_{i}=(\hat{\theta}_{[+i]}-\hat{\theta})^{'}\{-Q\hat{\theta}|\hat{\theta})\}(\hat{\theta}_{[+i]}-\hat{\theta}),\quad i = m,...,m+s$$
+
+Similar with generalized cook distance model, we also apply add-one-in idea in Q-function model.
+
+$$QD_{i}=2\{Q(\hat{\theta}|\hat{\theta})-Q(\hat{\theta}_{[+i]}|\hat{\theta})\}$$
+
+### Visualization Tool
+
+We use grand tour to look at projections of the data. First consider consider quantile regression
+$BMI=\beta_{0}+\beta_{1}LBM$
+
+As to quantile regression $BMI=\beta_{0}+\beta_{1}LBM+\beta_{2}Ht$, we get results as follows,
+
+
+
+The algorithm we follows are 
+House price in Melbourne.
+
+
+
+
+
+
+
+
+
+

@@ -1,5 +1,5 @@
-#' @title Function to compute minimum covariance determinant and draw
-#' mcd-residual plot to diagnose outliers
+#' @title Function to compute robust distance and draw residual-robust
+#' distance plot to diagnose outliers
 #' @param object quantile regression model using 'br' or 'fn' method
 #' @param tau quantile regression
 #'
@@ -81,7 +81,7 @@
 #'    ylab("Residuals")
 
 frame_distance <- function(object, tau){
-    x <- object$model[, -1]
+    x <- apply(as.matrix(object$model[, -1]), 2, as.numeric)
     p <- ncol(x)
     n <- nrow(x)
     resid <- object$residuals
@@ -91,8 +91,7 @@ frame_distance <- function(object, tau){
     for(i in 1:n){
         mid_m <- x[i,] - center_m
         mid_m <- as.matrix(mid_m)
-        md[i] <- sqrt(mid_m%*%solve(cov_m)%*%matrix(mid_m,
-                                                    ncol= 1))
+        md[i] <- sqrt(matrix(mid_m, nrow = 1)%*%solve(cov_m)%*%matrix(mid_m, ncol= 1))
     }
     md <- matrix(md, ncol = 1)
     mcd <- covMcd(x)
@@ -102,7 +101,7 @@ frame_distance <- function(object, tau){
     for(i in 1:n){
         mid_r <- x[i, ] - Tx
         mid_r <- as.matrix(mid_r)
-       rd[i] <- sqrt(mid_r%*%solve(Cx)%*%matrix(mid_r,ncol = 1))
+       rd[i] <- sqrt(matrix(mid_r, nrow = 1)%*%solve(Cx)%*%matrix(mid_r,ncol = 1))
     }
     rd <- matrix(rd, ncol = 1)
     cutoff_v <- qchisq(p = 0.975, df = p)
