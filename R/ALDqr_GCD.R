@@ -61,7 +61,7 @@ ALDqr_GCD <- function(y, x, tau, error, iter)
   vchpN <- besselK(sqrt(delta2 * gamma2), 0.5 - 1)/
       (besselK(sqrt(delta2* gamma2), 0.5))*(sqrt(delta2 / gamma2))^(-1)
 
-  vchp1 <- besselK(sqrt(delta2 * gamma2), 0.5 + 1)/(besselK(sqrt(delta2              *gamma2), 0.5)) * (sqrt(delta2 / gamma2))
+  vchp1 <- besselK(sqrt(delta2 * gamma2), 0.5 + 1)/(besselK(sqrt(delta2*gamma2), 0.5)) * (sqrt(delta2 / gamma2))
   E1 <- matrix(0, nrow = p, ncol = n)
   for(i in 1:n){
       suma2 <- x[-i,] * c(vchpN[-i] * (y[-i] - x[-i,] %*% beta_qr) - thep)
