@@ -8,7 +8,7 @@ distance plot to diagnose outliers}
 frame_distance(object, tau)
 }
 \arguments{
-\item{object}{quantile regression model using 'br' or 'fn' method}
+\item{object}{quantile regression model}
 
 \item{tau}{quantile regression}
 }
@@ -57,9 +57,10 @@ library(ALDqr)
 library(purrr)
 library(robustbase)
 library(tidyr)
-data(ais)
+library(robustbase)
 tau = c(0.1, 0.5, 0.9)
-object <- rq(BMI ~ LBM + Ht, data = ais, tau = tau)
+ais_female <- subset(ais, Sex == 1)
+object <- rq(BMI ~ LBM + Ht, data = ais_female, tau = tau)
 plot_distance <- frame_distance(object, tau = c(0.1, 0.5, 0.9))
 distance <- plot_distance[[1]]
 cutoff_v <- plot_distance[[2]]
@@ -67,28 +68,26 @@ cutoff_h <- plot_distance[[3]]
 n <- nrow(object$model)
 case <- rep(1:n, length(tau))
 distance <- cbind(case, distance)
-ggplot(distance, aes(x = rd, y = value)) +
-   geom_point() +
-   geom_vline(xintercept = cutoff_v, colour = "red") +
-   geom_hline(yintercept = cutoff_h, colour = "red") +
-   facet_wrap(~ tau_flag, scale = 'free_x') +
-   geom_text(data = subset(distance, value > cutoff_h[1] |
-                                     value < cutoff_h[2] |
-                                     rd > cutoff_v),
-             aes(label = case)) +
-   xlab("Robust Distance") +
-   ylab("Residuals")
-ggplot(distance, aes(x = md, y = value)) +
-   geom_point() +
-   geom_vline(xintercept = cutoff_v, colour = "red") +
-   geom_hline(yintercept = cutoff_h, colour = "red") +
-   facet_wrap(~ tau_flag, scale = 'free_x') +
-   geom_text(data = subset(distance, value > cutoff_h[1] |
-                                     value < cutoff_h[2] |
-                                     rd > cutoff_v),
-             aes(label = case)) +
-   xlab("Mahalanobis Distance") +
-   ylab("Residuals")
+distance$residuals <- abs(distance$residuals)
+distance1 <- distance \%>\% filter(tau_flag == 'tau..0.1')
+p1 <- ggplot(distance1, aes(x = rd, y = residuals)) +
+ geom_point() +
+ geom_hline(yintercept = cutoff_h[1], colour = "red") +
+ geom_vline(xintercept = cutoff_v, colour = "red") +
+ geom_text(data = subset(distance1, residuals > cutoff_h[1]|
+                           rd > cutoff_v),
+           aes(label = case), hjust = 0, vjust = 0) +
+ xlab("Robust Distance") +
+ ylab("|Residuals|")
+distance2 <- distance \%>\% filter(tau_flag == 'tau..0.5')
+p2 <- ggplot(distance1, aes(x = rd, y = residuals)) +
+ geom_point() +
+ geom_hline(yintercept = cutoff_h[2], colour = "red") +
+ geom_vline(xintercept = cutoff_v, colour = "red") +
+ geom_text(data = subset(distance1, residuals > cutoff_h[2]|
+                           rd > cutoff_v),
+          aes(label = case), hjust = 0, vjust = 0) +
+ xlab("Robust Distance") +
 }
 \author{
 Wenjing Wang
