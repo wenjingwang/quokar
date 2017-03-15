@@ -1,9 +1,9 @@
 ---
 title: "R Notebook"
 output:
+  pdf_document: default
   html_notebook: default
   html_document: default
-  pdf_document: default
 ---
 
 ## Abstract
@@ -56,7 +56,7 @@ read_chunk('report_code.R')
 ```{r library, message = FALSE}
 ```
 
-```{r high_lm, eval = TRUE, echo = FALSE, fig.height = 3, fig.width = 3, fig.align = "center", fig.cap = "Outliers simulation study of mean regression"}
+```{r high_lm, eval = TRUE, echo = FALSE, fig.height = 3, fig.width = 3, fig.align = "center"}
 
 ```
 
@@ -67,9 +67,6 @@ read_chunk('report_code.R')
 * Simulation study 2: outliers affect regression on low quantile
 
 ```{r low_lm, eval = TRUE, echo = FALSE, fig.height = 3, fig.width = 3, fig.align = "center", fig.cap = "Outliers simulation study of mean regression"}
-
-
-
 ```
 
 ```{r low_rq, eval = TRUE, echo = FALSE, fig.height = 3, fig.width = 3, fig.align = "center", fig.cap = "Outliers simulation study of quantile regression"}
@@ -111,29 +108,9 @@ As to the 'exact fit' character of estimation process of quantile regression, th
 
 We also explored the Australia Sports Institute data to observe if it contains outliers in fitting quantile regression models. This dataset contain 100 observations and 13 variables. We use this data to explore how do LBM, Bfat and Ferr affect the BMI of human body. Based on scatter plot of the responsor and predictor, we got suspicious outlier point 75. And the following results show the changing of fitting lines when leaving this point out.
 
-```{r eval = TRUE, echo = FALSE, fig.height = 3, fig.width = 3, fig.align = "center", fig.cap = "Figure1. Mean Regression"}
+```{r real_data, eval = TRUE, echo = FALSE, fig.height = 3, fig.width = 3, fig.align = "center", fig.cap = "Figure1. Mean Regression"}
 
-data(ais)
-ais_female <- subset(ais, Sex == 1)
-ais_female_o <- ais_female[-75, ]
-ggplot(ais_female, aes(x = LBM, y = BMI)) +
-  geom_point(alpha = 0.1) +
-  geom_smooth(method = "lm", se = FALSE) +
-  geom_smooth(data = ais_female_o, method = "lm", se = FALSE, colour = 'red') +
-  theme(aspect.ratio = 1)
 
-coef1 <- rq(BMI ~ LBM, tau = c(0.1, 0.5, 0.9), data = ais_female, method = "br")$coef
-rq_coef1 <- data.frame(intercept = coef1[1, ], coef = coef1[2, ], tau_flag =                                       colnames(coef1))
-
-coef2 <- rq(BMI ~ LBM, tau = c(0.1, 0.5, 0.9), data = ais_female_o, method = "br")$coef
-rq_coef2 <- data.frame(intercept = coef2[1, ], coef = coef2[2, ], tau_flag =                                       colnames(coef2))
-ggplot(ais_female) +
-  geom_point(aes(x = LBM, y = BMI), alpha = 0.1) +
-  geom_abline(data = rq_coef1, aes(intercept = intercept, 
-                                   slope = coef, colour = tau_flag))+
-  geom_abline(data = rq_coef2, aes(intercept = intercept, 
-                                   slope = coef, colour = tau_flag))+
-  theme(aspect.ratio = 1)
 ```
 
 
@@ -149,12 +126,7 @@ The simplex method for quantile regression fitting is closely related to linear 
 
 Function `frame_br` returns the indice of sample observations used in quantile regression fitting. 
 
-
-
-```{r library,warning=FALSE,message=FALSE}
-```
-
-```{r simplex_method,warning=FALSE,message=FALSE}
+```{r simplex_method, warning=FALSE,message=FALSE}
 ```
 
 

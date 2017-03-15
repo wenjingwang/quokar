@@ -73,7 +73,6 @@ ggplot(df_o) +
 ##---- move_y
 x <- sort(runif(100))
 y <- 40*x + x*rnorm(100, 0, 10)
-#locate the outliers
 selectedX <- sample(50:100,5)
 y2<- y
 y2[selectedX] <- x[1:5]*rnorm(5, 0, 10)
@@ -106,23 +105,6 @@ ggplot(df_mf, aes(x = tau, y = value, colour = model)) +
   facet_wrap(~ variable, scale = "free_y") +
   xlab('quantiles') +
   ylab('coefficients')
-
-##---- lm_case
-coef_lm <- 2:5 %>%
-  map(~ lm(df[, .] ~ x, data = df)) %>%
-  map_df(~ as.data.frame(t(as.matrix(coef(.)))))
-colnames(coef_lm) <- c("intercept", "slope")
-y_axis <- c("y1", "y2", "y3", "y4")
-r <- data.frame(coef_lm, y_axis)
-
-ggplot(df) +
-  geom_point(alpha = 0.01, aes(x = x, y = y)) +
-  geom_abline(data =r, aes(intercept = intercept,
-                           slope = slope, colour = y_axis), size = 1)+
-  scale_colour_brewer()+
-  theme_dark()
-
-
 
 ##---- move_y_multi
 n <- 100
@@ -218,11 +200,29 @@ ggplot(df_m1, aes(x = tau, y = x, colour = model)) +
   xlab('quantile') +
   ylab('coefficients')
 
-##---- simplex_method
+##---- real_data
 data(ais)
-head(ais)
+ais_female <- subset(ais, Sex == 1)
+ais_female_o <- ais_female[-75, ]
+ggplot(ais_female, aes(x = LBM, y = BMI)) +
+  geom_point(alpha = 0.1) +
+  geom_smooth(method = "lm", se = FALSE) +
+  geom_smooth(data = ais_female_o, method = "lm", se = FALSE, colour = 'red')
+
+coef1 <- rq(BMI ~ LBM, tau = c(0.1, 0.5, 0.9), data = ais_female, method = "br")$coef
+rq_coef1 <- data.frame(intercept = coef1[1, ], coef = coef1[2, ], tau_flag = colnames(coef1))
+coef2 <- rq(BMI ~ LBM, tau = c(0.1, 0.5, 0.9), data = ais_female_o, method = "br")$coef
+rq_coef2 <- data.frame(intercept = coef2[1, ], coef = coef2[2, ], tau_flag = colnames(coef2))
+ggplot(ais_female) +
+  geom_point(aes(x = LBM, y = BMI), alpha = 0.1) +
+  geom_abline(data = rq_coef1, aes(intercept = intercept,
+                                   slope = coef, colour = tau_flag))+
+  geom_abline(data = rq_coef2, aes(intercept = intercept,
+                                   slope = coef, colour = tau_flag))
+
+##---- simplex_method
 tau <- c(0.1, 0.5, 0.9)
-ais_female <- ais[103:202, ]
+ais_female <- subset(ais, Sex == 1)
 
 br <- rq(BMI ~ LBM, tau = tau, data = ais_female, method = 'br')
 coef <- br$coef
@@ -375,7 +375,7 @@ ggplot(ald_data) +
     ylab('Asymmetric Laplace Distribution Density Function')
 
 ##---- Residual_Robust
-ais_female <- ais[103:202, ]
+ais_female <- subset(ais, Sex == 1)
 tau <- c(0.1, 0.5, 0.9)
 object <- rq(BMI ~ LBM + Bfat, data = ais_female, tau = tau)
 plot_distance <- frame_distance(object, tau = c(0.1, 0.5, 0.9))
@@ -427,7 +427,7 @@ grid.arrange(p1, p2, p3, ncol = 3)
 
 ##---- GCD
 ##generalized cook distance
-ais_female <- ais[103:202, ]
+ais_female <- subset(ais, Sex == 1)
 y <- ais_female$BMI
 x <- cbind(1, ais_female$LBM, ais_female$Bfat)
 tau <- c(0.1, 0.5, 0.9)
@@ -455,8 +455,7 @@ ggplot(QD_m, aes(x = case, y = value)) +
     xlab('case number') +
     ylab('Qfunction Distance')
 ##---- BP
-ais_female <- ais[103:202, ]
-
+ais_female <- subset(ais, Sex == 1)
 y <- ais_female$BMI
 x <- matrix(c(ais_female$LBM, ais_female$Bfat), ncol = 2, byrow = FALSE)
 tau <- c(0.1, 0.5, 0.9)
