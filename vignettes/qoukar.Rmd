@@ -3,6 +3,7 @@ title: "`quokar`: R package for quantile regression outlier diagnostic"
 author: "Wenjing Wang"
 date: "2017年3月15日"
 output: html_document
+fig_caption: yes
 ---
 
 ## Abstract
