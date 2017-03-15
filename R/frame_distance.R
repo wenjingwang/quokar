@@ -1,6 +1,6 @@
 #' @title Function to compute robust distance and draw residual-robust
 #' distance plot to diagnose outliers
-#' @param object quantile regression model using 'br' or 'fn' method
+#' @param object quantile regression model
 #' @param tau quantile regression
 #'
 #' @details The generalized MCD algorithm based on the fast-MCD
@@ -48,18 +48,18 @@
 #' library(tidyr)
 #' library(robustbase)
 #' tau = c(0.1, 0.5, 0.9)
-#'ais_female <- ais[103:202, ]
-#'object <- rq(BMI ~ LBM + Ht, data = ais_female, tau = tau)
-#'plot_distance <- frame_distance(object, tau = c(0.1, 0.5, 0.9))
-#'distance <- plot_distance[[1]]
-#'cutoff_v <- plot_distance[[2]]
-#'cutoff_h <- plot_distance[[3]]
-#'n <- nrow(object$model)
-#'case <- rep(1:n, length(tau))
-#'distance <- cbind(case, distance)
-#'distance$residuals <- abs(distance$residuals)
-#'distance1 <- distance %>% filter(tau_flag == 'tau..0.1')
-#'p1 <- ggplot(distance1, aes(x = rd, y = residuals)) +
+#' ais_female <- subset(ais, Sex == 1)
+#' object <- rq(BMI ~ LBM + Ht, data = ais_female, tau = tau)
+#' plot_distance <- frame_distance(object, tau = c(0.1, 0.5, 0.9))
+#' distance <- plot_distance[[1]]
+#' cutoff_v <- plot_distance[[2]]
+#' cutoff_h <- plot_distance[[3]]
+#' n <- nrow(object$model)
+#' case <- rep(1:n, length(tau))
+#' distance <- cbind(case, distance)
+#' distance$residuals <- abs(distance$residuals)
+#' distance1 <- distance %>% filter(tau_flag == 'tau..0.1')
+#' p1 <- ggplot(distance1, aes(x = rd, y = residuals)) +
 #'  geom_point() +
 #'  geom_hline(yintercept = cutoff_h[1], colour = "red") +
 #'  geom_vline(xintercept = cutoff_v, colour = "red") +
@@ -68,27 +68,27 @@
 #'            aes(label = case), hjust = 0, vjust = 0) +
 #'  xlab("Robust Distance") +
 #'  ylab("|Residuals|")
-#'distance2 <- distance %>% filter(tau_flag == 'tau..0.5')
-#'p2 <- ggplot(distance1, aes(x = rd, y = residuals)) +
+#' distance2 <- distance %>% filter(tau_flag == 'tau..0.5')
+#' p2 <- ggplot(distance1, aes(x = rd, y = residuals)) +
 #'  geom_point() +
 #'  geom_hline(yintercept = cutoff_h[2], colour = "red") +
 #'  geom_vline(xintercept = cutoff_v, colour = "red") +
 #'  geom_text(data = subset(distance1, residuals > cutoff_h[2]|
 #'                            rd > cutoff_v),
-#'            aes(label = case), hjust = 0, vjust = 0) +
+#'           aes(label = case), hjust = 0, vjust = 0) +
 #'  xlab("Robust Distance") +
-#'  ylab("|Residuals|")
-#'distance3 <- distance %>% filter(tau_flag == 'tau..0.9')
-#'p3 <- ggplot(distance1, aes(x = rd, y = residuals)) +
-#'  geom_point() +
-#'  geom_hline(yintercept = cutoff_h[3], colour = "red") +
-#'  geom_vline(xintercept = cutoff_v, colour = "red") +
-#'  geom_text(data = subset(distance1, residuals > cutoff_h[3]|
-#'              rd > cutoff_v),
-#'          aes(label = case), hjust = 0, vjust = 0) +
-#'xlab("Robust Distance") +
-#'  ylab("|Residuals|")
-#'grid.arrange(p1, p2, p3, ncol = 3)
+#  ylab("|Residuals|")
+# distance3 <- distance %>% filter(tau_flag == 'tau..0.9')
+# p3 <- ggplot(distance1, aes(x = rd, y = residuals)) +
+#  geom_point() +
+#  geom_hline(yintercept = cutoff_h[3], colour = "red") +
+#  geom_vline(xintercept = cutoff_v, colour = "red") +
+#  geom_text(data = subset(distance1, residuals > cutoff_h[3]|
+#              rd > cutoff_v),
+#          aes(label = case), hjust = 0, vjust = 0) +
+# xlab("Robust Distance") +
+#  ylab("|Residuals|")
+# grid.arrange(p1, p2, p3, ncol = 3)
 
 
 frame_distance <- function(object, tau){
@@ -121,7 +121,6 @@ frame_distance <- function(object, tau){
       cutoff_h[i] <- median(abs(resid[,i])/qnorm(p=0.75, mean=0, sd = 1))
    }
     cutoff_h <- 5*cutoff_h
-    ##data set for plotting
     rd_m <- data.frame(md, rd, resid)
     rd_f <- rd_m %>% gather(tau_flag, residuals, -md, -rd)
     return(list("Distance" = rd_f, "Vertical Cutoff" = cutoff_v,
