@@ -118,13 +118,13 @@ We also explored the Australia Sports Institute data to observe if it contains o
 ```
 
 
-### How does quantile regression work: observations used in quantile regression fitting
+## How does quantile regression work: observations used in quantile regression fitting
 
 Basically, quantile regression has no distribution assummptions on its error term. Computation of quantile regression estimators may be formulated as a linear programming problem and efficiently solved by simplex or barrier methods. The former is used for relative small sample size $n < 1000$, while the latter can deal with large sample size data. 
 
 Both methods can be conviniently applied to get quantile regression estimators using package `quantreg`. While unfortunately, related functions do not provide detailed results on how do these algorithms working, and different observations used when fitting different quantiles remained in the blackbox. In this section, we introduce functions in quokar aimed to unfold the blackbox of the fitting process of quantile regression, and visualize the results to offer a much easier way to understand those algorithms.
 
-#### Simplex Method: exact-fit
+### Simplex Method: exact-fit
 
 The simplex method for quantile regression fitting is closely related to linear programming and typically yields a solution on the vertax of the solution polygon. The 'exact-fit' property of simplex method may confuse people for considering the reliability of quantile regression model for its ignoring so many observations in the dataset. While those data not used in getting the final estimation result are involved in locating the optimum vertax.
 
@@ -160,7 +160,7 @@ We display the weighting result in R using function nlrq.
 ```
 
 
-## Quantile regression using asymmetric laplace distribution
+### Quantile regression using asymmetric laplace distribution
 
 Komunjej(2005) noted that likelihood should belong a tick-exponential family. Some researchers use asymmetric laplace distribution as the assumption distribution of quatnile regression model, which produced different ways of estimating model coefficients. The estimation method 
 
@@ -284,3 +284,14 @@ The outliers should show a high probability value for this divergence. We comput
 ```{r BKL1,warning=FALSE,message=FALSE, fig.height = 3, fig.width = 3, fig.align = "center", fig.cap = "Figure Kullback and Leibler Divergence"}
 
 ```
+
+## Conclusions
+
+Package `quokar` aimed to provide outlier diagnostic tools for quantile regression using R. It also explored the fitting algorithms used in quantile regression and demonstrated some visualization examples to help understand this blackbox. We also provided useful tools for model visulization using GGobi in our further research. There are more work need to be done for the diagnositc of quantile regression model, expecially for high-dimensional case and extreme high quantiles. 
+
+
+
+
+
+
+
