@@ -46,39 +46,50 @@
 #' library(purrr)
 #' library(robustbase)
 #' library(tidyr)
-#' data(ais)
+#' library(robustbase)
 #' tau = c(0.1, 0.5, 0.9)
-#' object <- rq(BMI ~ LBM + Ht, data = ais, tau = tau)
-#' plot_distance <- frame_distance(object, tau = c(0.1, 0.5, 0.9))
-#' distance <- plot_distance[[1]]
-#' cutoff_v <- plot_distance[[2]]
-#' cutoff_h <- plot_distance[[3]]
-#' n <- nrow(object$model)
-#' case <- rep(1:n, length(tau))
-#' distance <- cbind(case, distance)
-#' ggplot(distance, aes(x = rd, y = value)) +
-#'    geom_point() +
-#'    geom_vline(xintercept = cutoff_v, colour = "red") +
-#'    geom_hline(yintercept = cutoff_h, colour = "red") +
-#'    facet_wrap(~ tau_flag, scale = 'free_x') +
-#'    geom_text(data = subset(distance, value > cutoff_h[1] |
-#'                                      value < cutoff_h[2] |
-#'                                      rd > cutoff_v),
-#'              aes(label = case)) +
-#'    xlab("Robust Distance") +
-#'    ylab("Residuals")
+#'ais_female <- ais[103:202, ]
+#'object <- rq(BMI ~ LBM + Ht, data = ais_female, tau = tau)
+#'plot_distance <- frame_distance(object, tau = c(0.1, 0.5, 0.9))
+#'distance <- plot_distance[[1]]
+#'cutoff_v <- plot_distance[[2]]
+#'cutoff_h <- plot_distance[[3]]
+#'n <- nrow(object$model)
+#'case <- rep(1:n, length(tau))
+#'distance <- cbind(case, distance)
+#'distance$residuals <- abs(distance$residuals)
+#'distance1 <- distance %>% filter(tau_flag == 'tau..0.1')
+#'p1 <- ggplot(distance1, aes(x = rd, y = residuals)) +
+#'  geom_point() +
+#'  geom_hline(yintercept = cutoff_h[1], colour = "red") +
+#'  geom_vline(xintercept = cutoff_v, colour = "red") +
+#'  geom_text(data = subset(distance1, residuals > cutoff_h[1]|
+#'                            rd > cutoff_v),
+#'            aes(label = case), hjust = 0, vjust = 0) +
+#'  xlab("Robust Distance") +
+#'  ylab("|Residuals|")
+#'distance2 <- distance %>% filter(tau_flag == 'tau..0.5')
+#'p2 <- ggplot(distance1, aes(x = rd, y = residuals)) +
+#'  geom_point() +
+#'  geom_hline(yintercept = cutoff_h[2], colour = "red") +
+#'  geom_vline(xintercept = cutoff_v, colour = "red") +
+#'  geom_text(data = subset(distance1, residuals > cutoff_h[2]|
+#'                            rd > cutoff_v),
+#'            aes(label = case), hjust = 0, vjust = 0) +
+#'  xlab("Robust Distance") +
+#'  ylab("|Residuals|")
+#'distance3 <- distance %>% filter(tau_flag == 'tau..0.9')
+#'p3 <- ggplot(distance1, aes(x = rd, y = residuals)) +
+#'  geom_point() +
+#'  geom_hline(yintercept = cutoff_h[3], colour = "red") +
+#'  geom_vline(xintercept = cutoff_v, colour = "red") +
+#'  geom_text(data = subset(distance1, residuals > cutoff_h[3]|
+#'              rd > cutoff_v),
+#'          aes(label = case), hjust = 0, vjust = 0) +
+#'xlab("Robust Distance") +
+#'  ylab("|Residuals|")
+#'grid.arrange(p1, p2, p3, ncol = 3)
 
-#' ggplot(distance, aes(x = md, y = value)) +
-#'    geom_point() +
-#'    geom_vline(xintercept = cutoff_v, colour = "red") +
-#'    geom_hline(yintercept = cutoff_h, colour = "red") +
-#'    facet_wrap(~ tau_flag, scale = 'free_x') +
-#'    geom_text(data = subset(distance, value > cutoff_h[1] |
-#'                                      value < cutoff_h[2] |
-#'                                      rd > cutoff_v),
-#'              aes(label = case)) +
-#'    xlab("Mahalanobis Distance") +
-#'    ylab("Residuals")
 
 frame_distance <- function(object, tau){
     x <- apply(as.matrix(object$model[, -1]), 2, as.numeric)
@@ -104,20 +115,18 @@ frame_distance <- function(object, tau){
        rd[i] <- sqrt(matrix(mid_r, nrow = 1)%*%solve(Cx)%*%matrix(mid_r,ncol = 1))
     }
     rd <- matrix(rd, ncol = 1)
-    cutoff_v <- qchisq(p = 0.975, df = p)
-    cutoff_h <- c(-2.5, 2.5)
+    cutoff_v <- sqrt(qchisq(p = 0.975, df = p))
+    cutoff_h <- rep(0, 3)
+   for(i in 1:3){
+      cutoff_h[i] <- median(abs(resid[,i])/qnorm(p=0.75, mean=0, sd = 1))
+   }
+    cutoff_h <- 5*cutoff_h
     ##data set for plotting
     rd_m <- data.frame(md, rd, resid)
-    rd_f <- rd_m %>% gather(tau_flag, value, -md, -rd)
+    rd_f <- rd_m %>% gather(tau_flag, residuals, -md, -rd)
     return(list("Distance" = rd_f, "Vertical Cutoff" = cutoff_v,
            "Horizental Cutoff" = cutoff_h))
 }
-
-
-
-
-
-
 
 
 
