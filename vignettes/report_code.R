@@ -8,7 +8,8 @@ library(tidyr)
 library(dplyr)
 library(robustbase)
 
-##---- high_lm
+
+## ---- high_lm1
 x <- sort(runif(100))
 y1 <- 40*x + x*rnorm(100, 0, 10)
 df <- data.frame(y1, x)
@@ -25,7 +26,7 @@ ggplot(df_o, aes(x = x, y = y1)) +
   geom_abline(data = line_lm, aes(intercept = inter_lm,
                                   slope = coeff_lm, colour = flag))
 
-##---- high_rq
+## ---- high_rq1
 coef1 <- rq(y1 ~ x, tau = c(0.1, 0.5, 0.9), data = df, method = "br")$coef
 rq_coef1 <- data.frame(intercept = coef1[1, ], coef = coef1[2, ], tau_flag =                                       colnames(coef1))
 
@@ -38,8 +39,8 @@ ggplot(df_o) +
   geom_abline(data = rq_coef2, aes(intercept = intercept,
                                    slope = coef, colour = tau_flag))
 
-##---- low_lm
 
+## ---- low_lm1
 x <- sort(runif(100))
 y2 <- 40*x + x*rnorm(100, 0, 10)
 df <- data.frame(y2, x)
@@ -56,13 +57,13 @@ ggplot(df_o, aes(x = x, y = y2)) +
   geom_abline(data = line_lm, aes(intercept = inter_lm,
                                   slope = coeff_lm, colour = flag))
 
-##---- low_rq
+## ---- low_rq1
 
 coef1 <- rq(y2 ~ x, tau = c(0.1, 0.5, 0.9), data = df, method = "br")$coef
-rq_coef1 <- data.frame(intercept = coef1[1, ], coef = coef1[2, ], tau_flag =                                       colnames(coef1))
+rq_coef1 <- data.frame(intercept = coef1[1, ], coef = coef1[2, ], tau_flag = colnames(coef1))
 
 coef2 <- rq(y2 ~ x, tau = c(0.1, 0.5, 0.9), data = df_o, method = "br")$coef
-rq_coef2 <- data.frame(intercept = coef2[1, ], coef = coef2[2, ], tau_flag =                                       colnames(coef2))
+rq_coef2 <- data.frame(intercept = coef2[1, ], coef = coef2[2, ], tau_flag = colnames(coef2))
 ggplot(df_o) +
   geom_point(aes(x = x, y = y2), alpha = 0.1) +
   geom_abline(data = rq_coef1, aes(intercept = intercept,
@@ -70,7 +71,7 @@ ggplot(df_o) +
   geom_abline(data = rq_coef2, aes(intercept = intercept,
                                    slope = coef, colour = tau_flag))
 
-##---- move_y
+## ---- move_y1
 x <- sort(runif(100))
 y <- 40*x + x*rnorm(100, 0, 10)
 selectedX <- sample(50:100,5)
@@ -106,7 +107,7 @@ ggplot(df_mf, aes(x = tau, y = value, colour = model)) +
   xlab('quantiles') +
   ylab('coefficients')
 
-##---- move_y_multi
+## ---- move_y_multi1
 n <- 100
 set.seed(101)
 x1 <- sort(rnorm(n, 0, 1))
@@ -134,7 +135,7 @@ ggplot(df_mf, aes(x = tau, y = value, colour = model)) +
   facet_wrap(~ variable, scale = "free_y") +
   xlab('quantiles') +
   ylab('coefficients')
-##---- move_x
+## ---- move_x1
 x <- sort(runif(100))
 y <- 40*x + x*rnorm(100, 0, 10)
 selectedIdx <- sample(50:100,5)
@@ -170,7 +171,10 @@ ggplot(df_mf, aes(x = tau, y = value, colour = model)) +
   facet_wrap(~ variable, scale = "free_y") +
   xlab('quantiles') +
   ylab('coefficients')
-##---- outlier_number
+
+## ---- outlier_number1
+x <- sort(runif(100))
+y <- 40*x + x*rnorm(100, 0, 10)
 selectedX1 <- sample(50:100, 5)
 y_number_y1 <- y
 y_number_y1[selectedX1] <- x[1:5]*rnorm(5, 0, 10)
@@ -200,14 +204,20 @@ ggplot(df_m1, aes(x = tau, y = x, colour = model)) +
   xlab('quantile') +
   ylab('coefficients')
 
-##---- real_data
+## ---- real_data1
 data(ais)
 ais_female <- subset(ais, Sex == 1)
 ais_female_o <- ais_female[-75, ]
+coef1 <- lm(BMI ~ LBM, data = ais_female)$coef
+coef2 <- lm(BMI ~ LBM, data = ais_female_o)$coef
+coefs <- c(coef1[2], coef2[2])
+inters <- c(coef1[1], coef2[1])
+flag <- c("with-outlier", "without-outlier")
+coef_o <- data.frame(coefs, inters, flag)
 ggplot(ais_female, aes(x = LBM, y = BMI)) +
   geom_point(alpha = 0.1) +
-  geom_smooth(method = "lm", se = FALSE) +
-  geom_smooth(data = ais_female_o, method = "lm", se = FALSE, colour = 'red')
+  geom_abline(data = coef_o, aes(intercept = inters, slope = coefs,
+                                 colour = flag))
 
 coef1 <- rq(BMI ~ LBM, tau = c(0.1, 0.5, 0.9), data = ais_female, method = "br")$coef
 rq_coef1 <- data.frame(intercept = coef1[1, ], coef = coef1[2, ], tau_flag = colnames(coef1))
@@ -220,16 +230,14 @@ ggplot(ais_female) +
   geom_abline(data = rq_coef2, aes(intercept = intercept,
                                    slope = coef, colour = tau_flag))
 
-##---- simplex_method
+## ---- simplex_method1
 tau <- c(0.1, 0.5, 0.9)
 ais_female <- subset(ais, Sex == 1)
-
 br <- rq(BMI ~ LBM, tau = tau, data = ais_female, method = 'br')
 coef <- br$coef
 br_result <- frame_br(br, tau)
 origin_obs <- br_result$all_observation
 use_obs <- br_result$fitting_point
-
 ggplot(origin_obs,
     aes(x = value, y = y)) +
     geom_point(alpha = 0.1) +
@@ -264,14 +272,12 @@ ggplot(origin_obs,
                                  shape = obs))
 
 
-##---- fn_method
+## ---- fn_method1
 tau <- c(0.1, 0.5, 0.9)
 fn <- rq(BMI ~ LBM, data = ais_female, tau = tau, method = 'fn')
 fn_obs <- frame_fn_obs(fn, tau)
 head(fn_obs)
 
-##For tau = 0.1, plot the observations used in quantile regression
-##fitting based on interior point method
 fn1 <- fn_obs[,1]
 case <- 1: length(fn1)
 fn1 <- cbind(case, fn1)
@@ -287,8 +293,6 @@ p1 <- ggplot(m_f, aes(x = value, y = y)) +
   geom_point(data = mf_a, size = 3, colour = "purple") +
   facet_wrap(~variable, scale = "free_x") +
   xlab("x")
- ## For tau = 0.5, plot the observations used in quantile regression
- ##fitting based on interior point method
  fn2 <- fn_obs[,2]
  case <- 1: length(fn2)
  fn2 <- cbind(case, fn2)
@@ -305,7 +309,6 @@ p1 <- ggplot(m_f, aes(x = value, y = y)) +
     geom_point(data = mf_a, size = 3, colour = "blue", alpha = 0.5) +
     facet_wrap(~variable, scale = "free_x") +
     xlab("x")
- ## For tau = 0.9
  fn3 <- fn_obs[ ,3]
  case <- 1: length(fn3)
  fn3 <- cbind(case, fn3)
@@ -324,7 +327,7 @@ p1 <- ggplot(m_f, aes(x = value, y = y)) +
    xlab("x")
  grid.arrange(p1, p2, p3, ncol = 1)
 
-##display the weighting matrix
+## --- fn_weights1
  tau <- c(0.1, 0.5, 0.9)
  fn <- rq(BMI ~ LBM, data = ais_female, tau = tau, method = 'fn')
  fn_obs <- frame_fn_obs(fn, tau)
@@ -348,7 +351,7 @@ p1 <- ggplot(m_f, aes(x = value, y = y)) +
    geom_text(aes(label = id), hjust = 0, vjust= 0)+
    facet_wrap( ~ type,scale="free_y")
 
-##---- frame_nlrq
+## ---- frame_nlrq1
 x <- rep(1:25, 20)
 y <- SSlogis(x, 10, 12, 2) * rnorm(500, 1, 0.1)
 Dat <- data.frame(x = x, y = y)
@@ -361,10 +364,9 @@ ggplot(m_f, aes(x = x, y = y, colour = tau_flag)) +
   geom_point(aes(size = value), alpha = 0.5) +
   facet_wrap(~tau_flag)
 
-##---- ALD
-data(ais)
-x <- matrix(ais$LBM, ncol = 1)
-y <- ais$BMI
+## ---- ALD1
+x <- matrix(ais_female$LBM, ncol = 1)
+y <- ais_female$BMI
 tau = c(0.1, 0.5, 0.9)
 ald_data <- frame_ald(y, x, tau, smooth = 10, error = 1e-6,
                    iter = 2000)
@@ -374,7 +376,7 @@ ggplot(ald_data) +
     xlab('') +
     ylab('Asymmetric Laplace Distribution Density Function')
 
-##---- Residual_Robust
+## ---- Residual_Robust1
 ais_female <- subset(ais, Sex == 1)
 tau <- c(0.1, 0.5, 0.9)
 object <- rq(BMI ~ LBM + Bfat, data = ais_female, tau = tau)
@@ -425,8 +427,7 @@ xlab("Robust Distance") +
 grid.arrange(p1, p2, p3, ncol = 3)
 
 
-##---- GCD
-##generalized cook distance
+## ----GCD1
 ais_female <- subset(ais, Sex == 1)
 y <- ais_female$BMI
 x <- cbind(1, ais_female$LBM, ais_female$Bfat)
@@ -443,7 +444,7 @@ ggplot(GCD_m, aes(x = case, y = value )) +
     xlab("case number") +
     ylab("Generalized Cook Distance")
 
-##---- QD
+## ---- QD1
 QD <- frame_mle(y, x, tau, error = 1e-06, iter = 100,
                   method = 'qfunction')
 QD_m <- cbind(case, QD)
@@ -454,7 +455,7 @@ ggplot(QD_m, aes(x = case, y = value)) +
             aes(label = case), hjust = 0, vjust = 0) +
     xlab('case number') +
     ylab('Qfunction Distance')
-##---- BP
+## ---- BP1
 ais_female <- subset(ais, Sex == 1)
 y <- ais_female$BMI
 x <- matrix(c(ais_female$LBM, ais_female$Bfat), ncol = 2, byrow = FALSE)
@@ -467,13 +468,12 @@ prob_m <- cbind(case, prob)
 ggplot(prob_m, aes(x = case, y = value )) +
    geom_point() +
    facet_wrap(~variable, scale = 'free') +
-  geom_text(data = subset(prob_m, value > mean(value) + 3*sd(value)),
+  geom_text(data = subset(prob_m, value > mean(value) + 2*sd(value)),
             aes(label = case), hjust = 0, vjust = 0) +
    xlab("case number") +
    ylab("Mean probability of posterior distribution")
 
-##---- BKL
-tau <- c(0.1, 0.5, 0.9)
+## ---- BKL1
 kl <- frame_bayes(y, x, tau, M = 100,
                   method = 'bayes.kl')
 kl_m <- cbind(case, kl)
