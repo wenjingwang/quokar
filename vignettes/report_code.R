@@ -91,6 +91,8 @@ ggplot(df_m, aes(x = x, y=value)) +
   geom_quantile(quantiles = seq(0.1, 0.9, 0.1), colour = "purple") +
   geom_smooth(method = "lm", se = FALSE, colour = "orange")
 
+
+## ---- move_y1_coef
 coefs <- 2:5 %>%
   map(~ rq(df[, .] ~ x, data = df, seq(0.1, 0.9, 0.1))) %>%
   map_df(~ as.data.frame(t(as.matrix(coef(.)))))
@@ -157,6 +159,7 @@ ggplot(df_m, aes(x = value, y=y2)) +
   facet_wrap(~variable, ncol=2, scale = "free") +
   geom_quantile(quantiles = seq(0.1, 0.9, 0.1))
 
+## ---- move_x1_coef
 coefs <- 3:6 %>%
   map(~ rq(df$y2 ~ df[, .], data = df, seq(0.1, 0.9, 0.1))) %>%
   map_df(~ as.data.frame(t(as.matrix(coef(.)))))
@@ -192,19 +195,8 @@ ggplot(df_m, aes(x=x, y=value)) +
   ylab("y") +
   facet_wrap(~variable, ncol=2) +
   geom_quantile(quantiles = seq(0.1, 0.9, 0.1))
-coefs <- 2:5 %>%
-  map(~ rq(df[, .] ~ x, data = df, seq(0.1, 0.9, 0.1))) %>%
-  map_df(~ as.data.frame(t(as.matrix(coef(.)))))
-tau <- rep(seq(0.1, 0.9, by = 0.1), 4)
-model <- paste('rq', rep(1:4, each = 9), sep="")
-df_m1 <- data.frame(cbind(model, tau, coefs))
-ggplot(df_m1, aes(x = tau, y = x, colour = model)) +
-  geom_point() +
-  geom_line() +
-  xlab('quantile') +
-  ylab('coefficients')
 
-## ---- real_data1
+## ---- real_data1_lm
 data(ais)
 ais_female <- subset(ais, Sex == 1)
 ais_female_o <- ais_female[-75, ]
@@ -219,6 +211,8 @@ ggplot(ais_female, aes(x = LBM, y = BMI)) +
   geom_abline(data = coef_o, aes(intercept = inters, slope = coefs,
                                  colour = flag))
 
+
+## ---- real_data1_rq
 coef1 <- rq(BMI ~ LBM, tau = c(0.1, 0.5, 0.9), data = ais_female, method = "br")$coef
 rq_coef1 <- data.frame(intercept = coef1[1, ], coef = coef1[2, ], tau_flag = colnames(coef1))
 coef2 <- rq(BMI ~ LBM, tau = c(0.1, 0.5, 0.9), data = ais_female_o, method = "br")$coef
@@ -254,6 +248,8 @@ ggplot(origin_obs,
                                         group = tau_flag,
                                         colour = tau_flag,
                                         shape = obs))
+
+## ---- simplex_method1_multi
 
 br <- rq(BMI ~ LBM + Bfat , tau = tau, data = ais_female, method = 'br')
 tau <- c(0.1, 0.5, 0.9)
@@ -325,7 +321,7 @@ p1 <- ggplot(m_f, aes(x = value, y = y)) +
    geom_point(data = mf_a, size = 3, colour = "orange") +
    facet_wrap(~variable, scale = "free_x") +
    xlab("x")
- grid.arrange(p1, p2, p3, ncol = 1)
+ grid.arrange(p1, p2, p3, ncol = 3)
 
 ## --- fn_weights1
  tau <- c(0.1, 0.5, 0.9)
@@ -461,7 +457,7 @@ y <- ais_female$BMI
 x <- matrix(c(ais_female$LBM, ais_female$Bfat), ncol = 2, byrow = FALSE)
 tau <- c(0.1, 0.5, 0.9)
 case <- rep(1:length(y), length(tau))
-prob <- frame_bayes(y, x, tau, M =  2000,
+prob <- frame_bayes(y, x, tau, M =  100,
                  method = 'bayes.prob')
 
 prob_m <- cbind(case, prob)

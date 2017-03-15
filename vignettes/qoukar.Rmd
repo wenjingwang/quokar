@@ -1,14 +1,11 @@
 ---
-title: "R Notebook"
-output:
-  html_document: default
-  html_notebook: default
-  pdf_document: default
+title: "`quokar`: R package for quantile regression outlier diagnostic"
+author: "Wenjing Wang"
+date: "2017年3月15日"
+output: html_document
 ---
 
 ## Abstract
-
-Quantile regression has a long history 
 
 Extensive toolbox for estimation and inference about quantile regression has been developed in the past decades. Recently tools for quantile regresion model diagnostic are studied by researchers. An implementation of outlier diagnostic methods in R language now is available in the package `quokar`. This vignette offers a brief tutorial introduction to the package. Package `quokar` is open-source and can be freely downloaded from Github: http://www.github.com/wenjingwang/quokar.
 
@@ -46,7 +43,7 @@ In mean regression practice, we fits one model on the mean of responsor using on
 
 In two simple simulation studies, we generate 100 sample observation and 3 outliers. The outliers are distributed in two locations in each case. We fitted mean regression and quantile regression based on these dataset to observe how do the outliers affect model coefficients. The results show that different quantile estimations are affected by outliers differently, and the location of outliers matters.
 
-* Outliers affect regression on high quantile
+### Outliers affect regression on high quantile
 
 ```{r include = FALSE}
 library(knitr)
@@ -56,38 +53,42 @@ read_chunk('report_code.R')
 ```{r library, message = FALSE}
 ```
 
-```{r high_lm1, eval=TRUE, echo=TRUE, fig.align="center", fig.height=3, fig.width=3, fig.cap = "Case 1 outliers simulation study of mean regression"}
+```{r high_lm1, eval=TRUE, echo=TRUE, fig.align="center", fig.height=2.5, fig.width=4, fig.cap = "Fitting mean regression model $BMI~LBM$ using simulated datasets with and without outliers. The outliers are located at the top-left of the original dataset. Results show that outliers pull up the slope of the regression line."}
 
 ```
 
-```{r high_rq1, eval = TRUE, echo = TRUE, fig.height = 3, fig.width = 3, fig.align = "center", fig.cap = "Case 1 outliers simulation study of quantile regression"}
+```{r high_rq1, eval = TRUE, echo = TRUE, fig.height = 3, fig.width = 4, fig.align = "center", fig.cap = "Fitting quantile regression model $BMI~LBM$ on quantile 0.1, 0.5 and 0.9 using simulated datasets with and without outliers. The outliers are located at the top-left of the original dataset. Results show that outliers pull up the slope of the 0.9 and 0.1 regression line."}
 
 ```
 
-* Outliers affect regression on low quantile
+### Outliers affect regression on low quantile
 
-```{r low_lm1, eval = TRUE, echo = TRUE, fig.height = 3, fig.width = 3, fig.align = "center", fig.cap = "Case 2 outliers simulation study of mean regression"}
+```{r low_lm1, eval = TRUE, echo = TRUE, fig.height = 2.5, fig.width = 4, fig.align = "center", fig.cap = "Fitting mean regression model $BMI~LBM$ using simulated datasets with and without outliers. The outliers are located at the bottom-right of the original dataset. Results show that outliers pull down the slope of the regression line."}
 
 ```
 
-```{r low_rq1, eval = TRUE, echo = TRUE, fig.height = 3, fig.width = 3, fig.align = "center", fig.cap = "Case 2 outliers simulation study of quantile regression"}
-
+```{r low_rq1, eval = TRUE, echo = TRUE, fig.height = 3, fig.width = 4, fig.align = "center", fig.cap = "Fitting quantile regression model $BMI~LBM$ on quantile 0.1, 0.5 and 0.9 using simulated datasets with and without outliers. The outliers are located at the bottom-right of the original dataset. Results show that outliers pull down the slope of the 0.1 regression line."}
 
 ```
 
 We also do simulation one step further with different pattern of outliers. First, we generate original dataset, and condaminate the data with outliers. Second, we change the location of outliers or add outliers numbers to observe how they affect coeficient estimations on each quantile. These simulation studies are extended to multi-variables model.
 
-* Outliers moving in y direction
+### Outliers moving in y direction
 
 Using the simulated data to construct quantile regression model. By comparing the four models, we have a brief idea of the effect of outliers' location. The results show that when outliers moving down in y direction for 10 unit, it pulls down the slope on every quantile(comparing the result of model rq(y1~x) and rq(y2~x)). However, keeping moving down the outliers does no change to the slopes.
 
-```{r move_y1,warning=FALSE,message=FALSE, eval = TRUE, echo = FALSE, fig.height = 3, fig.width = 3, fig.align = "center", fig.cap = "Move in y-direction"}
+```{r move_y1,warning=FALSE,message=FALSE, eval = TRUE, echo = FALSE, fig.height = 4, fig.width = 4, fig.align = "center", fig.cap = "Fitting quantile regression models using simulated data. We keep moving down the outliers in y direction in y2 (y-5), y3 (y-10) and y4 (y-15)."}
+
+```
+
+To observe how the outliers 
+```{r move_y1_coef,warning=FALSE,message=FALSE, eval = TRUE, echo = FALSE, fig.height = 3, fig.width = 6, fig.align = "center", fig.cap = "Fitting quantile regression models using simulated data. We keep moving down the outliers in y direction getting datasets with variable y2 (=y-5), y3 (=y-10) and y4 (=y-15). Results show that in single predictor case, outliers moving down in y make no difference to the quantile regression coefficients estimations"}
 
 ```
 
 We also observed the change of coefficients in multi-variable model. The results show that coefficients changes slowly when keep moving down the outliers in y-direction.
 
-```{r move_y_multi1,warning=FALSE,message=FALSE, eval = TRUE, echo = FALSE, fig.height = 3, fig.width = 3, fig.align = "center", fig.cap = "Move in y-direction Multi-variable Case"}
+```{r move_y_multi1,warning=FALSE,message=FALSE, eval = TRUE, echo = FALSE, fig.height = 3, fig.width = 8, fig.align = "center", fig.cap = "Fitting quantile regression models using simulated data. We keep moving down the outliers in y direction getting three datasets with different locations of outliers (changing in y-aixs, y2 (=y-5), y3 (=y-10) and y4 (=y-15)). Results show that in multi predictors case, outliers moving down in y make small change to the quantile regression coefficients estimations"}
 
 ```
 
@@ -95,7 +96,12 @@ We also observed the change of coefficients in multi-variable model. The results
 
 If moving outliers in same pattern moving on x direction, slopes change every time outlier moves. To go further, each move does different effect on different quantiles.
 
-```{r move_x1,warning=FALSE,message=FALSE, fig.height = 3, fig.width = 3, fig.align = "center", fig.cap = "Move in x-direction"}
+```{r move_x1,warning=FALSE,message=FALSE, fig.height = 4, fig.width = 4, fig.align = "center", fig.cap = "Fitting quantile regression models using simulated data. We keep moving the outliers to the right in x direction getting three datasets with different locations of outliers (changing in x-aixs, x2 (=x+0.2), x3 (=x+0.4) and x4 (=x+0.6))."}
+
+```
+
+
+```{r move_x1_coef,warning=FALSE,message=FALSE, fig.height = 3, fig.width = 6, fig.align = "center", fig.cap = "Fitting quantile regression models using simulated data. We keep moving the outliers to the right in x direction getting three datasets with different locations of outliers (changing in x-aixs, x2 (=x+0.2), x3 (=x+0.4) and x4 (=x+0.6)).Results show that in single predictors case, outliers moving right in x make significant change to the quantile regression coefficients estimations."}
 
 ```
 
@@ -104,7 +110,7 @@ If moving outliers in same pattern moving on x direction, slopes change every ti
 
 As to the 'exact fit' character of estimation process of quantile regression, the number of outliers should be an important factor influencing the robustness of the model. Our simulation result proved this assumption. With growing numbers of outliers, the slopes on each quantile changes.
 
-```{r outlier_number1,warning=FALSE,message=FALSE, fig.height = 3, fig.width = 3, fig.align = "center", fig.cap = "Adding more Outliers"}
+```{r outlier_number1,warning=FALSE,message=FALSE, fig.height = 3, fig.width = 4, fig.align = "center", fig.cap = "Fitting quantile regression models using simulated data. We keep add numbers of outliers to the original data getting three datasets with different numbers of outliers (number of outliers are 5, 10 and 15). Results show that in single predictors case, more numbers of outliers pulled more quantile regression lines down."}
 
 ```
 
@@ -112,11 +118,15 @@ As to the 'exact fit' character of estimation process of quantile regression, th
 
 We also explored the Australia Sports Institute data to observe if it contains outliers in fitting quantile regression models. This dataset contain 100 observations and 13 variables. We use this data to explore how do LBM, Bfat and Ferr affect the BMI of human body. Based on scatter plot of the responsor and predictor, we got suspicious outlier point 75. And the following results show the changing of fitting lines when leaving this point out.
 
-```{r real_data1, eval = TRUE, echo = FALSE, fig.height = 3, fig.width = 3, fig.align = "center", fig.cap = "Real Data Example"}
-
+```{r real_data1_lm, eval = TRUE, echo = FALSE, fig.height = 3, fig.width = 4, fig.align = "center", fig.cap = "Fitting mean regression using ais data with and without case 75, which is a suspicious outlier. Results show that the slope of mean regression line will be smaller when leaveing case 75 out."}
 
 ```
 
+
+
+```{r real_data1_rq, eval = TRUE, echo = FALSE, fig.height = 3, fig.width = 4, fig.align = "center", fig.cap = "Fitting quantile regression using ais data with and without case 75, which is a suspicious outlier. Results show that the slope of 0.9 and 0.5 quantile regression line will be smaller when leaveing case 75 out."}
+
+```
 
 ## How does quantile regression work: observations used in quantile regression fitting
 
@@ -130,7 +140,12 @@ The simplex method for quantile regression fitting is closely related to linear 
 
 Function `frame_br` returns the indice of sample observations used in quantile regression fitting. 
 
-```{r simplex_method1, warning=FALSE,message=FALSE,fig.height=3, fig.width=3, fig.align = "center", fig.cap="Observations used in Simplex Method"}
+```{r simplex_method1, warning=FALSE,message=FALSE,fig.height=3, fig.width=4, fig.align = "center", fig.cap="The coloured points are observations used in fitting quantile regression model using simplex method. Different colour indicates different quantiles"}
+
+```
+
+
+```{r simplex_method1_multi, warning=FALSE,message=FALSE,fig.height=3, fig.width=6, fig.align = "center", fig.cap="The coloured points are observations used in fitting quantile regression model using simplex method. Different colour indicates different quantiles and the same shape stands for points come from same sample observation (we plot them separatly on x1 and x2"}
 
 ```
 
@@ -141,11 +156,11 @@ Interior point method extend simplex method for dealing large sample size data. 
 
 Function `frame_fn_obs` returns the observations weighted 1 in interior point method.
 
-```{r fn_method1,warning=FALSE,message=FALSE, fig.height=3, fig.width=3, fig.align = "center", fig.cap="Observations weighted in Interior Point Algorithm"}
+```{r fn_method1,warning=FALSE,message=FALSE, fig.height=2, fig.width=6, fig.align = "center", fig.cap="This plot shows the weighting scheme in quantile regression using interior point method. On each quantile, the sum weights of coloured points is 1, and other points are weighted 0."}
 
 ```
 
-```{r fn_weights1,warning=FALSE,message=FALSE, fig.height=3, fig.width=3, fig.align = "center", fig.cap="Weights in Interior Point Algorithm"}
+```{r fn_weights1,warning=FALSE,message=FALSE, fig.height=2, fig.width=6, fig.align = "center", fig.cap="This plot shows the relative weights of the two points we located using interior point method."}
 
 ```
 
@@ -155,7 +170,7 @@ Koenker(1996) provided an algorithm for computing quantile regression estimates 
 
 We display the weighting result in R using function nlrq.
 
-```{r frame_nlrq1,warning=FALSE,message=FALSE, fig.height=3, fig.width=3, fig.align = "center", fig.cap="Weighting in Non-linear Quantile Regression"}
+```{r frame_nlrq1,warning=FALSE,message=FALSE, fig.height=3, fig.width=8, fig.align = "center", fig.cap="Weights put on observations in Non-linear Quantile Regression"}
 
 ```
 
@@ -175,7 +190,7 @@ ALD$(\mu, \sigma, \tau)$ is skewed to left when $\tau>0.5$, and skewed to right 
 Function `frame_ald` returns the ALD distributions used in quantile regression fit on separate quantiles.
 
 
-```{r ALD1,warning=FALSE,message=FALSE, results = "hide",fig.height=3, fig.width=3, fig.align = "center", fig.cap="Asymmetric Laplace Distribution" }
+```{r ALD1,warning=FALSE,message=FALSE, results = "hide",fig.height=3, fig.width=3, fig.align = "center", fig.cap="Asymmetric laplace distribution of quantile regression on quantile 0.1, 0.5 and 0.9"}
 
 
 ```
@@ -201,7 +216,7 @@ $$OUTLIER=\left\{
 where $\sigma$ is computed as the corrected median of the absolute residuals $\sigma=\text{median}\{|r_i|/\phi^{-1}(0.95), i = 1,...,n\}$
 
 
-```{r Residual_Robust1,warning=FALSE,message=FALSE, fig.height=3, fig.width=3, fig.align = "center", fig.cap="Robust Distance-Residual Plot"}
+```{r Residual_Robust1,warning=FALSE,message=FALSE, fig.height=3, fig.width=8, fig.align = "center", fig.cap="Robust Distance-Residual Plot. Points on the right of vertical cutoff line are considered leverage points and points above the horizental cutoff line are outliers in y-direction"}
 
 ```
 
@@ -230,7 +245,7 @@ For measuring the distance between $\hat{\theta}_{[i]}$ and $\hat{\theta}$. We c
 $$GD_{i} =(\hat{\theta}_{[i]}-\hat{\theta})^{'}\{-Q(\hat{\theta}|\hat{\theta})\}(\hat{\theta}_{[i]}-\hat{\theta}), i=1,...,n$$
 
 
-```{r GCD1,warning=FALSE,message=FALSE, results = "hide", fig.height=3, fig.width=3, fig.align = "center", fig.cap="Generalized Cook Distance"}
+```{r GCD1,warning=FALSE,message=FALSE, results = "hide", fig.height=3, fig.width=8, fig.align = "center", fig.cap="Generalized cook distance of each case on quantile 0.1, 0.5 and 0.9"}
 
 ```
 
@@ -243,7 +258,7 @@ defined as
 
 $$QD_{i}=2\{Q(\hat{\theta}|\hat{\theta})-Q(\hat{\theta}_{[i]}|\hat{\theta})\}$$
 
-```{r QD1, warning=FALSE, message=FALSE, results = "hide", fig.height=3, fig.width=3, fig.align = "center", fig.cap="Q-function Distance"}
+```{r QD1, warning=FALSE, message=FALSE, results = "hide", fig.height=3, fig.width=7, fig.align = "center", fig.cap="Q-function distance of each case on quantile 0.1, 0.5 and 0.9"}
 
 ```
 
@@ -262,7 +277,7 @@ $$P(O_i = 1)=\frac{1}{M}I(v^{(l)_i}>max_{k \in 1:M}v^{(k)}_j)$$
 
 where $M$ is the size of the chain of $v_i$ after the burn-in perior and $v^{(l)}_i$ is the $l$th draw of this chain.
 
-```{r BP1,warning=FALSE,message=FALSE, fig.height=3, fig.width=3, fig.align = "center", fig.cap="Mean Posterior Probability"}
+```{r BP1,warning=FALSE,message=FALSE, fig.height=3, fig.width=8, fig.align = "center", fig.cap="Mean posterior probability of each case on quantile 0.1, 0.5 and 0.9"}
 
 ```
 
@@ -281,7 +296,7 @@ $$KL(f_i)=\frac{1}{n-1}\sum_{j\neq i}K(f_i, f_j)$$
 
 The outliers should show a high probability value for this divergence. We compute the integral using the trapezoidal rule.
 
-```{r BKL1,warning=FALSE,message=FALSE, fig.height = 3, fig.width = 3, fig.align = "center", fig.cap = "Kullback and Leibler Divergence"}
+```{r BKL1,warning=FALSE,message=FALSE, fig.height = 3, fig.width = 8, fig.align = "center", fig.cap = "Kullback and Leibler divergence of each case on quantile 0.1, 0.5 and 0.9"}
 
 ```
 
