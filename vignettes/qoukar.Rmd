@@ -77,7 +77,7 @@ We also do simulation one step further with different pattern of outliers. First
 
 ### Outliers moving in y direction
 
-Using the simulated data to construct quantile regression model. By comparing the four models, we have a brief idea of the effect of outliers' location. The results show that when outliers moving down in y direction for 10 unit, it pulls down the slope on every quantile(comparing the result of model rq(y1~x) and rq(y2~x)). However, keeping moving down the outliers does no change to the slopes.
+Using the simulated data to construct quantile regression model. By comparing the four models, we have a brief idea of the effect of outliers locating. The results show that when outliers moving down in y direction for 10 unit, it pulls down the slope on every quantile(comparing the result of model rq(y1~x) and rq(y2~x)). However, keeping moving down the outliers does no change to the slopes.
 
 ```{r move_y1,warning=FALSE,message=FALSE, eval = TRUE, echo = FALSE, fig.height = 4, fig.width = 4, fig.align = "left", fig.cap = "**Figure 5. **Fitting quantile regression models using simulated data. We keep moving down the outliers in y direction in y2 (y-5), y3 (y-10) and y4 (y-15)."}
 
@@ -132,7 +132,7 @@ We also explored the Australia Sports Institute data to observe if it contains o
 
 ## How does quantile regression work: observations used in quantile regression fitting
 
-Basically, quantile regression has no distribution assummptions on its error term. Computation of quantile regression estimators may be formulated as a linear programming problem and efficiently solved by simplex or barrier methods. The former is used for relative small sample size $n < 1000$, while the latter can deal with large sample size data. 
+Basically, quantile regression has no distribution assummptions on its error term. Computation of quantile regression estimators may be formulated as a linear programming problem and efficiently solved by simplex or barrier methods. The former is used for relative small sample size, and the latter can deal with large sample size data (n>1000). 
 
 Both methods can be conviniently applied to get quantile regression estimators using package `quantreg`. While unfortunately, related functions do not provide detailed results on how do these algorithms working, and different observations used when fitting different quantiles remained in the blackbox. In this section, we introduce functions in quokar aimed to unfold the blackbox of the fitting process of quantile regression, and visualize the results to offer a much easier way to understand those algorithms.
 
@@ -185,7 +185,7 @@ Likelihood of quantile regression model using asymmetric laplace distribution wi
 
 $$f_{ALD}(u)=\frac{\tau(1-\tau)}{\sigma}exp(-\rho_{\tau}(\frac{y-u}{\sigma}))$$
 
-where $0<\tau<1$ is the skew parameter, $\sigma>0$ is the scale parameter, $-\infty< \mu < +\infty$.
+where $\tau$, $\sigma$ and  $\mu$ are the skew, scale and location parameters.
 
 ALD$(\mu, \sigma, \tau)$ is skewed to left when $\tau>0.5$, and skewed to right when $\tau<0.5$.
 
@@ -206,19 +206,18 @@ Bayesian quantile regression is also based on asymmetric laplace distribution, a
 
 Robust distance is defined as:
 
-$$RD(x_i)=[(x_i-T(A))^{'}C(A)^{-1}(x_i-T(A))]^{1/2}$$
+$$RD(x_i)=[(x_{i}-T(A))^{T}C(A)^{-1}(x_{i}-T(A))]^{1/2}$$
 
 where $T(A)$ and $C(A)$ are robust multivariate location and scale estimates computed with the minimum covariance determinant(MCD) method of Rousseeuw and Van Driessen(1999).
 
 Residuals $r_i, i = 1,...,n$ based on quantile regression estimates are used to detect vertical outliers. Outliers are defined as:
 
-$$OUTLIER=\left\{
-\begin{aligned}&0 \quad &if \ |r_i| \leq k\sigma \\&1 \quad &otherwise\end{aligned}\right.$$
+$$OUTLIER=\left\{\begin{aligned}&0 \quad &if \ |r_i| \leq k\sigma \\&1 \quad &otherwise\end{aligned}\right.$$
 
 where $\sigma$ is computed as the corrected median of the absolute residuals $\sigma=\text{median}\{|r_i|/\phi^{-1}(0.95), i = 1,...,n\}$
 
 
-```{r Residual_Robust1,warning=FALSE,message=FALSE, fig.height=3, fig.width=8, fig.align = "left", fig.cap="**Figure 19. **Robust Distance-Residual Plot. Points on the right of vertical cutoff line are considered leverage points and points above the horizental cutoff line are outliers in y-direction"}
+```{r Residual_Robust1,warning=FALSE,message=FALSE, fig.height=3, fig.width=8, fig.align = "left", fig.cap="**Figure 19. **Robust Distance-Residual Plot. Points on the right of vertical cutoff line are considered leverage points and points above the horizental cutoff line are outliers in y-direction."}
 
 ```
 
@@ -227,7 +226,7 @@ where $\sigma$ is computed as the corrected median of the absolute residuals $\s
 
 To assess the influence of the $i$th case on the coefficient estimation of quantile regression, we compare the difference between $\hat{\theta}_{[i]}$ and $\hat{\theta}$.
 
-Case-deletion is a classical approach to study the effects of dropping the $i$th observation deleted. Thus, the complete-data log-likelihood function based on the data with the $i$th case deleted will be denoted by $L_{c}(\theta|y_{c[i]})$. Let $\hat{\theta}_{[i]}=(\hat{\beta}^{'}_{p[i]}, \hat{\sigma}^{2}_{[i]})^{'}$ be the maximizer of the function $Q_{[i]}(\theta|\hat{\theta})=E_{\hat{\theta}}[l_{c}(\theta|Y_{c[i]})|y]$, where $\hat{\theta}=(\hat{\beta}^{'}, \hat{\sigma}^{2})^{'}$ is the ML estimate of $\theta$. 
+Case-deletion is a classical approach to study the effects of dropping the $i$th observation deleted. Thus, the complete-data log-likelihood function based on the data with the $i$th case deleted will be denoted by $L_{c}(\theta|y_{c[i]})$. Let $\hat{\theta}_{[i]}=(\hat{\beta}^{T}_{p[i]}, \hat{\sigma}^{2}_{[i]})^{T}$ be the maximizer of the function $Q_{[i]}(\theta|\hat{\theta})=E_{\hat{\theta}}[l_{c}(\theta|Y_{c[i]})|y]$, where $\hat{\theta}=(\hat{\beta}^{T}, \hat{\sigma}^{2})^{T}$ is the ML estimate of $\theta$. 
 
 To calculate the case-deletion estimate $\hat{\theta}_{[i]}$ of $\theta$, proposed the following one-step approximation based on Q-function,
 
@@ -235,7 +234,7 @@ $$\hat{\theta}_{[i]}=\hat{\theta}+\{-Q(\hat{\theta}|\hat{\theta})\}^{-1}Q_{[i]}(
 
 where
 
-$$Q(\hat{\theta}|\hat{\theta})=\frac{\partial^{2}Q(\theta|\hat{\theta})}{\partial\theta\partial \theta^{'}}|_{\theta=\hat{\theta}}$$
+$$Q(\hat{\theta}|\hat{\theta})=\frac{\partial^{2}Q(\theta|\hat{\theta})}{\partial\theta\partial \theta^{T}}|_{\theta=\hat{\theta}}$$
 
 $$Q_{[i]}(\hat{\theta}|\hat{\theta})=\frac{\partial Q_{[i]}(\theta|\hat{\theta})}{\partial\theta}|_{\theta=\hat{\theta}}$$
 
@@ -244,10 +243,10 @@ are the Hessian matrix and the gradient vector evaluated at $\hat{\theta}$, resp
 
 For measuring the distance between $\hat{\theta}_{[i]}$ and $\hat{\theta}$. We consider generalized cook distance as follows.
 
-$$GD_{i} =(\hat{\theta}_{[i]}-\hat{\theta})^{'}\{-Q(\hat{\theta}|\hat{\theta})\}(\hat{\theta}_{[i]}-\hat{\theta}), i=1,...,n$$
+$$GD_{i} =(\hat{\theta}_{[i]}-\hat{\theta})^{T}\{-Q(\hat{\theta}|\hat{\theta})\}(\hat{\theta}_{[i]}-\hat{\theta}), i=1,...,n$$
 
 
-```{r GCD1,warning=FALSE,message=FALSE, results = "hide", fig.height=3, fig.width=8, fig.align = "left", fig.cap="**Figure 20. **Generalized cook distance of each case on quantile 0.1, 0.5 and 0.9"}
+```{r GCD1,warning=FALSE,message=FALSE, results = "hide", fig.height=3, fig.width=8, fig.align = "left", fig.cap="**Figure 20. **Generalized cook distance of each observation on quantile 0.1, 0.5 and 0.9. Case 75 has relative large q-funtion distance to other points"}
 
 ```
 
@@ -260,7 +259,7 @@ defined as
 
 $$QD_{i}=2\{Q(\hat{\theta}|\hat{\theta})-Q(\hat{\theta}_{[i]}|\hat{\theta})\}$$
 
-```{r QD1, warning=FALSE, message=FALSE, results = "hide", fig.height=3, fig.width=7, fig.align = "left", fig.cap="**Figure 21. **Q-function distance of each case on quantile 0.1, 0.5 and 0.9"}
+```{r QD1, warning=FALSE, message=FALSE, results = "hide", fig.height=3, fig.width=7, fig.align = "left", fig.cap="**Figure 21. **Q-function distance of each observation on quantile 0.1, 0.5 and 0.9 from left to right. Case 75 has relative large q-funtion distance to other points."}
 
 ```
 
@@ -279,7 +278,7 @@ $$P(O_i = 1)=\frac{1}{M}I(v^{(l)_i}>max_{k \in 1:M}v^{(k)}_j)$$
 
 where $M$ is the size of the chain of $v_i$ after the burn-in perior and $v^{(l)}_i$ is the $l$th draw of this chain.
 
-```{r BP1,warning=FALSE,message=FALSE, fig.height=3, fig.width=8, fig.align = "left", fig.cap="**Figure 22. **Mean posterior probability of each case on quantile 0.1, 0.5 and 0.9"}
+```{r BP1,warning=FALSE,message=FALSE, fig.height=3, fig.width=8, fig.align = "left", fig.cap="**Figure 22. **Mean posterior probability of each case on quantile 0.1, 0.5 and 0.9. The mean posterior probabilities are calculated based on the postierior distribution of latent variable using bayesian quantile regression method"}
 
 ```
 
@@ -298,7 +297,7 @@ $$KL(f_i)=\frac{1}{n-1}\sum_{j\neq i}K(f_i, f_j)$$
 
 The outliers should show a high probability value for this divergence. We compute the integral using the trapezoidal rule.
 
-```{r BKL1,warning=FALSE,message=FALSE, fig.height = 3, fig.width = 8, fig.align = "left", fig.cap = "**Figure 23. **Kullback and Leibler divergence of each case on quantile 0.1, 0.5 and 0.9"}
+```{r BKL1,warning=FALSE,message=FALSE, fig.height = 3, fig.width = 8, fig.align = "left", fig.cap = "**Figure 23. **Kullback and Leibler divergence of each case on quantile 0.1, 0.5 and 0.9. The Kullback-Leibler divergence is calculated based on the postierior distribution of latent variable using bayesian quantile regression method."}
 
 ```
 
