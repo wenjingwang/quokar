@@ -9,7 +9,7 @@ library(dplyr)
 library(robustbase)
 
 
-## ---- high_lm1
+## ---- high-lm1
 x <- sort(runif(100))
 y1 <- 40*x + x*rnorm(100, 0, 10)
 df <- data.frame(y1, x)
@@ -26,12 +26,14 @@ ggplot(df_o, aes(x = x, y = y1)) +
   geom_abline(data = line_lm, aes(intercept = inter_lm,
                                   slope = coeff_lm, colour = flag))
 
-## ---- high_rq1
+## ---- high-rq1
 coef1 <- rq(y1 ~ x, tau = c(0.1, 0.5, 0.9), data = df, method = "br")$coef
-rq_coef1 <- data.frame(intercept = coef1[1, ], coef = coef1[2, ], tau_flag =                                       colnames(coef1))
+rq_coef1 <- data.frame(intercept = coef1[1, ], coef = coef1[2, ],
+                       tau_flag =colnames(coef1))
 
 coef2 <- rq(y1 ~ x, tau = c(0.1, 0.5, 0.9),data = df_o, method = "br")$coef
-rq_coef2 <- data.frame(intercept = coef2[1, ], coef = coef2[2, ], tau_flag =                                       colnames(coef2))
+rq_coef2 <- data.frame(intercept = coef2[1, ], coef = coef2[2, ],
+                       tau_flag =colnames(coef2))
 ggplot(df_o) +
   geom_point(aes(x = x, y = y1), alpha = 0.1) +
   geom_abline(data = rq_coef1, aes(intercept = intercept,
@@ -40,7 +42,7 @@ ggplot(df_o) +
                                    slope = coef, colour = tau_flag))
 
 
-## ---- low_lm1
+## ---- low-lm1
 x <- sort(runif(100))
 y2 <- 40*x + x*rnorm(100, 0, 10)
 df <- data.frame(y2, x)
@@ -57,7 +59,7 @@ ggplot(df_o, aes(x = x, y = y2)) +
   geom_abline(data = line_lm, aes(intercept = inter_lm,
                                   slope = coeff_lm, colour = flag))
 
-## ---- low_rq1
+## ---- low-rq1
 
 coef1 <- rq(y2 ~ x, tau = c(0.1, 0.5, 0.9), data = df, method = "br")$coef
 rq_coef1 <- data.frame(intercept = coef1[1, ], coef = coef1[2, ], tau_flag = colnames(coef1))
@@ -71,7 +73,7 @@ ggplot(df_o) +
   geom_abline(data = rq_coef2, aes(intercept = intercept,
                                    slope = coef, colour = tau_flag))
 
-## ---- move_y1
+## ---- move-y1
 x <- sort(runif(100))
 y <- 40*x + x*rnorm(100, 0, 10)
 selectedX <- sample(50:100,5)
@@ -92,7 +94,7 @@ ggplot(df_m, aes(x = x, y=value)) +
   geom_smooth(method = "lm", se = FALSE, colour = "orange")
 
 
-## ---- move_y1_coef
+## ---- move-y1-coef
 coefs <- 2:5 %>%
   map(~ rq(df[, .] ~ x, data = df, seq(0.1, 0.9, 0.1))) %>%
   map_df(~ as.data.frame(t(as.matrix(coef(.)))))
@@ -109,7 +111,7 @@ ggplot(df_mf, aes(x = tau, y = value, colour = model)) +
   xlab('quantiles') +
   ylab('coefficients')
 
-## ---- move_y_multi1
+## ---- move-y-multi1
 n <- 100
 set.seed(101)
 x1 <- sort(rnorm(n, 0, 1))
@@ -137,7 +139,7 @@ ggplot(df_mf, aes(x = tau, y = value, colour = model)) +
   facet_wrap(~ variable, scale = "free_y") +
   xlab('quantiles') +
   ylab('coefficients')
-## ---- move_x1
+## ---- move-x1
 x <- sort(runif(100))
 y <- 40*x + x*rnorm(100, 0, 10)
 selectedIdx <- sample(50:100,5)
@@ -159,7 +161,7 @@ ggplot(df_m, aes(x = value, y=y2)) +
   facet_wrap(~variable, ncol=2, scale = "free") +
   geom_quantile(quantiles = seq(0.1, 0.9, 0.1))
 
-## ---- move_x1_coef
+## ---- move-x1-coef
 coefs <- 3:6 %>%
   map(~ rq(df$y2 ~ df[, .], data = df, seq(0.1, 0.9, 0.1))) %>%
   map_df(~ as.data.frame(t(as.matrix(coef(.)))))
@@ -175,7 +177,7 @@ ggplot(df_mf, aes(x = tau, y = value, colour = model)) +
   xlab('quantiles') +
   ylab('coefficients')
 
-## ---- outlier_number1
+## ---- outlier-number1
 x <- sort(runif(100))
 y <- 40*x + x*rnorm(100, 0, 10)
 selectedX1 <- sample(50:100, 5)
@@ -196,7 +198,7 @@ ggplot(df_m, aes(x=x, y=value)) +
   facet_wrap(~variable, ncol=2) +
   geom_quantile(quantiles = seq(0.1, 0.9, 0.1))
 
-## ---- real_data1_lm
+## ---- real-data1-lm
 data(ais)
 ais_female <- subset(ais, Sex == 1)
 ais_female_o <- ais_female[-75, ]
@@ -212,11 +214,15 @@ ggplot(ais_female, aes(x = LBM, y = BMI)) +
                                  colour = flag))
 
 
-## ---- real_data1_rq
-coef1 <- rq(BMI ~ LBM, tau = c(0.1, 0.5, 0.9), data = ais_female, method = "br")$coef
-rq_coef1 <- data.frame(intercept = coef1[1, ], coef = coef1[2, ], tau_flag = colnames(coef1))
-coef2 <- rq(BMI ~ LBM, tau = c(0.1, 0.5, 0.9), data = ais_female_o, method = "br")$coef
-rq_coef2 <- data.frame(intercept = coef2[1, ], coef = coef2[2, ], tau_flag = colnames(coef2))
+## ---- real-data1-rq
+coef1 <- rq(BMI ~ LBM, tau = c(0.1, 0.5, 0.9), data = ais_female,
+            method = "br")$coef
+rq_coef1 <- data.frame(intercept = coef1[1, ], coef = coef1[2, ],
+                       tau_flag = colnames(coef1))
+coef2 <- rq(BMI ~ LBM, tau = c(0.1, 0.5, 0.9), data = ais_female_o,
+            method = "br")$coef
+rq_coef2 <- data.frame(intercept = coef2[1, ], coef = coef2[2, ],
+                       tau_flag = colnames(coef2))
 ggplot(ais_female) +
   geom_point(aes(x = LBM, y = BMI), alpha = 0.1) +
   geom_abline(data = rq_coef1, aes(intercept = intercept,
@@ -224,7 +230,8 @@ ggplot(ais_female) +
   geom_abline(data = rq_coef2, aes(intercept = intercept,
                                    slope = coef, colour = tau_flag))
 
-## ---- simplex_method1
+## ---- simplex-method1
+data(ais)
 tau <- c(0.1, 0.5, 0.9)
 ais_female <- subset(ais, Sex == 1)
 br <- rq(BMI ~ LBM, tau = tau, data = ais_female, method = 'br')
@@ -249,7 +256,7 @@ ggplot(origin_obs,
                                         colour = tau_flag,
                                         shape = obs))
 
-## ---- simplex_method1_multi
+## ---- simplex-method1-multi
 
 br <- rq(BMI ~ LBM + Bfat , tau = tau, data = ais_female, method = 'br')
 tau <- c(0.1, 0.5, 0.9)
@@ -268,7 +275,7 @@ ggplot(origin_obs,
                                  shape = obs))
 
 
-## ---- fn_method1
+## ---- fn-method1
 tau <- c(0.1, 0.5, 0.9)
 fn <- rq(BMI ~ LBM, data = ais_female, tau = tau, method = 'fn')
 fn_obs <- frame_fn_obs(fn, tau)
@@ -323,7 +330,7 @@ p1 <- ggplot(m_f, aes(x = value, y = y)) +
    xlab("x")
  grid.arrange(p1, p2, p3, ncol = 3)
 
-## --- fn_weights1
+## --- fn-weights1
  tau <- c(0.1, 0.5, 0.9)
  fn <- rq(BMI ~ LBM, data = ais_female, tau = tau, method = 'fn')
  fn_obs <- frame_fn_obs(fn, tau)
@@ -347,7 +354,7 @@ p1 <- ggplot(m_f, aes(x = value, y = y)) +
    geom_text(aes(label = id), hjust = 0, vjust= 0)+
    facet_wrap( ~ type,scale="free_y")
 
-## ---- frame_nlrq1
+## ---- frame-nlrq1
 x <- rep(1:25, 20)
 y <- SSlogis(x, 10, 12, 2) * rnorm(500, 1, 0.1)
 Dat <- data.frame(x = x, y = y)
@@ -372,7 +379,7 @@ ggplot(ald_data) +
     xlab('') +
     ylab('Asymmetric Laplace Distribution Density Function')
 
-## ---- Residual_Robust1
+## ---- Residual-Robust1
 ais_female <- subset(ais, Sex == 1)
 tau <- c(0.1, 0.5, 0.9)
 object <- rq(BMI ~ LBM + Bfat, data = ais_female, tau = tau)
@@ -442,15 +449,17 @@ ggplot(GCD_m, aes(x = case, y = value )) +
 
 ## ---- QD1
 QD <- frame_mle(y, x, tau, error = 1e-06, iter = 100,
-                  method = 'qfunction')
+               method = 'qfunction')
 QD_m <- cbind(case, QD)
 ggplot(QD_m, aes(x = case, y = value)) +
-    geom_point() +
-    facet_wrap(~variable, scale = 'free_y')+
-    geom_text(data = subset(QD_m, value > mean(value) + sd(value)),
-            aes(label = case), hjust = 0, vjust = 0) +
-    xlab('case number') +
-    ylab('Qfunction Distance')
+ geom_point() +
+ facet_wrap(~variable, scale = 'free_y')+
+ geom_text(data = subset(QD_m, value > mean(value) + sd(value)),
+           aes(label = case), hjust = 0, vjust = 0) +
+ xlab('case number') +
+ ylab('Qfunction Distance')
+
+
 ## ---- BP1
 ais_female <- subset(ais, Sex == 1)
 y <- ais_female$BMI
