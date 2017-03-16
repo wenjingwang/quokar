@@ -29,13 +29,13 @@ $$Q(\tau)=\inf \{y:F(y)\geq \tau\} \enspace \enspace (2)$$
 
 is called the $\tau$th quantile of $Y$. The quantile function provides a complete characterization of $Y$.
 
-OLS regression(also called mean regression) is based on the idea of minimizing the euclidean distance between $y$ and $\hat{y}$. Following this idea, quantile regression trying to minimizing a so called $\rho_{\tau}$ 'distance' which is defined as:
+OLS regression(also called mean regression) is based on the idea of minimizing the euclidean distance between $y$ and $\hat{y}$. Following this idea, quantile regression trying to minimizing a so called $\rho_{\tau}$ distance which is defined as:
 
 $$d_{\tau}(y,\hat{y})=\sum_{i=1}^{n}\rho_{\tau}(y_i-\hat{y}_{i})\enspace \enspace (3)$$
 
-The linear conditional quantile fucntion, $Q_{Y}(\tau|\boldsymbol{X}=x)=\boldsymbol{X}^{'}\boldsymbol{\beta}_{\tau}$, can be estimated by solving
+The linear conditional quantile fucntion, $Q_{Y}(\tau|\boldsymbol{X}=x)=\boldsymbol{X}^T}\boldsymbol{\beta}_{\tau}$, can be estimated by solving
 
-$$\hat{\boldsymbol{\beta}}_{\tau}=\arg \min_{b \in R^{p}}\sum_{i=1}^{n}{\rho_{\tau}(y_i-x_{i}^{'}\boldsymbol{\beta}_{\tau})} \enspace \enspace (4)$$
+$$\hat{\boldsymbol{\beta}}_{\tau}=\arg \min_{b \in R^{p}}\sum_{i=1}^{n}{\rho_{\tau}(y_i-x_{i}^{T}\boldsymbol{\beta}_{\tau})} \enspace \enspace (4)$$
 
 Extensive toolbox for estimation and inference about quantile regression has been developed. However, few integrate work been done for diagnostics, expecially for outlier diagnostic. We propose outliers of quantile regression are observations that show extreme pattern which can not be explained by the quantile regression model. These observations are leverage points or outliers in y direction, and they may casue bias in the parameter estimates and should be discussed even if its presence is reasonable.
 
@@ -179,11 +179,11 @@ We display the weighting result in R using function nlrq.
 ```
 
 
-### Quantile regression using asymmetric laplace distribution
+### Quantile regression using asymmetric Laplace distribution
 
-Komunjej(2005) noted that likelihood should belong a tick-exponential family. Some researchers use asymmetric laplace distribution as the assumption distribution of quatnile regression model, which produced different ways of estimating model coefficients. The estimation method 
+Komunjej(2005) noted that likelihood should belong a tick-exponential family. Some researchers use asymmetric Laplace distribution as the assumption distribution of quatnile regression model, which produced different ways of estimating model coefficients. The estimation method 
 
-Likelihood of quantile regression model using asymmetric laplace distribution with pdf as follows:
+Likelihood of quantile regression model using asymmetric Laplace distribution with pdf as follows:
 
 $$f_{ALD}(u)=\frac{\tau(1-\tau)}{\sigma}exp(-\rho_{\tau}(\frac{y-u}{\sigma}))$$
 
@@ -194,12 +194,12 @@ ALD$(\mu, \sigma, \tau)$ is skewed to left when $\tau>0.5$, and skewed to right 
 Function `frame_ald` returns the ALD distributions used in quantile regression fit on separate quantiles.
 
 
-```{r ALD1,warning=FALSE,message=FALSE, results = "hide",fig.height=3, fig.width=3, fig.align = "center", fig.cap="Asymmetric laplace distribution of quantile regression on quantile 0.1, 0.5 and 0.9"}
+```{r ALD1,warning=FALSE,message=FALSE, results = "hide",fig.height=3, fig.width=3, fig.align = "center", fig.cap="Asymmetric Laplace distribution of quantile regression on quantile 0.1, 0.5 and 0.9"}
 
 
 ```
 
-Bayesian quantile regression is also based on asymmetric laplace distribution, and it provide another quantile regression estimating method.
+Bayesian quantile regression is also based on asymmetric Laplace distribution, and it provide another quantile regression estimating method.
 
 ## Outlier Dignostic Methods for Quantile Regression Model
 
@@ -269,7 +269,8 @@ $$QD_{i}=2\{Q(\hat{\theta}|\hat{\theta})-Q(\hat{\theta}_{[i]}|\hat{\theta})\}$$
 
 Baysian quantile regression added a latent variable $v_i$ into model for each observation. Every $v_i$ is assumed to have an exponential distribution with mean $\sigma$, that with the likelihood produces a posterior distributed according to a generalized inverse Gaussian with parameters.
 
-If we define the variable $O_i$, which takes value equal to 1 when the $i$th observation is an outlier, and 0 otherwise. Then we propose to calculate the probability of an observation being an outlier as
+If we define the variable $O_i$, which takes value equal to 1 when the $i$th observation is an outlier, and 0 otherwise. Then we propose to calculate the pro
+bility of an observation being an outlier as
 
 $$P(O_i=1)=\frac{1}{n-1}\sum_{j \neq i}P(v_i > v_j|data)$$
 
@@ -280,13 +281,13 @@ $$P(O_i = 1)=\frac{1}{M}I(v^{(l)_i}>max_{k \in 1:M}v^{(k)}_j)$$
 
 where $M$ is the size of the chain of $v_i$ after the burn-in perior and $v^{(l)}_i$ is the $l$th draw of this chain.
 
-```{r BP1,warning=FALSE,message=FALSE, fig.height=3, fig.width=8, fig.align = "center", fig.cap="Mean posterior probability of each case on quantile 0.1, 0.5 and 0.9. The mean posterior probabilities are calculated based on the postierior distribution of latent variable using bayesian quantile regression method"}
+```{r BP1,warning=FALSE,message=FALSE, fig.height=3, fig.width=8, fig.align = "center", fig.cap="Mean posterior probability of each case on quantile 0.1, 0.5 and 0.9. The mean posterior probabilities are calculated based on the postierior distribution of latent variable using Bayesian quantile regression method"}
 
 ```
 
 ### Kullback-Leibler divergence
 
-Similar with mean posterior probability method, we also caculates Kullback-Leibler divergence which proposed by Kullback and Leibler(1951) as a more precise method of measuring the distance between those latent variables in bayes quantile regression. The Kullback-Leibler divergence is defined as:
+Similar with mean posterior probability method, we also caculates Kullback-Leibler divergence which proposed by Kullback and Leibler(1951) as a more precise method of measuring the distance between those latent variables in Bayes quantile regression. The Kullback-Leibler divergence is defined as:
 
 $$K(f_i, f_j)=\int log(\frac{f_i(x)}{f_j(x)}f_{i}(x))dx$$
 
@@ -299,7 +300,7 @@ $$KL(f_i)=\frac{1}{n-1}\sum_{j\neq i}K(f_i, f_j)$$
 
 The outliers should show a high probability value for this divergence. We compute the integral using the trapezoidal rule.
 
-```{r BKL1,warning=FALSE,message=FALSE, fig.height = 3, fig.width = 8, fig.align = "center", fig.cap = "Kullback and Leibler divergence of each case on quantile 0.1, 0.5 and 0.9. The Kullback-Leibler divergence is calculated based on the postierior distribution of latent variable using bayesian quantile regression method."}
+```{r BKL1,warning=FALSE,message=FALSE, fig.height = 3, fig.width = 8, fig.align = "center", fig.cap = "Kullback and Leibler divergence of each case on quantile 0.1, 0.5 and 0.9. The Kullback-Leibler divergence is calculated based on the postierior distribution of latent variable using Bayesian quantile regression method."}
 
 ```
 
