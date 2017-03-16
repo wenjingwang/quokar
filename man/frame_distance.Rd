@@ -69,7 +69,7 @@ n <- nrow(object$model)
 case <- rep(1:n, length(tau))
 distance <- cbind(case, distance)
 distance$residuals <- abs(distance$residuals)
-distance1 <- distance \%>\% filter(tau_flag == 'tau..0.1')
+distance1 <- subset(distance, tau_flag == "tau0.1")
 p1 <- ggplot(distance1, aes(x = rd, y = residuals)) +
  geom_point() +
  geom_hline(yintercept = cutoff_h[1], colour = "red") +
@@ -79,7 +79,7 @@ p1 <- ggplot(distance1, aes(x = rd, y = residuals)) +
            aes(label = case), hjust = 0, vjust = 0) +
  xlab("Robust Distance") +
  ylab("|Residuals|")
-distance2 <- distance \%>\% filter(tau_flag == 'tau..0.5')
+distance2 <- subset(distance, tau_flag == "tau0.5")
 p2 <- ggplot(distance1, aes(x = rd, y = residuals)) +
  geom_point() +
  geom_hline(yintercept = cutoff_h[2], colour = "red") +
@@ -88,6 +88,7 @@ p2 <- ggplot(distance1, aes(x = rd, y = residuals)) +
                            rd > cutoff_v),
           aes(label = case), hjust = 0, vjust = 0) +
  xlab("Robust Distance") +
+distance3 <- subset(distance, tau_flag == "tau0.9")
 }
 \author{
 Wenjing Wang

@@ -63,32 +63,33 @@
 #'  geom_point() +
 #'  geom_hline(yintercept = cutoff_h[1], colour = "red") +
 #'  geom_vline(xintercept = cutoff_v, colour = "red") +
-#'  geom_text(data = subset(distance1, residuals > cutoff_h[1]|
-#'                            rd > cutoff_v),
+#'  geom_text(data = subset(distance1, residuals > cutoff_h[1]|rd > cutoff_v),
 #'            aes(label = case), hjust = 0, vjust = 0) +
 #'  xlab("Robust Distance") +
 #'  ylab("|Residuals|")
+#'
 #' distance2 <- subset(distance, tau_flag == "tau0.5")
+#'
 #' p2 <- ggplot(distance1, aes(x = rd, y = residuals)) +
 #'  geom_point() +
 #'  geom_hline(yintercept = cutoff_h[2], colour = "red") +
 #'  geom_vline(xintercept = cutoff_v, colour = "red") +
-#'  geom_text(data = subset(distance1, residuals > cutoff_h[2]|
-#'                            rd > cutoff_v),
+#'  geom_text(data = subset(distance1, residuals > cutoff_h[2]|rd > cutoff_v),
 #'           aes(label = case), hjust = 0, vjust = 0) +
 #'  xlab("Robust Distance") +
-#  ylab("|Residuals|")
+#'  ylab("|Residuals|")
+
 #' distance3 <- subset(distance, tau_flag == "tau0.9")
-# p3 <- ggplot(distance1, aes(x = rd, y = residuals)) +
-#  geom_point() +
-#  geom_hline(yintercept = cutoff_h[3], colour = "red") +
-#  geom_vline(xintercept = cutoff_v, colour = "red") +
-#  geom_text(data = subset(distance1, residuals > cutoff_h[3]|
-#              rd > cutoff_v),
-#          aes(label = case), hjust = 0, vjust = 0) +
-# xlab("Robust Distance") +
-#  ylab("|Residuals|")
-# grid.arrange(p1, p2, p3, ncol = 3)
+#'
+#' p3 <- ggplot(distance1, aes(x = rd, y = residuals)) +
+#'  geom_point() +
+#'  geom_hline(yintercept = cutoff_h[3], colour = "red") +
+#'  geom_vline(xintercept = cutoff_v, colour = "red") +
+#'  geom_text(data = subset(distance1, residuals > cutoff_h[3]|rd > cutoff_v),
+#'          aes(label = case), hjust = 0, vjust = 0) +
+#' xlab("Robust Distance") +
+#'  ylab("|Residuals|")
+#' grid.arrange(p1, p2, p3, ncol = 3)
 
 
 frame_distance <- function(object, tau){
