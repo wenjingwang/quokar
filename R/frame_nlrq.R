@@ -4,6 +4,7 @@
 #' @param formula non-linear quantile regression model
 #' @param data data frame
 #' @param tau quantiles
+#' @param start the initial value of all parameters to estimate, must be a list
 #' @author Wenjing Wang
 #' @details To extentd the linear programming method to the case of
 #' non-linear response functions, Koenker & Park(1996) considered the
@@ -39,13 +40,13 @@
 #'  geom_point(aes(size = value)) +
 #'  facet_wrap(~tau_flag)
 #'
-frame_nlrq <- function(formula, data, tau){
+frame_nlrq <- function(formula, data, tau, start){
   ntau <- length(tau)
   n <- nrow(data)
   D_s <- matrix(0, nrow = n, ncol = ntau)
   resid <- matrix(0, nrow = n, ncol = ntau)
   for(i in 1:ntau){
-   model <- nlrq_m(formula, data = data, tau = tau[i], trace = FALSE)
+   model <- nlrq_m(formula, data = data, tau = tau[i], trace = FALSE, start)
    D <- model$m$D
    ##turn list into matrix
    D_m <- simplify2array(D)^2
@@ -57,4 +58,11 @@ frame_nlrq <- function(formula, data, tau){
   colnames(resid) <- paste("tau", tau, sep = "")
   return(list(weights = D_s, resid = resid))
 }
+
+
+
+
+
+
+
 
