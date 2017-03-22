@@ -1,5 +1,5 @@
 #' @importFrom purrr map
-#' @importFrom stats lm qt qnorm coefficients as.formula cov formula getInitial lsfit numericDeriv qchisq setNames optim
+#' @importFrom stats median residuals lm qt qnorm coefficients as.formula cov formula getInitial lsfit numericDeriv qchisq setNames optim
 #' @importFrom utils flush.console
 #' @importFrom tidyr gather
 #' @importFrom dplyr inner_join group_by arrange
