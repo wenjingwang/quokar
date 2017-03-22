@@ -4,7 +4,7 @@
 \alias{frame_nlrq}
 \title{Explore fitting process of non-linear quantile  regression}
 \usage{
-frame_nlrq(formula, data, tau)
+frame_nlrq(formula, data, tau, start)
 }
 \arguments{
 \item{formula}{non-linear quantile regression model}
@@ -12,6 +12,8 @@ frame_nlrq(formula, data, tau)
 \item{data}{data frame}
 
 \item{tau}{quantiles}
+
+\item{start}{the initial value of all parameters to estimate, must be a list}
 }
 \description{
 This function explore the fitting process of nonlinear
