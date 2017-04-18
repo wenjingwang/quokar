@@ -248,7 +248,7 @@ For measuring the distance between $\hat{\theta}_{[i]}$ and $\hat{\theta}$. We c
 $$GD_{i} =(\hat{\theta}_{[i]}-\hat{\theta})^{T}\{-Q(\hat{\theta}|\hat{\theta})\}(\hat{\theta}_{[i]}-\hat{\theta}), i=1,...,n$$
 
 
-```{r GCD1,warning=FALSE,message=FALSE, results = "hide", fig.height=3, fig.width=8, fig.align = "center", fig.cap="Generalized cook distance of each observation on quantile 0.1, 0.5 and 0.9. Case 75 has relative large q-funtion distance to other points"}
+```{r GCD1,warning=FALSE,message=FALSE, results = "hide", fig.height=3, fig.width=8, fig.align = "center", fig.cap="Generalized cook distance of each observation on quantile 0.1, 0.5 and 0.9. Case 75 has relative large cook distance funtion distance to other points"}
 
 ```
 
