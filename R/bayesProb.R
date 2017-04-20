@@ -7,7 +7,9 @@
 #'
 #'@param tau quantile
 #'
-#'@param M the iteration frequancy for MCMC used in Baysian Estimation
+#'@param M MCMC draws
+#'
+#'@param burn burned MCMC draws
 #'
 #'@details
 #'If we define the variable Oi, which takes value equal to 1 when ith observation
@@ -33,30 +35,53 @@
 #'outliers,\emph{arXiv:1601.07344}
 #'
 #'@seealso \code{bayesKL}
+#'@examples
+#'\dontrun{
+#'ais_female <- subset(ais, Sex == 1)
+#'y <- ais_female$BMI
+#'x <- ais_female$LBM
+#'tau <- 0.5
+#'M <- 5000
+#'burn <- 1000
+#'prob <- bayesProb(y, x, tau, M, burn)
+#'case <-  1:100
+#'dat <- data.frame(case, prob)
+#'ggplot(dat, aes(case, prob))+
+#'  geom_point() +
+#'  geom_text(data = subset(dat, prob > mean(prob) + 2*sd(prob)),
+#‘            aes(label = case), vjust = 0, hjust = 0)
+#'}
 
-bayesProb <- function(y, x, tau, M){
-   coefs <- bayesQR(y ~ x, quantile = tau, alasso = FALSE,
-                    ndraw = M, prior = NULL)
-   beta <- summary(coefs)[[1]]$betadraw[, 1]
-   sigma <- summary(coefs)[[1]]$sigmadraw[, 1]
-   taup2 <- (2/(tau * (1 - tau)))
-   theta <- (1 - 2 * tau) / (tau * (1 - tau))
-   x <- as.matrix(cbind(1, x))
-   delta <- sqrt((y - x %*% beta)^2/(sigma * taup2))
-   gamma <- sqrt(theta^2/(sigma*taup2) + 2/sigma)
-   n = length(y)
-   nu_dens <- matrix(0, nrow = M, ncol = n)
-   for(i in 1:n) {
-       nu_dens[,i] <- rgig(M, 1/2, delta[i], gamma)
-   }
-   A <- matrix(0, nrow = n, ncol = n-1)
-   for(i in 1:n) {
-       probs <- 1:M/M
-       nu1 <- nu_dens[, -i]
-       for(j in 1:(n-1)) {
-          A[i,j] <- 1/M*sum(stats::quantile(nu_dens[,i], probs = probs) > max(nu1[, j]))
-       }
-   }
-   prob <- apply(A, 1, mean)
-   return(prob)
+
+#'
+#'
+#'
+
+bayesProb <- function(y, x, tau, M, burn){
+  x <- cbind(1, x)
+  n <- length(y)
+  t <- M - burn
+  coefs <- bayesQR(y ~ x, quantile = tau, alasso = FALSE,
+                   ndraw = M, prior = NULL)
+  beta <- coefs[[1]]$betadraw[(burn+1):M, ]
+  sigma <- coefs[[1]]$sigmadraw[(burn+1):M]
+  taup2 <- (2/(tau * (1 - tau)))
+  theta <- (1 - 2 * tau) / (tau * (1 - tau))
+  v <- matrix(0, nrow = n, ncol = t)
+  for (i in 1:n) {
+    for (j in 1:t) {
+      param1 <- 1/2
+      param2 <- (y[i] - x[i, ] %*% t(beta[j,]))^2/(taup2*sigma[j])
+      param3 <- 2/sigma[j] + theta^2/(taup2*sigma[j])
+      v[i, j] <- rgig(1, param1, param2, param3)
+    }
+  }
+  res <- matrix(0, nrow = n, ncol = n)
+  for(i in 1:n){
+    for(j in 1:n){
+      res[i,j] <- sum(v[i, ] > max(v[j, ])) / t
+    }
+  }
+  prob <- rowSums(res) / (n-1)
+  return(prob)
 }

@@ -9,6 +9,8 @@
 #'
 #'@param M the iteration frequancy for MCMC used in Baysian Estimation
 #'
+#'@param burn burned MCMC draw
+#'
 #'@param method the diagnostic method for outlier detection
 #'
 #'@description
@@ -79,19 +81,17 @@
 #'@seealso \code{qrod_mle}
 #'@examples
 #'\dontrun{
-#'library(ALDqr)
-#'data(ais)
-#'y <- ais$BMI
-#'sexInd <- (ais$Sex == 1) + 0
-#'x <- cbind(ais$LBM, ais$sexInd)
-#'qrod_bayes(y, x, tau = 0.1, M = 100, method = "bayes.prob")
-#'qrod_bayes(y, x, tau = 0.1, M = 100, method = "bayes.kl")
+#'ais_female <- subset(ais, Sex == 1)
+#'y <- ais_female$BMI
+#'x <- ais_female$LBM
+#'qrod_bayes(y, x, tau = 0.9, M = 5000, burn = 1000, method = "bayes.prob")
+#'qrod_bayes(y, x, tau = 0.9, M = 5000, burn = 1000, method = "bayes.kl")
 #'}
 #'
 #'@export
 #'
 #'
-qrod_bayes <- function(y, x, tau, M,
+qrod_bayes <- function(y, x, tau, M, burn,
                        method = c("bayes.prob", "bayes.kl")){
     method <- match.arg(method)
     distance <- list()
@@ -103,13 +103,13 @@ qrod_bayes <- function(y, x, tau, M,
       1 : ntau %>%
           map(function(i){
             names(distance[i]) <- paste('tau=', tau[i], sep = '')
-            distance[[i]] <- bayesProb(y, x, tau[i], M)
+            distance[[i]] <- bayesProb(y, x, tau[i], M, burn)
               })
   }else if(method == "bayes.kl"){
       1 : ntau %>%
           map(function(i){
           names(distance[i]) <- paste('tau=', tau[i], sep = '')
-          distance[[i]] <- bayesProb(y, x, tau[i], M)
+          distance[[i]] <- bayesProb(y, x, tau[i], M, burn)
               })
   }
 }
