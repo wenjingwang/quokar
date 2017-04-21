@@ -109,7 +109,7 @@ qrod_bayes <- function(y, x, tau, M, burn,
       1 : ntau %>%
           map(function(i){
           names(distance[i]) <- paste('tau=', tau[i], sep = '')
-          distance[[i]] <- bayesProb(y, x, tau[i], M, burn)
+          distance[[i]] <- bayesKL(y, x, tau[i], M, burn)
               })
   }
 }

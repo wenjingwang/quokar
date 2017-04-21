@@ -7,7 +7,7 @@
 #'
 #'@param tau quantile
 #'
-#'@param M the iteration frequancy for MCMC used in Baysian Estimation
+#'@param M the iteration frequancy for MCMC used in Baysian estimation
 #'
 #'@param burn burned MCMC draw
 #'
@@ -15,7 +15,10 @@
 #'
 #'
 #'@description
-#'This function give the data frame to plot  the mean probability of posterior and Kullback-leibler divergence of quantile regression model with asymmetric laplace distribution based on bayes estimation procedure.
+#'This function give the data frame to plot  the mean
+#'probability of posterior and Kullback-leibler divergence
+#'of quantile regression model with asymmetric laplace
+#'distribution based on bayes estimation procedure.
 #'
 #' @export
 #' @seealso qrod_bayes
