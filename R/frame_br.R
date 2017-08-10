@@ -1,16 +1,14 @@
 #globalVariables(c("obs", "index", "variable", "value", "tcrit", "alpha"))
-#' @title Observations used in quantile regression fitting using br algorithem
-#'
-#' @details This is a function that can be used to create point plot
-#' for the observations used in quantile regression fitting based
-#' on 'br'method.
-#'
+#' @title Visualization of quantile regression model fitting: br algorithem
 #' @param object quantile regression model using br method
 #' @param tau quantiles can be a single quantile or a vector of
 #' quantiles
 #' @return All observations and the observations used in quantile
 #' regression fitting using br algorithem
 #' @description get the observation used in br algorithem
+#' @details This is a function that can be used to create point plot
+#' for the observations used in quantile regression fitting based
+#' on 'br'method.
 #' @examples
 #' library(ggplot2)
 #' library(quantreg)
@@ -72,7 +70,7 @@ frame_br <- function(object, tau){
   choose_point <- h %>% gather(obs, index, -tau_flag)
   merge_x_y <- choose_point %>%
     inner_join(data_plot, by ='index')
-  choose_point2 <- merge_x_y %>% gather(variable, value,
+  choose_point2 <- merge_x_y %>% gather(variable, x,
                                         -c(index, tau_flag, obs, y))
 
   return(list(all_observation = data_plot_g, fitting_point = choose_point2))

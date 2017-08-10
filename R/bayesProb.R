@@ -1,5 +1,5 @@
-#'Calculating mean posterior probability based on the bayes estimating procedure of
-#'quantile regression with asymmetric laplace distribution
+#'Mean posterior probability for each observation in Baysian quantile regression model
+#'
 #'@param y dependent variable in quantile regression
 #'
 #'@param x indepdent variables in quantile regression.
@@ -12,7 +12,7 @@
 #'@param burn burned MCMC draws
 #'
 #'@details
-#'If we define the variable Oi, which takes value equal to 1 when ith observation
+#'If we define the variable O_{i}, which takes value equal to 1 when ith observation
 #'is an outlier, and 0 otherwise, then we propose to calculate the probability of
 #'an observation being an outlier as:
 #'
@@ -30,6 +30,9 @@
 #'
 #'where \eqn{M} is the size of the chain of \eqn{v_{i}} after the burn-in period and
 #'\eqn{v^{(l)}_{j}} is the \eqn{l}th draw of chain.
+#'
+#'More details please refer to the paper in references
+#'
 #'@references
 #'Santos B, Bolfarine H.(2016)``On Baysian quantile regression and
 #'outliers,\emph{arXiv:1601.07344}
@@ -51,8 +54,6 @@
 #'  geom_text(data = subset(dat, prob > mean(prob) + 2*sd(prob)),
 #‘            aes(label = case), vjust = 0, hjust = 0)
 #'}
-
-
 #'
 #'
 #'

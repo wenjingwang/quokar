@@ -13,8 +13,7 @@
 #' can be interpreted as a type of weight for \eqn{i}th case in the estimates of
 #' \eqn{\beta_{(k)^p}}, which tends to be small for outlying observations.
 #'
-#' @author Wenjing Wang
-#' @export
+#' @author Wenjing Wang \email{wenjingwangr@gmail.com}
 #' @examples
 #' library(ggplot2)
 #' library(dplyr)

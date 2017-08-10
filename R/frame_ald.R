@@ -1,6 +1,6 @@
 #globalVariables(c("obs", "r", "d"))
-#' @title Density function plot for quantile regression fitting using
-#' Asymmetric Laplace Distribution
+#' @title Density function plot of the error term for quantile regression model
+#' using asymmetric Laplace distribution
 #'
 #' @param y vector, dependent variable of quantile regression
 #' @param x matrix, matrix consisted independent variables of quantie
@@ -10,7 +10,8 @@
 #' density function
 #' @param error the convergence maximum error
 #' @param iter maximum iterations of the EM algorithm
-#' @description density function used in quantile regression fitting
+#' @description density function plot of the error term on each quantile
+#' @return dataframe to plot the density function of the error term
 #' @export
 #' @examples
 #' library(ggplot2)

@@ -1,8 +1,9 @@
 #globalVariables(c("variable", "value"))
-#' @title Function to create data frame to plot the fitting path
-#' of quantile regression using interior point method
+#' @title Visualization of the fitting path
+#' of quantile regression: interior point method
 #' @param object quantile regression model using interior point method
-#' @param tau quantiles
+#' @param tau quantile
+#' @return The fitting path of quantile regression model using interior point method
 #' @details This function used to illustrate the fitting process of
 #' quantile regression using interior point method.
 #' Koenker and Bassett(1978) introduced asymmetric weight on positive

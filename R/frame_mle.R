@@ -1,5 +1,5 @@
 #globalVariables(c("variable", "value"))
-#' @title General cook distance or Qfunction distance of quantile regression
+#' @title General Cook's distance or Q-function distance of quantile regression
 #' @param y dependent variable for quantile regression
 #' @param x design matrix for quantile regression
 #' @param tau quantiles
@@ -10,11 +10,11 @@
 #' @param method use method 'cook.distance' or 'qfunction'
 #' @description data frame used to plot generalized cook distance or
 #' qfunction distance
-#' @return generalized cook distance or qfunction distance for
+#' @return Generalized Cook's distance or Q-function distance for
 #' multiple quantiles
 #' @author Wenjing Wang<wenjingwang1990@gmail.com>
 #' @details This function used to prepare the data frame to
-#' plot general cook distance or qfunction distance
+#' plot general Cook's distance or Q-function distance
 #' @seealso see documentation of qrod_mle
 #' @export
 #' @examples

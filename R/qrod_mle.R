@@ -15,6 +15,9 @@
 #'
 #'@param method the diagnostic method for outlier detection
 #'
+#'@return Generalized Cook's distance or Q-function distance for
+#' multiple quantiles
+#'
 #'@description
 #'
 #'This function cacluate the generalized cook distance and q function distance
@@ -75,7 +78,6 @@
 #'qrod_mle(y, x, tau = 0.1, error = 1e-10, iter = 2000, method = "qfunction")
 #'
 #'
-#'@export
 #'
 #'
 qrod_mle <- function(y, x, tau, error, iter,

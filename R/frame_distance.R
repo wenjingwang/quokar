@@ -1,8 +1,7 @@
-#' @title Function to compute robust distance and draw residual-robust
-#' distance plot to diagnose outliers
+#' @title Residual-robust distance plot of quantile regression model
 #' @param object quantile regression model
-#' @param tau quantile regression
-#'
+#' @param tau quantile
+#' @return dataframe for residual-robust distance plot
 #' @details The generalized MCD algorithm based on the fast-MCD
 #' algorithm formulated by Rousseeuw and Van Driessen(1999), which
 #' is similar to the algorithm for least trimmed squares(LTS).
@@ -34,10 +33,12 @@
 #' \eqn{\frac{(n-h)}{n}}. This means the MCD estimates is reliable,
 #' even if up to \eqn{\frac{100(n-h)}{n}}% observations in the data
 #' set are contaminated.
+#'
 #' @description the standardized residuals from quantile regression
 #' against the robust MCD distance. This display is used to diagnose
 #' both vertical outlier and horizontal leverage points.
-#' @author Wenjing Wang
+#'
+#' @author Wenjing Wang \email{wenjingwangr@gmail.com}
 #' @export
 #' @examples
 #' library(quantreg)

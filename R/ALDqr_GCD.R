@@ -1,4 +1,4 @@
-#'Calculating generalized cook distance of the MLE estimation of quantile regression using asymmetric laplace distribution
+#'Generalized Cook's distance for each observation in quantile regression model
 #'@param y Dependent variable in quantile regression. Note that: we suppose
 #'y follows asymmetric laplace distribution.
 #'
@@ -6,43 +6,40 @@
 #'Note that: x is the independent variable matrix which including
 #'the intercept. That means, if the dimension of independent
 #'variables is p and the sample size is n, x is a n times p+1
-#'matrix with the first column is one.
+#'matrix with the first column being one.
 #'
 #'@param tau quantile
 #'
-#'@param error The EM algorithm accuracy of error used in
+#'@param error the EM algorithm accuracy of error used in
 #' MLE estimation
 #'
 #'@param iter the iteration frequancy for EM algorithm used
 #' in MLE estimation
 #'
-#'
 #'@details
-#'Case-deletion is a classical approach to study the effects
-#' of dropping the
-#'\eqn{i}th case from the data set. Thus, the complete-data log-likelihhod
-#'function based on the data with \eqn{i}th cse deleted with be denoted by
-#'\eqn{l_{c}(\theta|y_{c(i)})}. Let \eqn{\hat{\theta_{p(i)}} = (\hat{\beta^{'}_{p(i)}},
-#'\hat{\sigma^{2}}_{(i)})^{'}} be the maximizer of the function
+#'Gerneralized Cook's distance is a commonly used estimate
+#'of the influence of a data point when performing regression
+#'analysis. It involves the log-likelihood function based on the
+#'complete data and case-deletion data.
+#'To assess the influence of the \eqn{i}th case with estimate \eqn{\hat{\theta}},
+#'we compare \eqn{\hat{\theta_(i)}} and \eqn{\hat{\theta}}, and if \eqn{\hat{\theta_(i)}}
+#'is far from \eqn{\hat{\theta_(i)}}, then the \eqn{i}th case is regarded
+#'as influential. We consider here the following
+#'generalized Cook's distance:
+#'
+#'\deqn{GCD_{i} = (\hat{\theta_{(i)}}-\hat{\theta{i}})^{'}{-Q(\hat{\theta}|\hat{\theta})}
+#'(\hat{\theta_{(i)}}-\hat{\theta{i}})}
 #'
 #'\deqn{Q_{(i)}(\theta|\hat{\theta})=E_{\hat{\theta}}[l_{c}(\theta|Y_{c(i)})|y]}
 #'
-#'To assess the influence of the \eqn{i}th case on the EM estimate \eqn{\hat{\theta}},
-#'we compare \eqn{\hat{\theta_(i)}} and \eqn{\hat{\theta}}, and if \eqn{\hat{\theta_(i)}}
-#'is far from \eqn{\hat{\theta_(i)}} in some sense, then the \eqn{i}th case is regarded
-#'as influential. Based on the metric for measuring the distance between \eqn{\hat{\theta_(i)}}
-#'and \eqn{\hat{\theta}} proposed by Zhu et al.(2001), we consider here the following
-#'generalized Cook distance:
-#'
-#'\deqn{GD_{i} = (\hat{\theta_{(i)}}-\hat{\theta{i}})^{'}{-Q(\hat{\theta}|\hat{\theta})}
-#'(\hat{\theta_{(i)}}-\hat{\theta{i}})}
-#'
+#'More details please refer to the paper in references
 #'
 #'@references
 #'Benites L E, Lachos V H, Vilca F E.(2015)``Case-Deletion
 #'Diagnostics for Quantile Regression Using the Asymmetric Laplace
 #'Distribution,\emph{arXiv preprint arXiv:1509.05099}.
 #'
+#'@author Wenjing Wang \email{wenjingwang1990@gmail.com}
 #'@seealso \code{ALDqr_QD}
 #'
 #'

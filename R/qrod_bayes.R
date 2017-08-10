@@ -13,10 +13,12 @@
 #'
 #'@param method the diagnostic method for outlier detection
 #'
+#'@return Mean probability or Kullback-Leibler divergence for observations in Bayesian
+#'quantile regression model
+#'
 #'@description
 #'This function cacluate the mean probability of posterior
-#'of quantile regression model with asymmetric laplace distribution based on bayes
-#'estimation procedure.
+#'of Baysian quantile regression model with asymmetric laplace distribution
 #'
 #'@details
 #'If we define the variable Oi, which takes value equal to 1 when ith observation
@@ -88,7 +90,6 @@
 #'qrod_bayes(y, x, tau = 0.9, M = 5000, burn = 1000, method = "bayes.kl")
 #'}
 #'
-#'@export
 #'
 #'
 qrod_bayes <- function(y, x, tau, M, burn,

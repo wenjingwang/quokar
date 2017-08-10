@@ -1,10 +1,13 @@
-#' @title Explore fitting process of non-linear quantile  regression
+#' @title Visualization of fitting process of non-linear quantile regression:
+#' interior point algorithm
 #' @description This function explore the fitting process of nonlinear
 #' quantile regression
 #' @param formula non-linear quantile regression model
 #' @param data data frame
 #' @param tau quantiles
 #' @param start the initial value of all parameters to estimate, must be a list
+#' @return Weighted observations in non-linear quantile regression model fitting using
+#' interior algorithm
 #' @author Wenjing Wang
 #' @details To extentd the linear programming method to the case of
 #' non-linear response functions, Koenker & Park(1996) considered the

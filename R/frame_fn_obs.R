@@ -1,9 +1,12 @@
-#' @title Function to show data used in quantile regression fitting based on interior point algorithm
+#' @title Visualization of quantile regression model fitting: interior point algorithm
 #' @param object quantile regression model using interior point method for estimating
-#' @param tau quantiles
+#' @param tau quantile
+#' @return Weighted observations in quantile regression fitting using interior point
+#' algorithm
 #' @details This function used to illustrate data used in fitting process of quantile regression based on interior point method.
 #' Koenker and Bassett(1978) introduced asymmetric weight on positive
 #' and negative residuals, and solves the slightly modified l1-problem.
+#'
 #' @description observations used in quantile regression fitting
 #'
 #' \deqn{min_{b \in R^{p}}\sum_{i=1}^{n}\rho_{\tau}(y_i-x_{i}^{'}b)}
