@@ -25,6 +25,7 @@
 #'distribution based on bayes estimation procedure.
 #'
 #' @export
+#' @author Wenjing Wang \email{wenjingwangr@gmail.com}
 #' @seealso qrod_bayes
 #' @examples
 #' \dontrun{

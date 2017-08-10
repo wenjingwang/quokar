@@ -9,6 +9,7 @@
 #' @details This is a function that can be used to create point plot
 #' for the observations used in quantile regression fitting based
 #' on 'br'method.
+#' @author Wenjing Wang \email{wenjingwangr@gmail.com}
 #' @examples
 #' library(ggplot2)
 #' library(quantreg)

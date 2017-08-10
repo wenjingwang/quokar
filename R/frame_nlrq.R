@@ -8,7 +8,7 @@
 #' @param start the initial value of all parameters to estimate, must be a list
 #' @return Weighted observations in non-linear quantile regression model fitting using
 #' interior algorithm
-#' @author Wenjing Wang
+#' @author Wenjing Wang \email{wenjingwangr@gmail.com}
 #' @details To extentd the linear programming method to the case of
 #' non-linear response functions, Koenker & Park(1996) considered the
 #' nonlinear \eqn{l_{1}} problem

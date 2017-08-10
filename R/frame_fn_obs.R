@@ -55,6 +55,7 @@
 #' \emph{Statistical Science}, 1997, 12(4): 279-300.
 #'
 #' @export
+#' @author Wenjing Wang \email{wenjingwangr@gmail.com}
 #' @useDynLib quokar
 #' @examples
 #' library(ggplot2)

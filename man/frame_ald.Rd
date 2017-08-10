@@ -3,8 +3,7 @@
 \name{frame_ald}
 \alias{frame_ald}
 \title{Density function plot of the error term for quantile
-regression model
-using asymmetric Laplace distribution}
+regression model using asymmetric Laplace distribution}
 \usage{
 frame_ald(y, x, tau, smooth, error, iter)
 }

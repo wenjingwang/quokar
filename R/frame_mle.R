@@ -12,7 +12,7 @@
 #' qfunction distance
 #' @return Generalized Cook's distance or Q-function distance for
 #' multiple quantiles
-#' @author Wenjing Wang<wenjingwang1990@gmail.com>
+#' @author Wenjing Wang<wenjingwangr@gmail.com>
 #' @details This function used to prepare the data frame to
 #' plot general Cook's distance or Q-function distance
 #' @seealso see documentation of qrod_mle

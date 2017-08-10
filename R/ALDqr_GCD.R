@@ -45,7 +45,6 @@
 #'Diagnostics for Quantile Regression Using the Asymmetric Laplace
 #'Distribution,\emph{arXiv preprint arXiv:1509.05099}.
 #'
-#'@author Wenjing Wang \email{wenjingwang1990@gmail.com}
 #'@seealso \code{ALDqr_QD}
 #'
 #'

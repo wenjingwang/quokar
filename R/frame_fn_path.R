@@ -54,6 +54,7 @@
 #' computability of squared-error versus absolute-error estimators.
 #' \emph{Statistical Science}, 1997, 12(4): 279-300.
 #' @export
+#' @author Wenjing Wang \email{wenjingwangr@gmail.com}
 #' @examples
 #' \dontrun{
 #' library(ggplot2)

@@ -61,7 +61,7 @@
 #'the MCMC draws from the posterior of each latent vaiable, we estimate the densities
 #'using a normal kernel and we compute the integral using the trapezoidal rule.
 #'
-#'@author Wenjing Wang \email{wenjingwang1990@gmail.com}
+#'@author Wenjing Wang \email{wenjingwangr@gmail.com}
 #'@keywords quantile regression outlier diagnostics
 #'@references Benites L E, Lachos V H, Vilca F E.(2015)``Case-Deletion
 #' Diagnostics for Quantile Regression Using the Asymmetric Laplace
