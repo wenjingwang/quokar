@@ -2,8 +2,9 @@
 % Please edit documentation in R/frame_ald.R
 \name{frame_ald}
 \alias{frame_ald}
-\title{Density function plot for quantile regression fitting using
-Asymmetric Laplace Distribution}
+\title{Density function plot of the error term for quantile
+regression model
+using asymmetric Laplace distribution}
 \usage{
 frame_ald(y, x, tau, smooth, error, iter)
 }
@@ -22,8 +23,11 @@ density function}
 
 \item{iter}{maximum iterations of the EM algorithm}
 }
+\value{
+dataframe to plot the density function of the error term
+}
 \description{
-density function used in quantile regression fitting
+density function plot of the error term on each quantile
 }
 \examples{
 library(ggplot2)

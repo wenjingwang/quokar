@@ -2,15 +2,17 @@
 % Please edit documentation in R/frame_distance.R
 \name{frame_distance}
 \alias{frame_distance}
-\title{Function to compute robust distance and draw residual-robust
-distance plot to diagnose outliers}
+\title{Residual-robust distance plot of quantile regression model}
 \usage{
 frame_distance(object, tau)
 }
 \arguments{
 \item{object}{quantile regression model}
 
-\item{tau}{quantile regression}
+\item{tau}{quantile}
+}
+\value{
+dataframe for residual-robust distance plot
 }
 \description{
 the standardized residuals from quantile regression
@@ -102,5 +104,5 @@ xlab("Robust Distance") +
 grid.arrange(p1, p2, p3, ncol = 3)
 }
 \author{
-Wenjing Wang
+Wenjing Wang \email{wenjingwangr@gmail.com}
 }

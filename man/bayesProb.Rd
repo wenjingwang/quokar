@@ -2,10 +2,10 @@
 % Please edit documentation in R/bayesProb.R
 \name{bayesProb}
 \alias{bayesProb}
-\title{Calculating mean posterior probability based on the bayes estimating procedure of
-quantile regression with asymmetric laplace distribution}
+\title{Mean posterior probability for each observation in
+Baysian quantile regression model}
 \usage{
-bayesProb(y, x, tau, M)
+bayesProb(y, x, tau, M, burn)
 }
 \arguments{
 \item{y}{dependent variable in quantile regression}
@@ -15,14 +15,16 @@ Note that: x is the independent variable matrix}
 
 \item{tau}{quantile}
 
-\item{M}{the iteration frequancy for MCMC used in Baysian Estimation}
+\item{M}{MCMC draws}
+
+\item{burn}{burned MCMC draws}
 }
 \description{
-Calculating mean posterior probability based on the bayes estimating procedure of
-quantile regression with asymmetric laplace distribution
+Mean posterior probability for each observation in
+Baysian quantile regression model
 }
 \details{
-If we define the variable Oi, which takes value equal to 1 when ith observation
+If we define the variable O_{i}, which takes value equal to 1 when ith observation
 is an outlier, and 0 otherwise, then we propose to calculate the probability of
 an observation being an outlier as:
 
@@ -40,6 +42,27 @@ The probability in the equation can be approximated given the MCMC draws, as fol
 
 where \eqn{M} is the size of the chain of \eqn{v_{i}} after the burn-in period and
 \eqn{v^{(l)}_{j}} is the \eqn{l}th draw of chain.
+
+More details please refer to the paper in references
+}
+\examples{
+\dontrun{
+ais_female <- subset(ais, Sex == 1)
+y <- ais_female$BMI
+x <- ais_female$LBM
+tau <- 0.5
+M <- 5000
+burn <- 1000
+prob <- bayesProb(y, x, tau, M, burn)
+case <-  1:100
+dat <- data.frame(case, prob)
+ggplot(dat, aes(case, prob))+
+ geom_point() +
+ geom_text(data = subset(dat, prob > mean(prob) + 2*sd(prob)),
+}
+
+
+
 }
 \references{
 Santos B, Bolfarine H.(2016)``On Baysian quantile regression and

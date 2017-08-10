@@ -1,4 +1,5 @@
-#'Kullback-Leibler divergence for each observation in Baysian quantile regression model
+#'Kullback-Leibler divergence for each observation in
+#'Baysian quantile regression model
 #'@param y dependent variable in quantile regression
 #'
 #'@param x indepdent variables in quantile regression.
@@ -12,15 +13,19 @@
 #'
 #'@details
 #'Method to address the differences between the posterior distributions
-#'from the distinct latent variables in the model, we suggest the use of the Kullback-
-#'Leibler divergence as a more precise method of measuring the distance between those
+#'from the distinct latent variables in the model, we suggest the use of
+#'the Kullback-
+#'Leibler divergence as a more precise method of measuring the distance
+#'between those
 #'latent variables in the Bayesian quantile
-#'regression framework. In this posterior information, the divergence is defined as
+#'regression framework. In this posterior information, the divergence is
+#'defined as
 #'
 #'\deqn{K(f_{i}, f_{j}) = \int log(\frac{f_{i}(x)}{f_{j}{(x)}})f_{i}(x)dx}
 #'
 #'where \eqn{f_{i}} could be the posterior conditional distribution of \eqn{v_{i}}
-#'and \eqn{f_{j}} the poserior conditional distribution of \eqn{v_{j}}. We should average
+#'and \eqn{f_{j}} the poserior conditional distribution of \eqn{v_{j}}. We
+#'should average
 #'this divergence for one observation based on the distance from all others, i.e,
 #'
 #'\deqn{KL(f_{i})=\frac{1}{n-1}\sum{K(f_{i}, f_{j})}}
@@ -42,10 +47,7 @@
 #'
 #'
 
-trapz <- function(x,y){
-  idx = 2:length(x)
-  return (as.double((x[idx]-x[idx-1]) %*% (y[idx]+y[idx-1]))/2)
-}
+
 bayesKL <- function(y, x, tau, M, burn){
   x <- cbind(1, x)
   n <- length(y)

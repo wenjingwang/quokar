@@ -2,7 +2,8 @@
 % Please edit documentation in R/frame_ald_weight.R
 \name{frame_ald_weight}
 \alias{frame_ald_weight}
-\title{Weighting Matrix of Quantile regression using Asymmetric Laplace Distrubtion}
+\title{Weighting Matrix of Quantile regression using
+Asymmetric Laplace Distrubtion}
 \usage{
 frame_ald_weight(y, x, tau, error, iter)
 }
@@ -43,5 +44,5 @@ weights
 
 }
 \author{
-Wenjing Wang
+Wenjing Wang \email{wenjingwangr@gmail.com}
 }

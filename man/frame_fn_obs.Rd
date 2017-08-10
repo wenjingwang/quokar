@@ -2,14 +2,19 @@
 % Please edit documentation in R/frame_fn_obs.R
 \name{frame_fn_obs}
 \alias{frame_fn_obs}
-\title{Function to show data used in quantile regression fitting based on interior point algorithm}
+\title{Visualization of quantile regression model
+fitting: interior point algorithm}
 \usage{
 frame_fn_obs(object, tau)
 }
 \arguments{
 \item{object}{quantile regression model using interior point method for estimating}
 
-\item{tau}{quantiles}
+\item{tau}{quantile}
+}
+\value{
+Weighted observations in quantile regression fitting using interior point
+algorithm
 }
 \description{
 observations used in quantile regression fitting
@@ -54,7 +59,8 @@ algebra of each iteration is essentially unchanged, only the form
 of the diagonal weighting matrix \eqn{W} has chagned.
 }
 \details{
-This function used to illustrate data used in fitting process of quantile regression based on interior point method.
+This function used to illustrate data used in fitting process of
+quantile regression based on interior point method.
 Koenker and Bassett(1978) introduced asymmetric weight on positive
 and negative residuals, and solves the slightly modified l1-problem.
 }

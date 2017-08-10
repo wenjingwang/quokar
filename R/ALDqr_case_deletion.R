@@ -1,4 +1,5 @@
-#'Calculate the case-deletion coefficience of the MLE estimation of quantile regression
+#'Calculate the case-deletion coefficience of the MLE estimation of
+#' quantile regression
 #'@param y Response variable in quantile regression model
 #'@param x Predictors in quantile regression model.
 #'Note that: x is the independent variable matrix which including
@@ -8,7 +9,8 @@
 #'
 #'@param tau Quantile
 #'@param error The EM algorithm accuracy of error used in MLE estimation
-#'@param iter The iteration frequancy for EM algorithm used in MLE estimation
+#'@param iter The iteration frequancy for EM algorithm used in MLE
+#'estimation
 #'
 #'
 #'

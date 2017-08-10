@@ -2,7 +2,8 @@
 % Please edit documentation in R/ALDqr_case_deletion.R
 \name{ALDqr_case_deletion}
 \alias{ALDqr_case_deletion}
-\title{Calculating the case-deletion coefficience of quantile regression}
+\title{Calculate the case-deletion coefficience of the MLE estimation of
+quantile regression}
 \usage{
 ALDqr_case_deletion(y, x, tau, error, iter)
 }
@@ -13,14 +14,16 @@ ALDqr_case_deletion(y, x, tau, error, iter)
 Note that: x is the independent variable matrix which including
 the intercept. That means, if the dimension of independent
 variables is p and the sample size is n, x is a n times p+1
-matrix with the first column is one.}
+matrix with the first column being one.}
 
 \item{tau}{Quantile}
 
 \item{error}{The EM algorithm accuracy of error used in MLE estimation}
 
-\item{iter}{The iteration frequancy for EM algorithm used in MLE estimation}
+\item{iter}{The iteration frequancy for EM algorithm used in MLE
+estimation}
 }
 \description{
-Calculating the case-deletion coefficience of quantile regression
+Calculate the case-deletion coefficience of the MLE estimation of
+quantile regression
 }

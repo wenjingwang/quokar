@@ -3,7 +3,8 @@
 #' of quantile regression: interior point method
 #' @param object quantile regression model using interior point method
 #' @param tau quantile
-#' @return The fitting path of quantile regression model using interior point method
+#' @return The fitting path of quantile regression model using interior
+#' point method
 #' @details This function used to illustrate the fitting process of
 #' quantile regression using interior point method.
 #' Koenker and Bassett(1978) introduced asymmetric weight on positive

@@ -1,4 +1,5 @@
-#'Mean posterior probability for each observation in Baysian quantile regression model
+#'Mean posterior probability for each observation in
+#'Baysian quantile regression model
 #'
 #'@param y dependent variable in quantile regression
 #'

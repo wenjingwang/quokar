@@ -1,4 +1,5 @@
-#' @title Weighting Matrix of Quantile regression using Asymmetric Laplace Distrubtion
+#' @title Weighting Matrix of Quantile regression using
+#' Asymmetric Laplace Distrubtion
 #' @description This function calulate the weighting matrix
 #' @param y dependent variable of quantile regression
 #' @param x design matrix of quantile regression
@@ -12,7 +13,7 @@
 #' Hence, \eqn{u_i(\theta^{k})=\varepsilon_{-1i}(\theta^{(k)})}
 #' can be interpreted as a type of weight for \eqn{i}th case in the estimates of
 #' \eqn{\beta_{(k)^p}}, which tends to be small for outlying observations.
-#'
+#' @export
 #' @author Wenjing Wang \email{wenjingwangr@gmail.com}
 #' @examples
 #' library(ggplot2)

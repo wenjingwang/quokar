@@ -2,15 +2,19 @@
 % Please edit documentation in R/frame_fn_path.R
 \name{frame_fn_path}
 \alias{frame_fn_path}
-\title{Function to create data frame to plot the fitting path
-of quantile regression using interior point method}
+\title{Visualization of the fitting path
+of quantile regression: interior point method}
 \usage{
 frame_fn_path(object, tau)
 }
 \arguments{
 \item{object}{quantile regression model using interior point method}
 
-\item{tau}{quantiles}
+\item{tau}{quantile}
+}
+\value{
+The fitting path of quantile regression model using interior
+point method
 }
 \description{
 observations used in quantile regression fitting

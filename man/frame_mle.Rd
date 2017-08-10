@@ -2,7 +2,7 @@
 % Please edit documentation in R/frame_mle.R
 \name{frame_mle}
 \alias{frame_mle}
-\title{General cook distance or Qfunction distance of quantile regression}
+\title{General Cook's distance or Q-function distance of quantile regression}
 \usage{
 frame_mle(y, x, tau, error = 1e-06, iter = 100,
   method = c("cook.distance", "qfunction"))
@@ -23,7 +23,7 @@ estimation}
 \item{method}{use method 'cook.distance' or 'qfunction'}
 }
 \value{
-generalized cook distance or qfunction distance for
+Generalized Cook's distance or Q-function distance for
 multiple quantiles
 }
 \description{
@@ -32,7 +32,7 @@ qfunction distance
 }
 \details{
 This function used to prepare the data frame to
-plot general cook distance or qfunction distance
+plot general Cook's distance or Q-function distance
 }
 \examples{
 library(ggplot2)

@@ -2,7 +2,8 @@
 % Please edit documentation in R/frame_nlrq.R
 \name{frame_nlrq}
 \alias{frame_nlrq}
-\title{Explore fitting process of non-linear quantile  regression}
+\title{Visualization of fitting process of non-linear quantile regression:
+interior point algorithm}
 \usage{
 frame_nlrq(formula, data, tau, start)
 }
@@ -14,6 +15,10 @@ frame_nlrq(formula, data, tau, start)
 \item{tau}{quantiles}
 
 \item{start}{the initial value of all parameters to estimate, must be a list}
+}
+\value{
+Weighted observations in non-linear quantile regression model fitting using
+interior algorithm
 }
 \description{
 This function explore the fitting process of nonlinear

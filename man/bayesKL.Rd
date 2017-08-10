@@ -2,10 +2,10 @@
 % Please edit documentation in R/bayesKL.R
 \name{bayesKL}
 \alias{bayesKL}
-\title{Calculating Kullback-Leibler divergence based on the bayes estimating procedure of
-of quantile regression with asymmetric laplace distribution}
+\title{Kullback-Leibler divergence for each observation in
+Baysian quantile regression model}
 \usage{
-bayesKL(y, x, tau, M)
+bayesKL(y, x, tau, M, burn)
 }
 \arguments{
 \item{y}{dependent variable in quantile regression}
@@ -16,24 +16,29 @@ Note that: x is the independent variable matrix}
 \item{tau}{quantile}
 
 \item{M}{the iteration frequancy for MCMC used in Baysian Estimation}
+
+\item{burn}{burned MCMC draw}
 }
 \description{
-Calculating Kullback-Leibler divergence based on the bayes estimating procedure of
-of quantile regression with asymmetric laplace distribution
+Kullback-Leibler divergence for each observation in
+Baysian quantile regression model
 }
 \details{
 Method to address the differences between the posterior distributions
-from the distinct latent variables in the model, we suggest the use of the Kullback-
-Leibler divergence proposed by Kullback and Leibler(1951), as a more precise method
-of measuring the distance between those latent variables in the Bayesian quantile
-regression framework. In this posterior information, the divergence is defined as
+from the distinct latent variables in the model, we suggest the use of
+the Kullback-
+Leibler divergence as a more precise method of measuring the distance
+between those
+latent variables in the Bayesian quantile
+regression framework. In this posterior information, the divergence is
+defined as
 
 \deqn{K(f_{i}, f_{j}) = \int log(\frac{f_{i}(x)}{f_{j}{(x)}})f_{i}(x)dx}
 
 where \eqn{f_{i}} could be the posterior conditional distribution of \eqn{v_{i}}
-and \eqn{f_{j}} the poserior conditional distribution of \eqn{v_{j}}. Similar to
-the probability proposal in the previous subsection, we should average this
-divergence for one observation based on the distance from all others, i.e,
+and \eqn{f_{j}} the poserior conditional distribution of \eqn{v_{j}}. We
+should average
+this divergence for one observation based on the distance from all others, i.e,
 
 \deqn{KL(f_{i})=\frac{1}{n-1}\sum{K(f_{i}, f_{j})}}
 
@@ -41,6 +46,8 @@ We expect that when an observation presents a higher value for this divergence,
 it should also present a high probability value of being an outlier. Based on
 the MCMC draws from the posterior of each latent vaiable, we estimate the densities
 using a normal kernel and we compute the integral using the trapezoidal rule.
+
+More details please refer to the paper in references
 }
 \references{
 Santos B, Bolfarine H.(2016)``On Baysian quantile regression and

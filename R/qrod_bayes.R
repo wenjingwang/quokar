@@ -13,7 +13,8 @@
 #'
 #'@param method the diagnostic method for outlier detection
 #'
-#'@return Mean probability or Kullback-Leibler divergence for observations in Bayesian
+#'@return Mean probability or Kullback-Leibler divergence for observations
+#'in Bayesian
 #'quantile regression model
 #'
 #'@description
@@ -81,15 +82,6 @@
 #'simulation}, 81(11), 1565-1578.
 #'
 #'@seealso \code{qrod_mle}
-#'@examples
-#'\dontrun{
-#'ais_female <- subset(ais, Sex == 1)
-#'y <- ais_female$BMI
-#'x <- ais_female$LBM
-#'qrod_bayes(y, x, tau = 0.9, M = 5000, burn = 1000, method = "bayes.prob")
-#'qrod_bayes(y, x, tau = 0.9, M = 5000, burn = 1000, method = "bayes.kl")
-#'}
-#'
 #'
 #'
 qrod_bayes <- function(y, x, tau, M, burn,

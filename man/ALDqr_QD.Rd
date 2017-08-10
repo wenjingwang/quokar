@@ -2,8 +2,7 @@
 % Please edit documentation in R/ALDqr_QD.R
 \name{ALDqr_QD}
 \alias{ALDqr_QD}
-\title{Calculating q distance of the MLE estimations of quantile regression based on
-asymmetric laplace distribution}
+\title{Q-function distance for each observation in quantile regression model}
 \usage{
 ALDqr_QD(y, x, tau, error, iter)
 }
@@ -24,8 +23,7 @@ matrix with the first column is one.}
 \item{iter}{The iteration frequancy for EM algorithm used in MLE estimation}
 }
 \description{
-Calculating q distance of the MLE estimations of quantile regression based on
-asymmetric laplace distribution
+Q-function distance for each observation in quantile regression model
 }
 \details{
 Measure of the influence of the \eqn{i}th case is the following Q-distance
@@ -43,5 +41,5 @@ Distribution,\emph{arXiv preprint arXiv:1509.05099}.
 \code{ALDqr_GCD}
 }
 \author{
-Wenjing Wang \email{wenjingwang1990@gmail.com}
+Wenjing Wang \email{wenjingwangr@gmail.com}
 }

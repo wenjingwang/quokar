@@ -1,5 +1,7 @@
-#'Generalized Cook's distance for each observation in quantile regression model
-#'@param y Dependent variable in quantile regression. Note that: we suppose
+#'Generalized Cook's distance for each observation in quantile
+#'regression model
+#'@param y Dependent variable in quantile regression. Note that:
+#'we suppose
 #'y follows asymmetric laplace distribution.
 #'
 #'@param x indepdent variables in quantile regression.
@@ -21,13 +23,17 @@
 #'of the influence of a data point when performing regression
 #'analysis. It involves the log-likelihood function based on the
 #'complete data and case-deletion data.
-#'To assess the influence of the \eqn{i}th case with estimate \eqn{\hat{\theta}},
-#'we compare \eqn{\hat{\theta_(i)}} and \eqn{\hat{\theta}}, and if \eqn{\hat{\theta_(i)}}
-#'is far from \eqn{\hat{\theta_(i)}}, then the \eqn{i}th case is regarded
+#'To assess the influence of the \eqn{i}th case with estimate
+#'\eqn{\hat{\theta}},
+#'we compare \eqn{\hat{\theta_(i)}} and \eqn{\hat{\theta}}, and if
+#'\eqn{\hat{\theta_(i)}}
+#'is far from \eqn{\hat{\theta_(i)}}, then the \eqn{i}th case is
+#'regarded
 #'as influential. We consider here the following
 #'generalized Cook's distance:
 #'
-#'\deqn{GCD_{i} = (\hat{\theta_{(i)}}-\hat{\theta{i}})^{'}{-Q(\hat{\theta}|\hat{\theta})}
+#'\deqn{GCD_{i} = (\hat{\theta_{(i)}}-\hat{\theta{i}})^{'}
+#'{-Q(\hat{\theta}|\hat{\theta})}
 #'(\hat{\theta_{(i)}}-\hat{\theta{i}})}
 #'
 #'\deqn{Q_{(i)}(\theta|\hat{\theta})=E_{\hat{\theta}}[l_{c}(\theta|Y_{c(i)})|y]}

@@ -4,7 +4,7 @@
 \alias{qrod_bayes}
 \title{Outlier Dignostic for Quantile Regression Based on Bayesian Estimation}
 \usage{
-qrod_bayes(y, x, tau, M, method = c("bayes.prob", "bayes.kl"))
+qrod_bayes(y, x, tau, M, burn, method = c("bayes.prob", "bayes.kl"))
 }
 \arguments{
 \item{y}{dependent variable in quantile regression}
@@ -16,12 +16,18 @@ Note that: x is the independent variable matrix}
 
 \item{M}{the iteration frequancy for MCMC used in Baysian Estimation}
 
+\item{burn}{burned MCMC draw}
+
 \item{method}{the diagnostic method for outlier detection}
+}
+\value{
+Mean probability or Kullback-Leibler divergence for observations
+in Bayesian
+quantile regression model
 }
 \description{
 This function cacluate the mean probability of posterior
-of quantile regression model with asymmetric laplace distribution based on bayes
-estimation procedure.
+of Baysian quantile regression model with asymmetric laplace distribution
 }
 \details{
 If we define the variable Oi, which takes value equal to 1 when ith observation
@@ -62,18 +68,6 @@ We expect that when an observation presents a higher value for this divergence,
 it should also present a high probability value of being an outlier. Based on
 the MCMC draws from the posterior of each latent vaiable, we estimate the densities
 using a normal kernel and we compute the integral using the trapezoidal rule.
-}
-\examples{
-\dontrun{
-library(ALDqr)
-data(ais)
-y <- ais$BMI
-sexInd <- (ais$Sex == 1) + 0
-x <- cbind(ais$LBM, ais$sexInd)
-qrod_bayes(y, x, tau = 0.1, M = 100, method = "bayes.prob")
-qrod_bayes(y, x, tau = 0.1, M = 100, method = "bayes.kl")
-}
-
 }
 \references{
 Benites L E, Lachos V H, Vilca F E.(2015)``Case-Deletion

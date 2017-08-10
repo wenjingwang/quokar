@@ -2,52 +2,66 @@
 % Please edit documentation in R/frame_bayes.R
 \name{frame_bayes}
 \alias{frame_bayes}
-\title{Mean probability of posterior distribution  and
-Kullback-Leibler divergence}
+\title{Mean probability of posterior distribution and
+Kullback-Leibler divergence for observations in Bayesian
+quantile regression model}
 \usage{
-frame_bayes(y, x, tau, M, method = c("bayes.prob", "bayes.kl"))
+frame_bayes(y, x, tau, M, burn, method = c("bayes.prob", "bayes.kl"))
 }
 \arguments{
 \item{y}{dependent variable in quantile regression}
 
 \item{x}{indepdent variables in quantile regression.
-Note that: x is the independent variable matrix with first column
-being one, indicate the intercept}
+Note that: x is the independent variable matrix}
 
 \item{tau}{quantile}
 
-\item{M}{the iteration frequancy for MCMC used in Baysian Estimation}
+\item{M}{the iteration frequancy for MCMC used in Baysian estimation}
+
+\item{burn}{burned MCMC draw}
 
 \item{method}{the diagnostic method for outlier detection}
 }
+\value{
+Mean probability or Kullback-Leibler divergence for o
+bservations in Bayesian
+quantile regression model
+}
 \description{
-This function give the data frame to plot  the mean probability of posterior and Kullback-leibler divergence of quantile regression model with asymmetric laplace distribution based on bayes estimation procedure.
+This function give the data frame to plot the mean
+probability of posterior and Kullback-leibler divergence
+of quantile regression model with asymmetric laplace
+distribution based on bayes estimation procedure.
 }
 \examples{
 \dontrun{
 library(ggplot2)
-data(ais)
-y <- ais$BMI
-x <- ais$LBM
+ais_female <- subset(ais, Sex == 1)
+y <- ais_female$BMI
+x <- ais_female$LBM
 tau <- c(0.1, 0.5, 0.9)
 case <- rep(1:length(y), length(tau))
-prob <- frame_bayes(y, x, tau, M =  100,
+prob <- frame_bayes(y, x, tau, M =  5000, burn = 1000,
                  method = 'bayes.prob')
 prob_m <- cbind(case, prob)
 ggplot(prob_m, aes(x = case, y = value )) +
   geom_point() +
+  geom_text(aes(label = case)) +
   facet_wrap(~variable, scale = 'free') +
   xlab("case number") +
   ylab("Mean probability of posterior distribution")
-kl <- frame_bayes(y, x, tau, M = 100,
+
+kl <- frame_bayes(y, x, tau, M = 5000, burn = 1000,
                 method = 'bayes.kl')
 kl_m <- cbind(case, kl)
 ggplot(kl_m, aes(x = case, y = value)) +
   geom_point() +
+  geom_text(aes(label = case)) +
   facet_wrap(~variable, scale = 'free')+
   xlab('case number') +
   ylab('Kullback-Leibler')
 }
+
 }
 \seealso{
 qrod_bayes

@@ -2,7 +2,7 @@
 % Please edit documentation in R/frame_br.R
 \name{frame_br}
 \alias{frame_br}
-\title{Observations used in quantile regression fitting using br algorithem}
+\title{Visualization of quantile regression model fitting: br algorithem}
 \usage{
 frame_br(object, tau)
 }
@@ -38,22 +38,22 @@ ggplot(data_plot,
  ylab('y') +
  xlab('x') +
  facet_wrap(~variable, scales = "free_x", ncol = 2) +
- geom_point(data = choose, aes(x = value, y = y,
+ geom_point(data = choose, aes(x = x, y = y,
                                       group = tau_flag,
                                       colour = tau_flag,
                                       shape = obs))
 
 object2 <- rq(BMI ~ Ht + LBM + Wt, tau, method = 'br',
             data = ais)
-data_plot <- frame_br(object1, tau)$all_observation
-choose <- frame_br(object1, tau)$fitting_point
+data_plot <- frame_br(object2, tau)$all_observation
+choose <- frame_br(object2, tau)$fitting_point
 ggplot(data_plot,
  aes(x=value, y=data_plot[,2])) +
  geom_point(alpha = 0.1) +
  ylab('y') +
  xlab('x') +
  facet_wrap(~variable, scales = "free_x", ncol = 2) +
- geom_point(data = choose, aes(x = value, y = y,
+ geom_point(data = choose, aes(x = x, y = y,
                                       group = tau_flag,
                                       colour = tau_flag,
                                       shape = obs))

@@ -1,5 +1,6 @@
 #'@title Mean probability of posterior distribution and
-#'Kullback-Leibler divergence for observations in Bayesian quantile regression model
+#'Kullback-Leibler divergence for observations in Bayesian
+#'quantile regression model
 #'@param y dependent variable in quantile regression
 #'
 #'@param x indepdent variables in quantile regression.
@@ -13,7 +14,8 @@
 #'
 #'@param method the diagnostic method for outlier detection
 #'
-#'@return Mean probability or Kullback-Leibler divergence for observations in Bayesian
+#'@return Mean probability or Kullback-Leibler divergence for o
+#'bservations in Bayesian
 #'quantile regression model
 #'
 #'@description

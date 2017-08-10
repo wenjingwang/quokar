@@ -1,6 +1,6 @@
 #globalVariables(c("obs", "r", "d"))
-#' @title Density function plot of the error term for quantile regression model
-#' using asymmetric Laplace distribution
+#' @title Density function plot of the error term for quantile
+#' regression model using asymmetric Laplace distribution
 #'
 #' @param y vector, dependent variable of quantile regression
 #' @param x matrix, matrix consisted independent variables of quantie
