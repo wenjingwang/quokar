@@ -466,7 +466,7 @@ y <- ais_female$BMI
 x <- matrix(c(ais_female$LBM, ais_female$Bfat), ncol = 2, byrow = FALSE)
 tau <- c(0.1, 0.5, 0.9)
 case <- rep(1:length(y), length(tau))
-prob <- frame_bayes(y, x, tau, M =  100,
+prob <- frame_bayes(y, x, tau, M =  5000, burn = 1000,
                  method = 'bayes.prob')
 
 prob_m <- cbind(case, prob)
@@ -479,7 +479,7 @@ ggplot(prob_m, aes(x = case, y = value )) +
    ylab("Mean probability of posterior distribution")
 
 ## ---- BKL1
-kl <- frame_bayes(y, x, tau, M = 100,
+kl <- frame_bayes(y, x, tau, M =  5000, burn = 1000,
                   method = 'bayes.kl')
 kl_m <- cbind(case, kl)
 ggplot(kl_m, aes(x = case, y = value)) +
