@@ -1,10 +1,9 @@
 #'Mean posterior probability for each observation in
 #'Baysian quantile regression model
 #'
-#'@param y dependent variable in quantile regression
+#'@param y vector, dependent variable in quantile regression
 #'
-#'@param x indepdent variables in quantile regression.
-#'Note that: x is the independent variable matrix
+#'@param x matrix, design matrix in quantile regression
 #'
 #'@param tau quantile
 #'
@@ -60,7 +59,6 @@
 #'
 
 bayesProb <- function(y, x, tau, M, burn){
-  x <- cbind(1, x)
   n <- length(y)
   t <- M - burn
   coefs <- bayesQR(y ~ x, quantile = tau, alasso = FALSE,

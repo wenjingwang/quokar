@@ -85,3 +85,6 @@ Portnoy S, Koenker R. The Gaussian hare and the Laplacian tortoise:
 computability of squared-error versus absolute-error estimators.
 \emph{Statistical Science}, 1997, 12(4): 279-300.
 }
+\author{
+Wenjing Wang \email{wenjingwangr@gmail.com}
+}

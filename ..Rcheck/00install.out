@@ -1,7 +1,0 @@
-* installing *source* package 'quokar' ...
-** libs
-
-*** arch - i386
-Warning: 运行命令'make -f "Makevars" -f "C:/PROGRA~1/R/R-33~1.3/etc/i386/Makeconf" -f "C:/PROGRA~1/R/R-33~1.3/share/make/winshlib.mk" SHLIB="quokar.dll" SHLIB_LIBADD='$(FLIBS)' OBJECTS="rqbr.o rqfnb.o"'的状态是127
-ERROR: compilation failed for package 'quokar'
-* removing 'E:/quokar/..Rcheck/quokar'

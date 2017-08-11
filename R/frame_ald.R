@@ -1,4 +1,4 @@
-#globalVariables(c("obs", "r", "d"))
+globalVariables(c("obs", "r", "d"))
 #' @title Density function plot of the error term for quantile
 #' regression model using asymmetric Laplace distribution
 #'

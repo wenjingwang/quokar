@@ -1,32 +1,23 @@
+globalVariables(c("variable", "value"))
 #'@title Mean probability of posterior distribution and
 #'Kullback-Leibler divergence for observations in Bayesian
 #'quantile regression model
-#'@param y dependent variable in quantile regression
-#'
-#'@param x indepdent variables in quantile regression.
-#'Note that: x is the independent variable matrix
-#'
-#'@param tau quantile
-#'
-#'@param M the iteration frequancy for MCMC used in Baysian estimation
-#'
-#'@param burn burned MCMC draw
-#'
-#'@param method the diagnostic method for outlier detection
-#'
-#'@return Mean probability or Kullback-Leibler divergence for o
-#'bservations in Bayesian
-#'quantile regression model
-#'
 #'@description
-#'This function give the data frame to plot the mean
+#'This function give the dataframe to plot the mean
 #'probability of posterior and Kullback-leibler divergence
 #'of quantile regression model with asymmetric laplace
 #'distribution based on bayes estimation procedure.
-#'
+#'@param y vector, dependent variable in quantile regression
+#'@param x matrix, design matrix for quantile regression. For quantile regression
+#' model with intercept, the firt column of x is 1.
+#'@param tau sigular or vector, quantiles
+#'@param M the iteration frequancy for MCMC used in Baysian estimation
+#'@param burn burned MCMC draw
+#'@param method the diagnostic method for outlier detection
+#'@return Mean probability or Kullback-Leibler divergence for observations
+#'in Bayesian quantile regression model
 #' @export
 #' @author Wenjing Wang \email{wenjingwangr@gmail.com}
-#' @seealso qrod_bayes
 #' @examples
 #' \dontrun{
 #' library(ggplot2)
@@ -56,7 +47,6 @@
 #'   ylab('Kullback-Leibler')
 #'}
 #'
-
 frame_bayes <- function(y, x, tau, M, burn,
                         method = c("bayes.prob", "bayes.kl")){
   method <- match.arg(method)

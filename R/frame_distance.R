@@ -1,12 +1,15 @@
+globalVariables("tau_flag")
 #' @title Residual-robust distance plot of quantile regression model
-#' @param object quantile regression model
-#' @param tau quantile
+#' @description the standardized residuals from quantile regression
+#' against the robust MCD distance. This display is used to diagnose
+#' both vertical outlier and horizontal leverage points.
+#' @param object model, quantile regression model
+#' @param tau singular or vectors, quantile
 #' @return dataframe for residual-robust distance plot
 #' @details The generalized MCD algorithm based on the fast-MCD
 #' algorithm formulated by Rousseeuw and Van Driessen(1999), which
 #' is similar to the algorithm for least trimmed squares(LTS).
 #' The canonical Mahalanobis distance is defined as
-#'
 #' \deqn{MD(x_i)=[(x_i-\bar{x})^{T}\bar{C}(X)^{-1}(x_i-\bar{x})]^{1/2}}
 #' where \eqn{\bar{x}=\frac{1}{n}\sum_{i=1}^{n}x_i} and
 #' \eqn{\bar{C}(X)=\frac{1}{n-1}\sum_{i=1}^{n}(x_i-\bar{x})^{T}(x_i-
@@ -15,16 +18,11 @@
 #' intercept. The relation between the Mahalanobis distance
 #' \eqn{MD(x_i)} and the hat matrix
 #' \eqn{H=(h_{ij})=X(X^{T}X)^{-1}X^{T}} is
-#'
 #' \deqn{h_{ii}=\frac{1}{n-1}MD^{2}_{i}+\frac{1}{n}}
-#'
 #' The canonical robust distance is defined as
-#'
 #' \deqn{RD(x_{i})=[(x_{i}-T(X))^{T}C(X)^{-1}(x_{i}-T(X))]^{1/2}}
-#'
 #' where \eqn{T(X)} and \eqn{C(X)} are the robust multivariate
 #' location and scatter, respectively, obtained by MCD.
-#'
 #' To achieve robustness, the MCD algorithm estimates the covariance
 #' of a multivariate data set mainly through as MCD \eqn{h}-point
 #' subset of data set. This subset has the smallest sample-covariance
@@ -33,11 +31,6 @@
 #' \eqn{\frac{(n-h)}{n}}. This means the MCD estimates is reliable,
 #' even if up to \eqn{\frac{100(n-h)}{n}}% observations in the data
 #' set are contaminated.
-#'
-#' @description the standardized residuals from quantile regression
-#' against the robust MCD distance. This display is used to diagnose
-#' both vertical outlier and horizontal leverage points.
-#'
 #' @author Wenjing Wang \email{wenjingwangr@gmail.com}
 #' @export
 #' @examples

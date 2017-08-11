@@ -1,4 +1,4 @@
-#globalVariables(c("obs", "index", "variable", "value", "tcrit", "alpha"))
+globalVariables(c("obs", "index", "variable", "value"))
 #' @title Visualization of quantile regression model fitting: br algorithem
 #' @param object quantile regression model using br method
 #' @param tau quantiles can be a single quantile or a vector of

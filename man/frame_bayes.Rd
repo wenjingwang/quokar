@@ -66,3 +66,6 @@ ggplot(kl_m, aes(x = case, y = value)) +
 \seealso{
 qrod_bayes
 }
+\author{
+Wenjing Wang \email{wenjingwangr@gmail.com}
+}

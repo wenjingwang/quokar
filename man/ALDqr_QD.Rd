@@ -40,6 +40,3 @@ Distribution,\emph{arXiv preprint arXiv:1509.05099}.
 \seealso{
 \code{ALDqr_GCD}
 }
-\author{
-Wenjing Wang \email{wenjingwangr@gmail.com}
-}

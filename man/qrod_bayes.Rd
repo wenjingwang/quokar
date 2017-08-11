@@ -92,7 +92,7 @@ simulation}, 81(11), 1565-1578.
 \code{qrod_mle}
 }
 \author{
-Wenjing Wang \email{wenjingwang1990@gmail.com}
+Wenjing Wang \email{wenjingwangr@gmail.com}
 }
 \keyword{diagnostics}
 \keyword{outlier}

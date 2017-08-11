@@ -1,21 +1,24 @@
-#globalVariables(c("variable", "value"))
+globalVariables(c("variable", "value"))
 #' @title General Cook's distance or Q-function distance of quantile regression
-#' @param y dependent variable for quantile regression
-#' @param x design matrix for quantile regression
-#' @param tau quantiles
-#' @param error the EM algorithm accuracy of error used in MLE
-#' estimation
-#' @param iter the iteration frequancy for EM algorithm used in
-#' estimation
+#' @description dataframe used to plot generalized Cook's distance or
+#' Q-function distance for observations.
+#' @param y vector, dependent variable for quantile regression
+#' @param x matrix, design matrix for quantile regression. For quantile regression
+#' model with intercept, the firt column of x is 1.
+#' @param tau sigular or vector, quantiles
+#' @param error the EM algorithm accuracy of error used in MLE estimation
+#' @param iter the iteration frequancy for EM algorithm used in MLE estimation
 #' @param method use method 'cook.distance' or 'qfunction'
-#' @description data frame used to plot generalized cook distance or
-#' qfunction distance
-#' @return Generalized Cook's distance or Q-function distance for
+#' @return generalized Cook's distance or Q-function distance for
 #' multiple quantiles
 #' @author Wenjing Wang<wenjingwangr@gmail.com>
-#' @details This function used to prepare the data frame to
-#' plot general Cook's distance or Q-function distance
-#' @seealso see documentation of qrod_mle
+#' @details
+#' Gerneralized Cook's distance and Q-function distance are commonly used in
+#' detecting the influence data point when performing regression
+#' analysis. They involve the log-likelihood function and estimations of
+#' based on the complete and case-deletion data. We used EM algorithm to
+#' estimate the coefficiences of quantile regression with asymmetric Laplace
+#' distribution.
 #' @export
 #' @examples
 #' library(ggplot2)

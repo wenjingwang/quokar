@@ -1,23 +1,17 @@
 #'Generalized Cook's distance for each observation in quantile
 #'regression model
 #'@param y Dependent variable in quantile regression. Note that:
-#'we suppose
-#'y follows asymmetric laplace distribution.
-#'
+#'we suppose y follows asymmetric laplace distribution.
 #'@param x indepdent variables in quantile regression.
 #'Note that: x is the independent variable matrix which including
 #'the intercept. That means, if the dimension of independent
 #'variables is p and the sample size is n, x is a n times p+1
 #'matrix with the first column being one.
-#'
 #'@param tau quantile
-#'
 #'@param error the EM algorithm accuracy of error used in
 #' MLE estimation
-#'
 #'@param iter the iteration frequancy for EM algorithm used
 #' in MLE estimation
-#'
 #'@details
 #'Gerneralized Cook's distance is a commonly used estimate
 #'of the influence of a data point when performing regression
@@ -28,23 +22,17 @@
 #'we compare \eqn{\hat{\theta_(i)}} and \eqn{\hat{\theta}}, and if
 #'\eqn{\hat{\theta_(i)}}
 #'is far from \eqn{\hat{\theta_(i)}}, then the \eqn{i}th case is
-#'regarded
-#'as influential. We consider here the following
+#'regarded as influential. We consider here the following
 #'generalized Cook's distance:
-#'
 #'\deqn{GCD_{i} = (\hat{\theta_{(i)}}-\hat{\theta{i}})^{'}
 #'{-Q(\hat{\theta}|\hat{\theta})}
 #'(\hat{\theta_{(i)}}-\hat{\theta{i}})}
-#'
 #'\deqn{Q_{(i)}(\theta|\hat{\theta})=E_{\hat{\theta}}[l_{c}(\theta|Y_{c(i)})|y]}
-#'
 #'More details please refer to the paper in references
-#'
 #'@references
 #'Benites L E, Lachos V H, Vilca F E.(2015)``Case-Deletion
 #'Diagnostics for Quantile Regression Using the Asymmetric Laplace
 #'Distribution,\emph{arXiv preprint arXiv:1509.05099}.
-#'
 #'@seealso \code{ALDqr_QD}
 #'
 #'

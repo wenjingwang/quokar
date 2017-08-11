@@ -60,6 +60,3 @@ Distribution,\emph{arXiv preprint arXiv:1509.05099}.
 \seealso{
 \code{ALDqr_QD}
 }
-\author{
-Wenjing Wang \email{wenjingwang1990@gmail.com}
-}

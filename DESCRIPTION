@@ -1,5 +1,5 @@
 Package: quokar
-Title: QUantile regression Outlier diagnostics with K left out Analysis
+Title: Quantile Regression Outlier Diagnostics with K left Out Analysis
 Version: 0.0.0.9000
 Author: Wenjing Wang <wenjingwangr@gmail.com>, Di Cook <visnut@gmail.com>, Earo Wang <earo.wang@gmail.com>
 Maintainer: Wenjing Wang <wenjingwangr@gmail.com>

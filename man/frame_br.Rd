@@ -58,3 +58,6 @@ ggplot(data_plot,
                                       colour = tau_flag,
                                       shape = obs))
 }
+\author{
+Wenjing Wang \email{wenjingwangr@gmail.com}
+}

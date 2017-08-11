@@ -1,4 +1,4 @@
-#globalVariables(c("variable", "value"))
+globalVariables(c("variable", "value"))
 #' @title Visualization of the fitting path
 #' of quantile regression: interior point method
 #' @param object quantile regression model using interior point method

@@ -61,5 +61,5 @@ ggplot(m_f, aes(x = x, y = y)) +
 
 }
 \author{
-Wenjing Wang
+Wenjing Wang \email{wenjingwangr@gmail.com}
 }

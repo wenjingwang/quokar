@@ -1,3 +1,4 @@
+globalVariables(c("tcrit", "alpha", "iid"))
 #' @useDynLib quokar
 wh <- function(object, tau, ci = FALSE){
   x <- object$x
