@@ -47,7 +47,7 @@ globalVariables(c("variable", "value"))
 #'
 
 frame_mle <- function(y, x, tau, error = 1e-06,
-                      iter = 1000, method = c("cook.distance",
+                      iter = 100, method = c("cook.distance",
                                              "qfunction")){
     if(!is.vector(y)){
       stop("y should be vector")
