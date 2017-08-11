@@ -49,6 +49,12 @@ globalVariables(c("variable", "value"))
 #'
 frame_bayes <- function(y, x, tau, M, burn,
                         method = c("bayes.prob", "bayes.kl")){
+  if(!is.vector(y)){
+    stop("y should be vector")
+  }
+  if(!is.matrix(x)){
+    stop("x should be matrix")
+  }
   method <- match.arg(method)
     ntau <- length(tau)
     if(method == 'bayes.prob'){
