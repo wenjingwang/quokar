@@ -49,7 +49,13 @@ globalVariables(c("variable", "value"))
 frame_mle <- function(y, x, tau, error = 1e-06,
                       iter = 100, method = c("cook.distance",
                                              "qfunction")){
-  method <- match.arg(method)
+    if(!is.vector(y)){
+      stop("y should be vector")
+    }
+    if(!is.matrix(x)){
+      stop("x should be matrix")
+    }
+    method <- match.arg(method)
     ntau <- length(tau)
     if(method == 'cook.distance'){
     distances <- qrod_mle(y, x, tau, error,
