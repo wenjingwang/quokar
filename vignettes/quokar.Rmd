@@ -5,10 +5,9 @@ author:
   - ^1^Renmin University of China  , ^2^Monash University
 fontsize: 11pt
 papersize: a4
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteEngine{knitr::knitr}
-  %\usepackage[UTF-8]{inputenc}
+output: 
+  bookdown::pdf_document2:
+    fig_caption: yes
 ---
 
 ## Abstract
