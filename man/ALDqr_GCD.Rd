@@ -9,8 +9,7 @@ ALDqr_GCD(y, x, tau, error, iter)
 }
 \arguments{
 \item{y}{Dependent variable in quantile regression. Note that:
-we suppose
-y follows asymmetric laplace distribution.}
+we suppose y follows asymmetric laplace distribution.}
 
 \item{x}{indepdent variables in quantile regression.
 Note that: x is the independent variable matrix which including
@@ -40,16 +39,12 @@ To assess the influence of the \eqn{i}th case with estimate
 we compare \eqn{\hat{\theta_(i)}} and \eqn{\hat{\theta}}, and if
 \eqn{\hat{\theta_(i)}}
 is far from \eqn{\hat{\theta_(i)}}, then the \eqn{i}th case is
-regarded
-as influential. We consider here the following
+regarded as influential. We consider here the following
 generalized Cook's distance:
-
 \deqn{GCD_{i} = (\hat{\theta_{(i)}}-\hat{\theta{i}})^{'}
 {-Q(\hat{\theta}|\hat{\theta})}
 (\hat{\theta_{(i)}}-\hat{\theta{i}})}
-
 \deqn{Q_{(i)}(\theta|\hat{\theta})=E_{\hat{\theta}}[l_{c}(\theta|Y_{c(i)})|y]}
-
 More details please refer to the paper in references
 }
 \references{

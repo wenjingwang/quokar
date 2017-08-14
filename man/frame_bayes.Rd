@@ -9,12 +9,12 @@ quantile regression model}
 frame_bayes(y, x, tau, M, burn, method = c("bayes.prob", "bayes.kl"))
 }
 \arguments{
-\item{y}{dependent variable in quantile regression}
+\item{y}{vector, dependent variable in quantile regression}
 
-\item{x}{indepdent variables in quantile regression.
-Note that: x is the independent variable matrix}
+\item{x}{matrix, design matrix for quantile regression. For quantile regression
+model with intercept, the firt column of x is 1.}
 
-\item{tau}{quantile}
+\item{tau}{sigular or vector, quantiles}
 
 \item{M}{the iteration frequancy for MCMC used in Baysian estimation}
 
@@ -23,12 +23,11 @@ Note that: x is the independent variable matrix}
 \item{method}{the diagnostic method for outlier detection}
 }
 \value{
-Mean probability or Kullback-Leibler divergence for o
-bservations in Bayesian
-quantile regression model
+Mean probability or Kullback-Leibler divergence for observations
+in Bayesian quantile regression model
 }
 \description{
-This function give the data frame to plot the mean
+This function give the dataframe to plot the mean
 probability of posterior and Kullback-leibler divergence
 of quantile regression model with asymmetric laplace
 distribution based on bayes estimation procedure.
@@ -62,9 +61,6 @@ ggplot(kl_m, aes(x = case, y = value)) +
   ylab('Kullback-Leibler')
 }
 
-}
-\seealso{
-qrod_bayes
 }
 \author{
 Wenjing Wang \email{wenjingwangr@gmail.com}

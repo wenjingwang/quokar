@@ -4,35 +4,38 @@
 \alias{frame_mle}
 \title{General Cook's distance or Q-function distance of quantile regression}
 \usage{
-frame_mle(y, x, tau, error = 1e-06, iter = 100,
+frame_mle(y, x, tau, error = 1e-06, iter = 1000,
   method = c("cook.distance", "qfunction"))
 }
 \arguments{
-\item{y}{dependent variable for quantile regression}
+\item{y}{vector, dependent variable for quantile regression}
 
-\item{x}{design matrix for quantile regression}
+\item{x}{matrix, design matrix for quantile regression. For quantile regression
+model with intercept, the firt column of x is 1.}
 
-\item{tau}{quantiles}
+\item{tau}{sigular or vector, quantiles}
 
-\item{error}{the EM algorithm accuracy of error used in MLE
-estimation}
+\item{error}{the EM algorithm accuracy of error used in MLE estimation}
 
-\item{iter}{the iteration frequancy for EM algorithm used in
-estimation}
+\item{iter}{the iteration frequancy for EM algorithm used in MLE estimation}
 
 \item{method}{use method 'cook.distance' or 'qfunction'}
 }
 \value{
-Generalized Cook's distance or Q-function distance for
+generalized Cook's distance or Q-function distance for
 multiple quantiles
 }
 \description{
-data frame used to plot generalized cook distance or
-qfunction distance
+dataframe used to plot generalized Cook's distance or
+Q-function distance for observations.
 }
 \details{
-This function used to prepare the data frame to
-plot general Cook's distance or Q-function distance
+Gerneralized Cook's distance and Q-function distance are commonly used in
+detecting the influence data point when performing regression
+analysis. They involve the log-likelihood function and estimations of
+based on the complete and case-deletion data. We used EM algorithm to
+estimate the coefficiences of quantile regression with asymmetric Laplace
+distribution.
 }
 \examples{
 library(ggplot2)
@@ -59,9 +62,6 @@ ggplot(QD_m, aes(x = case, y = value)) +
   xlab('case number') +
   ylab('Qfunction Distance')
 
-}
-\seealso{
-see documentation of qrod_mle
 }
 \author{
 Wenjing Wang\href{mailto:wenjingwangr@gmail.com}{wenjingwangr@gmail.com}

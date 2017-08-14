@@ -8,10 +8,9 @@ Baysian quantile regression model}
 bayesKL(y, x, tau, M, burn)
 }
 \arguments{
-\item{y}{dependent variable in quantile regression}
+\item{y}{vector, dependent variable in quantile regression}
 
-\item{x}{indepdent variables in quantile regression.
-Note that: x is the independent variable matrix}
+\item{x}{matrix, design matrix in quantile regression.}
 
 \item{tau}{quantile}
 

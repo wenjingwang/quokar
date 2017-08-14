@@ -7,9 +7,9 @@
 frame_distance(object, tau)
 }
 \arguments{
-\item{object}{quantile regression model}
+\item{object}{model, quantile regression model}
 
-\item{tau}{quantile}
+\item{tau}{singular or vectors, quantile}
 }
 \value{
 dataframe for residual-robust distance plot
@@ -24,7 +24,6 @@ The generalized MCD algorithm based on the fast-MCD
 algorithm formulated by Rousseeuw and Van Driessen(1999), which
 is similar to the algorithm for least trimmed squares(LTS).
 The canonical Mahalanobis distance is defined as
-
 \deqn{MD(x_i)=[(x_i-\bar{x})^{T}\bar{C}(X)^{-1}(x_i-\bar{x})]^{1/2}}
 where \eqn{\bar{x}=\frac{1}{n}\sum_{i=1}^{n}x_i} and
 \eqn{\bar{C}(X)=\frac{1}{n-1}\sum_{i=1}^{n}(x_i-\bar{x})^{T}(x_i-
@@ -33,16 +32,11 @@ respectively. Here \eqn{x_i=(x_{i1},...,x_{ip})^{T}} exclueds the
 intercept. The relation between the Mahalanobis distance
 \eqn{MD(x_i)} and the hat matrix
 \eqn{H=(h_{ij})=X(X^{T}X)^{-1}X^{T}} is
-
 \deqn{h_{ii}=\frac{1}{n-1}MD^{2}_{i}+\frac{1}{n}}
-
 The canonical robust distance is defined as
-
 \deqn{RD(x_{i})=[(x_{i}-T(X))^{T}C(X)^{-1}(x_{i}-T(X))]^{1/2}}
-
 where \eqn{T(X)} and \eqn{C(X)} are the robust multivariate
 location and scatter, respectively, obtained by MCD.
-
 To achieve robustness, the MCD algorithm estimates the covariance
 of a multivariate data set mainly through as MCD \eqn{h}-point
 subset of data set. This subset has the smallest sample-covariance

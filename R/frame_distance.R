@@ -112,8 +112,8 @@ frame_distance <- function(object, tau){
     }
     rd <- matrix(rd, ncol = 1)
     cutoff_v <- sqrt(qchisq(p = 0.975, df = p))
-    cutoff_h <- rep(0, 3)
-   for(i in 1:3){
+    cutoff_h <- rep(0, length(tau))
+   for(i in 1:length(tau)){
       cutoff_h[i] <- median(abs(resid[,i])/qnorm(p=0.75, mean=0, sd = 1))
    }
     cutoff_h <- 5*cutoff_h
