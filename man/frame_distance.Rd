@@ -17,7 +17,9 @@ dataframe for residual-robust distance plot
 \description{
 the standardized residuals from quantile regression
 against the robust MCD distance. This display is used to diagnose
-both vertical outlier and horizontal leverage points.
+both vertical outlier and horizontal leverage points. Function
+\code{frame_distance} only work for linear quantile regression model. With
+non-linear model, use \code{frame_distance_implement}
 }
 \details{
 The generalized MCD algorithm based on the fast-MCD
@@ -96,6 +98,10 @@ p3 <- ggplot(distance1, aes(x = rd, y = residuals)) +
 xlab("Robust Distance") +
  ylab("|Residuals|")
 grid.arrange(p1, p2, p3, ncol = 3)
+
+}
+\seealso{
+function \code{frame_distance_complex}
 }
 \author{
 Wenjing Wang \email{wenjingwangr@gmail.com}

@@ -2,7 +2,9 @@ globalVariables("tau_flag")
 #' @title Residual-robust distance plot of quantile regression model
 #' @description the standardized residuals from quantile regression
 #' against the robust MCD distance. This display is used to diagnose
-#' both vertical outlier and horizontal leverage points.
+#' both vertical outlier and horizontal leverage points. Function
+#' `frame_distance` only work for linear quantile regression model. With
+#' non-linear model, use `frame_distance_implement`
 #' @param object model, quantile regression model
 #' @param tau singular or vectors, quantile
 #' @return dataframe for residual-robust distance plot
@@ -32,7 +34,7 @@ globalVariables("tau_flag")
 #' even if up to \eqn{\frac{100(n-h)}{n}}% observations in the data
 #' set are contaminated.
 #' @author Wenjing Wang \email{wenjingwangr@gmail.com}
-#' @export
+#' @seealso function `frame_distance_complex`
 #' @examples
 #' library(quantreg)
 #' library(ggplot2)
@@ -84,50 +86,11 @@ globalVariables("tau_flag")
 #' xlab("Robust Distance") +
 #'  ylab("|Residuals|")
 #' grid.arrange(p1, p2, p3, ncol = 3)
-
-
+#'
+#' @export
 frame_distance <- function(object, tau){
-    x <- apply(as.matrix(object$model[, -1]), 2, as.numeric)
-    p <- ncol(x)
-    n <- nrow(x)
-    resid <- object$residuals
-    colnames(resid) <- paste("tau", tau, sep="")
-    center_m <- apply(x, 2, mean)
-    cov_m <- cov(x)
-    md <- rep(0, n)
-    for(i in 1:n){
-        mid_m <- x[i,] - center_m
-        mid_m <- as.matrix(mid_m)
-        md[i] <- sqrt(matrix(mid_m, nrow = 1)%*%solve(cov_m)%*%matrix(mid_m, ncol= 1))
-    }
-    md <- matrix(md, ncol = 1)
-    mcd <- covMcd(x)
-    Tx <- mcd$center
-    Cx <- mcd$cov
-    rd <- rep(0, n)
-    for(i in 1:n){
-        mid_r <- x[i, ] - Tx
-        mid_r <- as.matrix(mid_r)
-       rd[i] <- sqrt(matrix(mid_r, nrow = 1)%*%solve(Cx)%*%matrix(mid_r,ncol = 1))
-    }
-    rd <- matrix(rd, ncol = 1)
-    cutoff_v <- sqrt(qchisq(p = 0.975, df = p))
-    cutoff_h <- rep(0, length(tau))
-   for(i in 1:length(tau)){
-      cutoff_h[i] <- median(abs(resid[,i])/qnorm(p=0.75, mean=0, sd = 1))
-   }
-    cutoff_h <- 5*cutoff_h
-    rd_m <- data.frame(md, rd, resid)
-    rd_f <- rd_m %>% gather(tau_flag, residuals, -md, -rd)
-    return(list("Distance" = rd_f, "Vertical Cutoff" = cutoff_v,
-           "Horizental Cutoff" = cutoff_h))
+  x <- apply(as.matrix(object$model[, -1]), 2, as.numeric)
+  resid <- object$residuals
+  frame_distance_complex(x,resid,tau)
 }
-
-
-
-
-
-
-
-
 
