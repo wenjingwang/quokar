@@ -3,11 +3,14 @@
 \docType{data}
 \name{trout}
 \alias{trout}
-\title{Trout Data}
+\title{Fish habbit of trout}
+\format{A data frame with with 71 rows and 2 columns
+\describe{
+\item{wdratio}{Width-to-depth ratio of trout}
+\item{density}{Numbers of Lahontan cutthroat trout per meter of stream}
+}}
 \description{
-The data set trout, which follows, includes the average
-numbers of Lahontan cutthroat trout per meter of stream (Density),
-and the width-to-depth ratios (WDRatio) for 71 samples.
+The data set trout, which follows, includes the average numbers of Lahontan
+cutthroat trout per meter of stream, and the width-to-depth ratios for 71 samples
 }
-\keyword{data}
-\keyword{set}
+\keyword{dataset}

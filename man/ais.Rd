@@ -29,5 +29,4 @@ Institute of Sports
 S.Weisberg(2005). Applied Linear Regression, 3rd edition. New York,
 Section 6.4.
 }
-\keyword{data}
-\keyword{set}
+\keyword{dataset}
