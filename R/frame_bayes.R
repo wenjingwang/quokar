@@ -23,7 +23,7 @@ globalVariables(c("variable", "value"))
 #' library(ggplot2)
 #' ais_female <- subset(ais, Sex == 1)
 #' y <- ais_female$BMI
-#' x <- ais_female$LBM
+#' x <- matrix(ais_female$LBM, 1)
 #' tau <- c(0.1, 0.5, 0.9)
 #' case <- rep(1:length(y), length(tau))
 #' prob <- frame_bayes(y, x, tau, M =  5000, burn = 1000,
@@ -52,8 +52,8 @@ frame_bayes <- function(y, x, tau, M, burn,
   if(!is.vector(y)){
     stop("y should be vector")
   }
-  if(!is.matrix(x)){
-    stop("x should be matrix")
+ if(!is.matrix(x)){
+   stop("x should be matrix")
   }
   method <- match.arg(method)
     ntau <- length(tau)

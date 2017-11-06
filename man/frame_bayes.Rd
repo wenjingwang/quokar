@@ -37,7 +37,7 @@ distribution based on bayes estimation procedure.
 library(ggplot2)
 ais_female <- subset(ais, Sex == 1)
 y <- ais_female$BMI
-x <- ais_female$LBM
+x <- matrix(ais_female$LBM, 1)
 tau <- c(0.1, 0.5, 0.9)
 case <- rep(1:length(y), length(tau))
 prob <- frame_bayes(y, x, tau, M =  5000, burn = 1000,
