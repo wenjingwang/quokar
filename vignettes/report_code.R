@@ -394,7 +394,7 @@ n <- nrow(object$model)
 case <- rep(1:n, length(tau))
 distance <- cbind(case, distance)
 distance$residuals <- abs(distance$residuals)
-distance1 <- distance %>% filter(tau_flag == 'tau..0.1')
+distance1 <- distance %>% filter(tau_flag == 'tau0.1')
 p1 <- ggplot(distance1, aes(x = rd, y = residuals)) +
  geom_point() +
  geom_hline(yintercept = cutoff_h[1], colour = "red") +
@@ -405,7 +405,7 @@ p1 <- ggplot(distance1, aes(x = rd, y = residuals)) +
  xlab("Robust Distance") +
  ylab("|Residuals|")
 
-distance2 <- distance %>% filter(tau_flag == 'tau..0.5')
+distance2 <- distance %>% filter(tau_flag == 'tau0.5')
 p2 <- ggplot(distance1, aes(x = rd, y = residuals)) +
  geom_point() +
  geom_hline(yintercept = cutoff_h[2], colour = "red") +
@@ -416,7 +416,7 @@ p2 <- ggplot(distance1, aes(x = rd, y = residuals)) +
  xlab("Robust Distance") +
  ylab("|Residuals|")
 
-distance3 <- distance %>% filter(tau_flag == 'tau..0.9')
+distance3 <- distance %>% filter(tau_flag == 'tau0.9')
 p3 <- ggplot(distance1, aes(x = rd, y = residuals)) +
  geom_point() +
  geom_hline(yintercept = cutoff_h[3], colour = "red") +
@@ -466,7 +466,7 @@ y <- ais_female$BMI
 x <- matrix(c(ais_female$LBM, ais_female$Bfat), ncol = 2, byrow = FALSE)
 tau <- c(0.1, 0.5, 0.9)
 case <- rep(1:length(y), length(tau))
-prob <- frame_bayes(y, x, tau, M =  5000, burn = 1000,
+prob <- frame_bayes(y, x, tau, M =  500, burn = 100,
                  method = 'bayes.prob')
 
 prob_m <- cbind(case, prob)
@@ -479,7 +479,7 @@ ggplot(prob_m, aes(x = case, y = value )) +
    ylab("Mean probability of posterior distribution")
 
 ## ---- BKL1
-kl <- frame_bayes(y, x, tau, M =  5000, burn = 1000,
+kl <- frame_bayes(y, x, tau, M =  5, burn = 1,
                   method = 'bayes.kl')
 kl_m <- cbind(case, kl)
 ggplot(kl_m, aes(x = case, y = value)) +
