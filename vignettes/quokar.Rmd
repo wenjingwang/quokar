@@ -1,14 +1,16 @@
 ---
-title: '`quokar`: R package for quantile regression outlier diagnostic'
+title: "`quokar`: R package for quantile regression outlier diagnostic"
 author: 
   - Wenjing Wang^1^, Dianne Cook^2^, Earo Wang^2^
   - ^1^Renmin University of China  , ^2^Monash University
-fontsize: 11pt
-papersize: a4
-output: 
-  bookdown::pdf_document2:
-  fig_caption: yes
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{`quokar`: R package for quantile regression outlier diagnostic}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
 ---
+
 
 ## Abstract
 
@@ -298,7 +300,7 @@ from all others,
 
 $$KL(f_i)=\frac{1}{n-1}\sum_{j\neq i}K(f_i, f_j)$$
 
-The outliers should show a high probability value for this divergence. We compute the integral using the trapezoidal rule.
+The outliers should show a high probability value for this divergence. We compute the integral using the trapezoidal rule. This method involves MCMC simulation, and it is time consuming. We do not show the result here. You can find the code in file `Vignettes`.
 
 ```{r BKL1,echo = FALSE, eval = FALSE, warning=FALSE,message=FALSE, fig.height = 3, fig.width = 8, fig.cap = "Kullback and Leibler divergence of each case on quantile 0.1, 0.5 and 0.9. The Kullback-Leibler divergence is calculated based on the postierior distribution of latent variable using Bayesian quantile regression method."}
 
