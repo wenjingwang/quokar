@@ -9,8 +9,8 @@ qrod_bayes(y, x, tau, M, burn, method = c("bayes.prob", "bayes.kl"))
 \arguments{
 \item{y}{dependent variable in quantile regression}
 
-\item{x}{indepdent variables in quantile regression.
-Note that: x is the independent variable matrix}
+\item{x}{matrix, design matrix for quantile regression. For quantile regression
+model with intercept, the firt column of x is 1.}
 
 \item{tau}{quantile}
 

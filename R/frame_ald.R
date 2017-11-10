@@ -23,7 +23,7 @@ globalVariables(c("obs", "r", "d"))
 #'                   iter = 2000)
 #' ggplot(ald_data) +
 #'    geom_line(aes(x = r, y = d, group = obs, colour = tau_flag)) +
-#'    facet_wrap(~tau_flag, ncol = 1) +
+#'    facet_wrap(~tau_flag, ncol = 1, scale = "free") +
 #'    xlab('') +
 #'    ylab('Asymmetric Laplace Distribution Density Function')
 #'

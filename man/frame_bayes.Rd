@@ -49,8 +49,8 @@ ggplot(prob_m, aes(x = case, y = value )) +
   facet_wrap(~variable, scale = 'free') +
   xlab("case number") +
   ylab("Mean probability of posterior distribution")
-
-kl <- frame_bayes(y, x, tau, M = 5000, burn = 1000,
+It takes time to run the following code.
+kl <- frame_bayes(y, x, tau, M = 50, burn = 10,
                 method = 'bayes.kl')
 kl_m <- cbind(case, kl)
 ggplot(kl_m, aes(x = case, y = value)) +

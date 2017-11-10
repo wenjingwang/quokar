@@ -2,8 +2,8 @@
 #'
 #'@param y dependent variable in quantile regression
 #'
-#'@param x indepdent variables in quantile regression.
-#'Note that: x is the independent variable matrix
+#'@param x matrix, design matrix for quantile regression. For quantile regression
+#' model with intercept, the firt column of x is 1.
 #'
 #'@param tau quantile
 #'

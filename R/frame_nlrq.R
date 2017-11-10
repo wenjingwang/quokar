@@ -39,10 +39,10 @@
 #' weights <- nlrq_m$weights
 #' m <- data.frame(Dat, weights)
 #' m_f <- m %>% gather(tau_flag, value, -x, -y)
-#'ggplot(m_f, aes(x = x, y = y)) +
-#'  geom_point(aes(size = value)) +
-#'  facet_wrap(~tau_flag)
-#'
+#' ggplot(m_f, aes(x = x, y = y)) +
+#'   geom_point(aes(size = value, colour = tau_flag)) +
+#'   facet_wrap(~tau_flag)
+
 frame_nlrq <- function(formula, data, tau, start){
   ntau <- length(tau)
   n <- nrow(data)

@@ -48,7 +48,7 @@ More details please refer to the paper in references
 \dontrun{
 ais_female <- subset(ais, Sex == 1)
 y <- ais_female$BMI
-x <- ais_female$LBM
+x <- cbind(1, ais_female$LBM)
 tau <- 0.5
 M <- 5000
 burn <- 1000

@@ -67,7 +67,7 @@ frame_br <- function(object, tau){
   }
   colnames(x) <- paste('x', 1:ncol(x), sep='')
   data_plot <- data.frame(index = 1:length(y), y, x)
-  data_plot_g <- data_plot %>% gather(variable, value, -c(1,2))
+  data_plot_g <- data_plot %>% gather(variable, value, -c(index, y))
   choose_point <- h %>% gather(obs, index, -tau_flag)
   merge_x_y <- choose_point %>%
     inner_join(data_plot, by ='index')
