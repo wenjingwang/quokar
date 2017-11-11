@@ -19,7 +19,6 @@ Imports:
     magrittr, 
     ALDqr, 
     bayesQR, 
-    MCMCpack,
     ggplot2,
     knitr,
     gridExtra,
