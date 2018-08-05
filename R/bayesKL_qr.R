@@ -1,4 +1,4 @@
-#' @title Outlier diagnostic for quantile regression model using Kullback¨CLeibler divergence
+#' Outlier diagnostic for quantile regression model using Kullback¨CLeibler divergence
 #'
 #' \code{bayesKL_qr} returns the Kullback¨CLeibler divergence for each observation 
 #' in quantile regression model.

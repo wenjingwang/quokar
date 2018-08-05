@@ -1,4 +1,4 @@
-#' @title Outlier diagnostic for quantile regression model using generalized Cook's distance
+#' Outlier diagnostic for quantile regression model using generalized Cook's distance
 #'
 #' \code{GCDqr} returns the generalized Cook's distance for each observation deleted 
 #' from the quantile regression model.

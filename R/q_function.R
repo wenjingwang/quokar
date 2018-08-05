@@ -1,4 +1,4 @@
-#' @title Outlier diagnostic for quantile regression model using likelihood distance
+#' Outlier diagnostic for quantile regression model using likelihood distance
 #'
 #' \code{LDqr} returns the likelihood distance for each observation deleted 
 #' from the quantile regression model.
