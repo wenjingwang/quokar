@@ -196,7 +196,7 @@ ALD$(\mu, \sigma, \tau)$ is skewed to left when $\tau>0.5$, and skewed to right 
 Function `frame_ald` returns the ALD distributions used in quantile regression fit on separate quantiles.
 
 
-```{r ALD1,warning=FALSE,message=FALSE, results = "hide",fig.height=3, fig.width=3, fig.cap="Asymmetric Laplace distribution of quantile regression on quantile 0.1, 0.5 and 0.9"}
+```{r ALD1, warning=FALSE,message=FALSE, results = "hide",fig.height=3, fig.width=3, fig.cap="Asymmetric Laplace distribution of quantile regression on quantile 0.1, 0.5 and 0.9"}
 
 
 ```
@@ -221,7 +221,7 @@ $$OUTLIER=\left\{\begin{aligned}&0 \quad &if \ |r_i| \leq k\sigma \\&1 \quad &ot
 where $\sigma$ is computed as the corrected median of the absolute residuals $\sigma=\text{median}\{|r_i|/\phi^{-1}(0.95), i = 1,...,n\}$
 
 
-```{r Residual-Robust1,warning=FALSE,message=FALSE, fig.height=3, fig.width=8, fig.cap="Robust Distance-Residual Plot. Points on the right of vertical cutoff line are considered leverage points and points above the horizental cutoff line are outliers in y-direction."}
+```{r Residual-Robust1, echo = FALSE, eval = FALSE, warning=FALSE,message=FALSE, fig.height=3, fig.width=8, fig.cap="Robust Distance-Residual Plot. Points on the right of vertical cutoff line are considered leverage points and points above the horizental cutoff line are outliers in y-direction."}
 
 ```
 
@@ -263,7 +263,7 @@ defined as
 
 $$QD_{i}=2\{Q(\hat{\theta}|\hat{\theta})-Q(\hat{\theta}_{[i]}|\hat{\theta})\}$$
 
-```{r QD1, warning=FALSE, message=FALSE, results = "hide", fig.height=3, fig.width=7, fig.cap = "Q-function distance of each observation on quantile 0.1, 0.5 and 0.9 from left to right. Case 75 has relative large Q-funtion distance to other points."}
+```{r QD1, echo = FALSE, eval = FALSE, warning=FALSE, message=FALSE, results = "hide", fig.height=3, fig.width=7, fig.cap = "Q-function distance of each observation on quantile 0.1, 0.5 and 0.9 from left to right. Case 75 has relative large Q-funtion distance to other points."}
 
 ```
 
