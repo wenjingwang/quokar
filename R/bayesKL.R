@@ -4,7 +4,7 @@
 #'
 #'@param x matrix, design matrix in quantile regression.
 #'
-#'@param tau quantile
+#'@param tau quantile, singula between 0 and 1
 #'
 #'@param M the iteration frequancy for MCMC used in Baysian Estimation
 #'
