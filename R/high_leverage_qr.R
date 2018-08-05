@@ -2,11 +2,7 @@
 #' 
 #' @description This function provides a better method to detect high leverage observations
 #' in quantile regression comparing to the robsut distance method provide in function
-#' `frame_distance`. The most impressive character of this method is detecting high leverage
-#' observations in two phrase. First, we evaluate the regression model on each quantile to 
-#' see if there are high leverage observations affect the result of the model by using 
-#' test statistics $T$. If $T$ is larger than the given cut-off value, we futher locate the 
-#' potential high leverage obsevations.
+#' `frame_distance`. 
 #' 
 #' @param formula a formula object, with the response on the left of a ~ operator, and the terms,
 #' separated by + operators, on the right.
@@ -15,6 +11,7 @@
 #' @return Value of high leverage diagnostic statistics on each quantile; Cut-off value of the 
 #' diagnostic statistics; Evaluation of the leverage problem in regression models; Potential 
 #' high leverage observation flagged for regression model on each quantile.
+#' 
 #' @details The proposed statistic use the concept of elemental sets (ESs). ESs consist of 
 #' exactly the minimum number of observations to fit a regression mdoel. In linear model setting, 
 #' for a sample size $n$ with $p$ predictors, the total number of ERs is $K=C_{n}^{p}$. The $K$ ERs 
@@ -25,7 +22,8 @@
 #' solutions. At the optimal solution the $p$ basic observations at level zero correspond to a 
 #' specific RQ. 
 #' @references 
-#'
+#' Ranganai E, Van Vuuren J O, De Wet T. Multiple case high leverage diagnosis in regression 
+#' quantiles. \ref{Communications in Statistics-Theory and Methods, 2014, 43(16): 3343-3370}.
 #'
 
 high_leverage_qr <- function(formula, data, tau){
@@ -49,8 +47,7 @@ high_leverage_qr <- function(formula, data, tau){
     T_J[k] <- (w_J * sum(diag(H_IJ)))/(n - p)
     k <- k + 1
   }
-  TJ <- data.frame(quantile = tau, Tj = T_J)
-  return(list(TJ = TJ, leverage_obs = h_iJ))
+  return(leverage_obs = h_iJ))
 }
 
 
