@@ -283,9 +283,6 @@ $$P(O_i = 1)=\frac{1}{M}I(v^{(l)_i}>max_{k \in 1:M}v^{(k)}_j)$$
 
 where $M$ is the size of the chain of $v_i$ after the burn-in perior and $v^{(l)}_i$ is the $l$th draw of this chain.
 
-```{r BP1, echo = FALSE, eval = FALSE, warning=FALSE,message=FALSE, fig.height=3, fig.width=8, fig.cap="Mean posterior probability of each case on quantile 0.1, 0.5 and 0.9. The mean posterior probabilities are calculated based on the postierior distribution of latent variable using Bayesian quantile regression method"}
-
-```
 
 ### Kullback-Leibler divergence
 
