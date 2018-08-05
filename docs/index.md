@@ -2,6 +2,8 @@
 title: "GSoC 2018 project by Wenjing"
 ---
 
+# GSoC 2018 project by Wenjing
+
 This project improves the functionality for diagnosing outliers in quantile regression in the R package `quokar`. First, the implementation of the diagnosing algorithm is optimized in Baysian quantile regression framework, resulting in a significant speed gain. Second, an elemental sets diagnosing method is added, optimizing the leverage diagnostic in previous package. Third, an regression depth estimator is added, providing new diagnosinig method based on robust regression. This project page gives a summary of the work done during Google Summer of Code 2018.
 
 This project is done under guidance of Dianne Cook and Kris Boudt. 
