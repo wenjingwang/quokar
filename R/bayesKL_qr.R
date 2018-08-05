@@ -37,7 +37,7 @@
 #' sigma <- summary(bayes_qr)[[1]]$sigmadraw[1]
 #' Outlier diagnostic and visualization
 #' ## tau = 0.1
-#' kl <- bayesKL(formula = BMI ~ LBM, data = ais_female, tau = 0.1,
+#' kl <- bayesKL_qr(formula = BMI ~ LBM, data = ais_female, tau = 0.1,
 #'              beta = beta, sigma = sigma, ndraw = 500)
 #' kl_dat <- data.frame(case = 1:nrow(ais_female), kl = kl)
 #' p1 <- ggplot(kl_dat, aes(x = case, y = kl)) +
@@ -47,7 +47,7 @@
 #'   geom_text(data = subset(kl_dat, kl > median(kl) + 3 * sd(kl)), 
 #'             aes(label = case))
 #' ## tau = 0.5
-#' kl <- bayesKL(formula = BMI ~ LBM, data = ais_female, tau = 0.5,
+#' kl <- bayesKL_qr(formula = BMI ~ LBM, data = ais_female, tau = 0.5,
 #'               beta = beta, sigma = sigma, ndraw = 500)
 #' kl_dat <- data.frame(case = 1:nrow(ais_female), kl = kl)
 #' p2 <- ggplot(kl_dat, aes(x = case, y = kl)) +
@@ -57,7 +57,7 @@
 #'   geom_text(data = subset(kl_dat, kl > median(kl) + 3 * sd(kl)), 
 #'              aes(label = case))
 #' ## tau = 0.9
-#' kl <- bayesKL(formula = BMI ~ LBM, data = ais_female, tau = 0.9,
+#' kl <- bayesKL_qr(formula = BMI ~ LBM, data = ais_female, tau = 0.9,
 #'               beta = beta, sigma = sigma, ndraw = 500)
 #' kl_dat <- data.frame(case = 1:nrow(ais_female), kl = kl)
 #' p3 <- ggplot(kl_dat, aes(x = case, y = kl)) +
