@@ -94,7 +94,7 @@ Debruyne M, Hubert M, Portnoy S, et al. Censored depth quantiles[J]. Computation
 
 Rousseeuw P J, Hubert M. Regression depth[J]. Journal of the American Statistical Association, 1999, 94(446): 388-402.
 
-## Contact me:
+## Contact me
 
 wenjingwangr@gmail.com
 
