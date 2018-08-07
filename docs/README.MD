@@ -1,15 +1,15 @@
 ---
-title: "GSoC 2018 project by Wenjing"
+title: "GSoC 2018 project by Wenjing Wang"
 output: html_document
 fig_width: 2
 fig_height: 2
 ---
 
-This project improves the functionality for diagnosing outliers in quantile regression in the R package `quokar`. First, the implementation of the diagnosing algorithm is optimized in Baysian quantile regression framework, resulting in a significant speed gain. Second, an elemental sets diagnosing method is added, optimizing the leverage diagnostic in previous package. Third, an regression depth estimator is added, providing new diagnosinig method based on robust regression. This project page gives a summary of the work done during Google Summer of Code 2018.
+This project improves the functionality for diagnosing outliers in quantile regression in the R package `quokar`. First, the implementation of the diagnosing algorithm is optimized in Baysian quantile regression framework, resulting in a significant speed gain. Second, an elemental sets diagnosing method is added, optimizing the leverage diagnostic in previous package. Third, a regression depth estimator is added, providing new diagnosinig method based on robust regression. This project page gives a summary of the work done during Google Summer of Code 2018.
 
 This project is done under guidance of Dianne Cook and Kris Boudt. 
 
-Installing the most current master branch of `quokar` available on Github can be done follows
+Installing the most current master branch of `quokar` available on Github can be done as follows
 
 
 ```r
@@ -19,7 +19,7 @@ install_github("wenjingwang/quokar")
 
 ## Part 1
 
-The first part of this project can be found in [this](https://github.com/wenjingwang/quokar/pull/3) pull request. Here the function `bayesKL` has been rewrite to improve the speed. The previous version of this function calculate the pairwise comparison of Kullback–Leibler divergence for all observations in quantile regression model, which results in the computational complexity of O(2^(n - 1) * n). In this new version of function `bayesKL`, we improve the pairwise comparison algrithom by first traverse all observations then implement comparison which simplify the computational complexity to O(n).
+The first part of this project can be found in [this](https://github.com/wenjingwang/quokar/pull/3) pull request. Here the function `bayesKL` has been rewritten to improve the speed. The previous version of this function calculated the pairwise comparison of Kullback–Leibler divergence for all observations in quantile regression model, which results in the computational complexity of O(2^(n - 1) * n). In this new version of function `bayesKL`, we improve the pairwise comparison algrithom by first traversing all observations then implement comparison which simplifies the computational complexity to O(n).
 
 Furthermore, we revise function `ALDqr_GCD` and `ALDqr_QD` to adapt to the maximum likelihood estimator of quantile regression under asymmetric Laplace distribution (Benites et al, 2016). The calculation of maximum likelihood estimator of quantile regression under asymmetric Laplace distribution is implemented by EM algorithm. These two functions are renamed as `GCDqr` and `LDqr` to diagnose outliers in regression model on each quantile based on the mle estimator or maximum likelihood function. 
 
@@ -42,7 +42,7 @@ Next, we implement Elemental Sets method for quantile regression leverage diagno
 
 We calculate the leverage statistics for each observation by using the relationship among quantile regression, elemental regression and OLS. To split the observations into elemental sets, we use the L1 simplex algorithm for estimating the L1-quantile estimator of  quantile regression. Based on the elemental sets and leverage statsitics from OLS regression, we calculate the leverage statistics for QR model.
 
-This Elmental Sets method performs better than robust distance method for diagnosing leverage points in previous `frame_distance` function in `quokar`. Robust distance method in `frame_distance` function only offer diagnostic for the whole data set while not for regressions on each quantile.
+This Elemental Sets method performs leverage diagnosis for regression models on each quantile. The previous idea of leverage diagnositc implemented in `frame_distance` function in `quokar` is based on robust distance of covariate. Robust distance of covariate is data oriented which is not insufficient for each quantile regression model. Comparing to this, the Elemental Set method is regression model oriented and more targeted for each quantile.
 
 This part of work can be found in [this](https://github.com/wenjingwang/quokar/pull/4) pull request. For now, this part still has to be merged with the master branch, to load the code in order to use the `high_leverage_qr`, do:
 
@@ -94,7 +94,9 @@ Debruyne M, Hubert M, Portnoy S, et al. Censored depth quantiles[J]. Computation
 
 Rousseeuw P J, Hubert M. Regression depth[J]. Journal of the American Statistical Association, 1999, 94(446): 388-402.
 
+## Contact me:
 
+wenjingwangr@gmail.com
 
 
 
