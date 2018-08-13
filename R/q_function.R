@@ -1,4 +1,4 @@
-#' Outlier diagnostic for quantile regression model using likelihood distance
+#' @title Outlier diagnostic for quantile regression model using likelihood distance
 #'
 #' \code{LDqr} returns the likelihood distance for each observation deleted 
 #' from the quantile regression model.
@@ -25,8 +25,8 @@
 #' Benites L E, Lachos V H, Vilca F E.(2015)``Case-Deletion
 #' Diagnostics for Quantile Regression Using the Asymmetric Laplace
 #' Distribution,\emph{arXiv preprint arXiv:1509.05099}.
-#'
-#'
+#' 
+#' @export
 LDqr <- function(formula, data, tau, beta, sigma){
   x <- cbind(1, data[, all.vars(update(formula, 0~.))])
   y <- data[, all.vars(update(formula, .~0))]
