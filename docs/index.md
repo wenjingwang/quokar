@@ -110,7 +110,7 @@ p3 <- ggplot(distance3, aes(x = rd, y = residuals)) +
   theme(aspect.ratio = 1)
 grid.arrange(p1, p2, p3, ncol = 3)
 ```
-<img src="final_website_files/figure-html/frame_distance.png" width="60%" style="display: block; margin: auto;" />
+<img src="final_website_files/figure-html/frame_distance.png" width="100%" style="display: block; margin: auto;" />
 
 The leverages identified are same across different quantile regression models which is only related to the covariates data. 
 
@@ -135,7 +135,7 @@ ggplot(leverage_dat_long, aes(x = case, y = value)) +
             aes(label = case), vjust = 1, hjust = 1) +
   facet_wrap(~ tau, scales = "free")
 ```
-<img src="final_website_files/figure-html/high_leverage.png" width="40%" style="display: block; margin: auto;" />
+<img src="final_website_files/figure-html/high_leverage.png" width="100%" style="display: block; margin: auto;" />
 
 We get the potential high leverage observations for regression model on each quantile. The results show that for regression models on different quantiles we have different potential leverages.
 
@@ -173,7 +173,7 @@ p2 <- plot.outlier.qrdepth(qrdepth2)
 p3 <- plot.outlier.qrdepth(qrdepth3)
 grid.arrange(p1, p2, p3, ncol = 3)
 ```
-<img src="final_website_files/figure-html/qrdepth.png" width="60%" style="display: block; margin: auto;" />
+<img src="final_website_files/figure-html/qrdepth.png" width="100%" style="display: block; margin: auto;" />
 
 ## Further work
 
