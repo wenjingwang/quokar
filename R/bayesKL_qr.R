@@ -1,6 +1,6 @@
-#' Outlier diagnostic for quantile regression model using Kullback¨CLeibler divergence
+#' @title Outlier diagnostic for quantile regression model using KullbackÂ¨CLeibler divergence
 #'
-#' \code{bayesKL_qr} returns the Kullback¨CLeibler divergence for each observation 
+#' \code{bayesKL_qr} returns the KullbackÂ¨CLeibler divergence for each observation 
 #' in quantile regression model.
 #' 
 #' @description Kullback-Leibler divergence is a method of measuring the
@@ -15,7 +15,7 @@
 #' @param beta Estimation of parameter beta of asymmetric Laplace distribution
 #' @param sigma Estimation of parameter sigma of asymmetric Laplace distribuion
 #' @param ndraw Integer. MCMC draws
-#' @return Kullback¨CLeibler divergence of each observation in regression model.
+#' @return KullbackÂ¨CLeibler divergence of each observation in regression model.
 #' 
 #' @references  Santos B, Bolfarine H. (2016). On Bayesian quantile regression and 
 #' outliers.\emph{arXiv preprint arXiv:1601.07344}
@@ -68,6 +68,7 @@
 #'             aes(label = case))
 #' ## visualization
 #' grid.arrange(p1, p2, p3, ncol = 3)
+#' export
 
 
 
