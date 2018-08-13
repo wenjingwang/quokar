@@ -1,4 +1,4 @@
-#' Outlier diagnostic for quantile regression model using generalized Cook's distance
+#' @title Outlier diagnostic for quantile regression model using generalized Cook's distance
 #'
 #' \code{GCDqr} returns the generalized Cook's distance for each observation deleted 
 #' from the quantile regression model.
@@ -24,7 +24,7 @@
 #' Diagnostics for Quantile Regression Using the Asymmetric Laplace
 #' Distribution,\emph{arXiv preprint arXiv:1509.05099}.
 #'
-#'
+#' @export
 
 GCDqr <- function(formula, data, tau, beta, sigma){
   x <- cbind(1, data[, all.vars(update(formula, 0~.))])
