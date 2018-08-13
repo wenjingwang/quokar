@@ -110,7 +110,7 @@ p3 <- ggplot(distance3, aes(x = rd, y = residuals)) +
   theme(aspect.ratio = 1)
 grid.arrange(p1, p2, p3, ncol = 3)
 ```
-<img src="final_website_files/figure-html/frame_distance.png" width="40%" style="display: block; margin: auto;" />
+<img src="final_website_files/figure-html/frame_distance.png" width="60%" style="display: block; margin: auto;" />
 
 The leverages identified are same across different quantile regression models which is only related to the covariates data. 
 
@@ -149,7 +149,7 @@ L1-quantiles take less information in the residuals of the model into considerat
 
 To illustrate the different performance of L1-quantile estimator and quantile regression depth estimator, we provide the following data example:
 
-<img src="final_website_files/figure-html/unnamed-chunk-5-1.png" width="40%" style="display: block; margin: auto;" />
+<img src="final_website_files/figure-html/unnamed-chunk-5-1.png" width="60%" style="display: block; margin: auto;" />
 
 More data example can be found [here](https://github.com/wenjingwang/gsoc-R/blob/master/R/Second_phrase_report.R).
 
@@ -173,7 +173,7 @@ p2 <- plot.outlier.qrdepth(qrdepth2)
 p3 <- plot.outlier.qrdepth(qrdepth3)
 grid.arrange(p1, p2, p3, ncol = 3)
 ```
-<img src="final_website_files/figure-html/qrdepth.png" width="40%" style="display: block; margin: auto;" />
+<img src="final_website_files/figure-html/qrdepth.png" width="60%" style="display: block; margin: auto;" />
 
 ## Further work
 
