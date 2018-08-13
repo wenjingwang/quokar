@@ -13,6 +13,8 @@
 #' Debruyne M, Hubert M, Portnoy S, et al. Censored depth quantiles. 
 #' \emph{Computational statistics & data analysis, 2008, 52(3): 1604-1614}.
 #' 
+#' @export
+#' 
 #' @examples
 #' library(ggplot2)
 #' data("CYGOB1", package = "HSAUR")
