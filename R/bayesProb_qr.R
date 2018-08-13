@@ -1,4 +1,4 @@
-#' Outlier diagnostic for quantile regression model using mean probability posterior
+#' @title Outlier diagnostic for quantile regression model using mean probability posterior
 #'
 #' \code{bayesProb_qr} returns the mean probability posterior for each observation 
 #' in quantile regression model.
@@ -68,6 +68,7 @@
 #'             aes(label = case))
 #' ## visualization
 #' grid.arrange(p1, p2, p3, ncol = 3)
+#' export
 
 
 
