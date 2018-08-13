@@ -48,6 +48,96 @@ This part of work can be found in [this](https://github.com/wenjingwang/quokar/p
 require("githubinstall")
 gh_install_packages("wenjingwang/quokar", ref = "high_leverage_qr")
 ```
+Here we introduce how to use the newly implemented tools, and show you how they improve the previous method in package `quokar` to diagnose outliers in quantile regression model.
+
+To explore the newly implemented methods, we will use dataset from `DAAG::ais`. This dataset contains 13 body characteristics variables for 202 Australian athletes. There are 100 female athletes and 102 male althletes.
+
+```{r}
+library(DAAG)
+dim(ais)
+ais
+```
+
+Here we compare the functionality of `frame_distance` and newly implemented `high_leverage_qr`.
+
+```{r}
+library(quokar)
+library(quantreg)
+library(tidyverse)
+library(gridExtra)
+ais_female <- filter(ais, Sex == 1) # get female data from the data set
+model1 <- rq(BMI ~ LBM + Bfat, data = ais_female, tau = c(0.1, 0.5, 0.9))
+## outlier diagnostic
+r1 <- frame_distance(model1, tau = c(0.1, 0.5, 0.9))
+distance <- r1$Distance
+cutoff_v <- r1$`Vertical Cutoff`
+cutoff_h <- r1$`Horizental Cutoff` * 0.6 ## default parameters for calculate cutoff values
+distance$case <- 1:nrow(ais_female)
+distance$residuals <- abs(distance$residuals)
+distance1 <- subset(distance, tau_flag == "tau0.1")
+distance2 <- subset(distance, tau_flag == "tau0.5")
+distance3 <- subset(distance, tau_flag == "tau0.9")
+p1 <- ggplot(distance1, aes(x = rd, y = residuals)) +
+  geom_point() +
+  geom_hline(yintercept = cutoff_h[1], colour = "red") +
+  geom_vline(xintercept = cutoff_v, colour = "red") +
+  geom_text(data = subset(distance1, residuals > cutoff_h[1]| rd > cutoff_v), 
+            aes(x = rd, y = residuals, label = case), hjust = 0, vjust = 0) +
+  xlab("Robust Distance") +
+  ylab("Absolute residuals on quantile 0.1")+
+  ylim(c(0, 10)) +
+  theme(aspect.ratio = 1)
+p2 <- ggplot(distance2, aes(x = rd, y = residuals)) +
+  geom_point() +
+  geom_hline(yintercept = cutoff_h[2], colour = "red") +
+  geom_vline(xintercept = cutoff_v, colour = "red") +
+  geom_text(data = subset(distance2, residuals > 
+                            cutoff_h[2]| rd > cutoff_v), 
+            aes(label = case), hjust = 0, vjust = 0) +
+  xlab("Robust Distance") +
+  ylab("Absolute residuals on quantile 0.5")+
+  ylim(c(0,7)) +
+  theme(aspect.ratio = 1)
+p3 <- ggplot(distance3, aes(x = rd, y = residuals)) +
+  geom_point() +
+  geom_hline(yintercept = cutoff_h[3], colour = "red") +
+  geom_vline(xintercept = cutoff_v, colour = "red") +
+  geom_text(data = subset(distance3, residuals > 
+                            cutoff_h[3]| rd > cutoff_v), 
+            aes(label = case), hjust = 0, vjust = 0) +
+  xlab("Robust Distance") +
+  ylab("Absolute residuals on quantile 0.9")+
+  theme(aspect.ratio = 1)
+grid.arrange(p1, p2, p3, ncol = 3)
+```
+<img src="final_website_files/figure-html/frame_distance.png" width="40%" style="display: block; margin: auto;" />
+
+The leverages identified are same across different quantile regression models which is only related to the covariates data. 
+
+In the newly implemented function `high_leverage_qr`, we have,
+
+```{r}
+library(quokar)
+tau <-  seq(0.1, 0.9, by = 0.1)
+r2 <- high_leverage_qr(formula = BMI ~ LBM + Bfat, data = ais_female, tau = tau)
+obs_leverage <- r2 # high leverage statistics for all observations on each quantile
+colnames(obs_leverage) <- paste0("tau", tau, sep = "")
+case <- 1:nrow(obs_leverage)
+leverage_dat <- as.data.frame(cbind(case = 1:nrow(obs_leverage), obs_leverage))
+leverage_dat_long <- gather(leverage_dat, tau, value, -case)
+ggplot(leverage_dat_long, aes(x = case, y = value)) +
+  geom_point() +
+  geom_point(data = subset(leverage_dat_long, 
+                           value > median(value) + 2*sd(value)), 
+             colour = "red") +
+  geom_text(data = subset(leverage_dat_long, 
+                          value > median(value) + 2*sd(value)),
+            aes(label = case), vjust = 1, hjust = 1) +
+  facet_wrap(~ tau, scales = "free")
+```
+<img src="final_website_files/figure-html/high_leverage.png" width="40%" style="display: block; margin: auto;" />
+
+We get the potential high leverage observations for regression model on each quantile. The results show that for regression models on different quantiles we have different potential leverages.
 
 More data example can be found [here](https://github.com/wenjingwang/gsoc-R/blob/master/R/First_phrase_report.R).
 
@@ -59,19 +149,31 @@ L1-quantiles take less information in the residuals of the model into considerat
 
 To illustrate the different performance of L1-quantile estimator and quantile regression depth estimator, we provide the following data example:
 
-
-
 <img src="final_website_files/figure-html/unnamed-chunk-5-1.png" width="40%" style="display: block; margin: auto;" />
 
 More data example can be found [here](https://github.com/wenjingwang/gsoc-R/blob/master/R/Second_phrase_report.R).
 
 This part of work can be found in [this](https://github.com/wenjingwang/quokar/pull/5) pull request. For now, this part still has to be merged with the master branch, to load the code in order to use the `qrdepth`, do:
 
-
 ```r
 require("githubinstall")
 gh_install_packages("wenjingwang/quokar", ref = "qrdepth")
 ```
+Here we introduce how to use `qrdepth` and visulization methods,
+
+```{r}
+library(quokar)
+data <- subset(ais, Sex == 1)
+formula <- BMI ~ LBM + Bfat
+qrdepth1 <- qrdepth(formula, data, tau = 0.1)
+qrdepth2 <- qrdepth(formula, data, tau = 0.5)
+qrdepth3 <- qrdepth(formula, data, tau = 0.9)
+p1 <- plot.outlier.qrdepth(qrdepth1)
+p2 <- plot.outlier.qrdepth(qrdepth2)
+p3 <- plot.outlier.qrdepth(qrdepth3)
+grid.arrange(p1, p2, p3, ncol = 3)
+```
+<img src="final_website_files/figure-html/qrdepth.png" width="40%" style="display: block; margin: auto;" />
 
 ## Further work
 
