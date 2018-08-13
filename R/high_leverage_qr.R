@@ -24,7 +24,7 @@
 #' @references 
 #' Ranganai E, Van Vuuren J O, De Wet T. Multiple case high leverage diagnosis in regression 
 #' quantiles. \ref{Communications in Statistics-Theory and Methods, 2014, 43(16): 3343-3370}.
-#'
+#' @export
 
 high_leverage_qr <- function(formula, data, tau){
   x <- as.matrix(cbind(1, data[, all.vars(update(formula, 0~.))]))
