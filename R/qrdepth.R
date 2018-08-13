@@ -85,6 +85,7 @@ qrdepth <- function(formula, data, tau, Initial = 10000, Iteration = 10000){
 maxObject <- function(x, y, tau, Initial_beta, Iteration_beta){
   x <- as.matrix(x)
   n <- length(y)
+  p <- ncol(x)
   Initial_num <- ncol(Initial_beta)
   Iteration_num <- ncol(Iteration_beta)
   nc <- 1:n
