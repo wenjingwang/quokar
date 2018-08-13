@@ -26,7 +26,7 @@
 #' 
 #' @export
 #' 
-#' @example 
+#' @examples
 #' library(ggplot2)
 #' data("CYGOB1", package = "HSAUR")
 #' head(CYGOB1)
