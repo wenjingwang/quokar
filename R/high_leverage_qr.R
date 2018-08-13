@@ -47,7 +47,7 @@ high_leverage_qr <- function(formula, data, tau){
     T_J[k] <- (w_J * sum(diag(H_IJ)))/(n - p)
     k <- k + 1
   }
-  return(leverage_obs = h_iJ))
+  return(leverage_obs = h_iJ)
 }
 
 
