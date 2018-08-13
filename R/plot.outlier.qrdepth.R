@@ -55,18 +55,19 @@ plot.outlier.qrdepth <- function(qrdepth.object){
     stop(simpleError("The argument 'qrdepth.object' is not an object 
                      of class 'qrdepth'"))
   } 
-  qrdepth.object <- qrdepth1
   x <- qrdepth.object$x
   y <- qrdepth.object$y
   tau <- qrdepth.object$tau
   beta <- qrdepth.object$beta
-  residuals <- y - x %*% qrdepth.object$beta
+  residuals <- y - as.matrix(x) %*% as.matrix(qrdepth.object$beta)
   case <- 1:length(y)
   resid_dat <- data.frame(case, residuals)
   ggplot(resid_dat, aes(x = case, y = residuals)) +
     geom_point() +
-    geom_text(data = dplyr::filter(resid_dat, residuals > mean(residuals) + 2*sd(residuals)),
-              aes(label = case), vjust = 1)
+    geom_text(data = dplyr::filter(resid_dat, residuals > mean(residuals) +
+                                     2*sd(residuals)),
+              aes(label = case), vjust = 1)+
+    theme(aspect.ratio = 1)
 }
 
 
