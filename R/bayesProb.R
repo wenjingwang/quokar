@@ -52,7 +52,7 @@
 #'ggplot(dat, aes(case, prob))+
 #'  geom_point() +
 #'  geom_text(data = subset(dat, prob > mean(prob) + 2*sd(prob)),
-#â€˜            aes(label = case), vjust = 0, hjust = 0)
+#¡®            aes(label = case), vjust = 0, hjust = 0)
 #'}
 #'
 #'
