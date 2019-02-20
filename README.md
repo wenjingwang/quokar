@@ -1,5 +1,10 @@
 # quokar
 [![Travis-CI Build Status](https://travis-ci.org/wenjingwang/quokar.svg?branch=master)](https://travis-ci.org/wenjingwang/quokar)
+[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/quokar)](https://cran.r-project.org/package=quokar)
+[![Downloads](http://cranlogs.r-pkg.org/badges/quokar?color=brightgreen)](https://cran.r-project.org/package=quokar)
+
+
+
 
 R package for diagnosing quantile regression models
 
