@@ -6,3 +6,4 @@ cache:
   packages: yes
   directories:
     - $HOME/cache
+r_check_args: "--no-vignettes"

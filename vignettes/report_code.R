@@ -461,22 +461,22 @@ ggplot(QD_m, aes(x = case, y = value)) +
 
 
 ## ---- BP1
-ais_female <- subset(ais, Sex == 1)
-y <- ais_female$BMI
-x <- matrix(c(ais_female$LBM, ais_female$Bfat), ncol = 2, byrow = FALSE)
-tau <- c(0.1, 0.5, 0.9)
-case <- rep(1:length(y), length(tau))
-prob <- frame_bayes(y, x, tau, M =  500, burn = 100,
-                 method = 'bayes.prob')
+#ais_female <- subset(ais, Sex == 1)
+#y <- ais_female$BMI
+#x <- matrix(c(ais_female$LBM, ais_female$Bfat), ncol = 2, byrow = FALSE)
+#tau <- c(0.1, 0.5, 0.9)
+#case <- rep(1:length(y), length(tau))
+#prob <- frame_bayes(y, x, tau, M =  500, burn = 100,
+#                 method = 'bayes.prob')
 
-prob_m <- cbind(case, prob)
-ggplot(prob_m, aes(x = case, y = value )) +
-   geom_point() +
-   facet_wrap(~variable, scale = 'free') +
-  geom_text(data = subset(prob_m, value > mean(value) + 2*sd(value)),
-            aes(label = case), hjust = 0, vjust = 0) +
-   xlab("case number") +
-   ylab("Mean probability of posterior distribution")
+#prob_m <- cbind(case, prob)
+#ggplot(prob_m, aes(x = case, y = value )) +
+#   geom_point() +
+#   facet_wrap(~variable, scale = 'free') +
+#  geom_text(data = subset(prob_m, value > mean(value) + 2*sd(value)),
+#            aes(label = case), hjust = 0, vjust = 0) +
+#   xlab("case number") +
+ #  ylab("Mean probability of posterior distribution")
 
 ## ---- BKL1
 kl <- frame_bayes(y, x, tau, M =  5, burn = 1,
