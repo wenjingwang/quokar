@@ -74,7 +74,7 @@
 
 
 bayesProb_qr <- function(formula, data, tau, beta, sigma, ndraw){
-  x <- cbind(1, data[, all.vars(update(formula, 0~.))])
+  x <- as.matrix(cbind(1, data[, all.vars(update(formula, 0~.))]))
   y <- data[, all.vars(update(formula, .~ 0))]
   n <- length(y)
   taup2 <- (2/(tau * (1 - tau)))
