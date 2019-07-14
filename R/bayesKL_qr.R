@@ -84,7 +84,7 @@ bayesKL_qr <- function(formula, data, tau, beta, sigma, ndraw = 1000){
     param1 <- 1/2
     param2 <- (y[i] - x[i, ] %*% t(beta))^2/(taup2 * sigma)
     param3 <- 2/sigma + theta^2/(taup2 * sigma)
-    v[i, ] <- rgig(ndraw, param1, param2, param3)
+    v[i, ] <- GVGrvg::rgig(ndraw, param1, param2, param3)
   }
   KLS <- matrix(0, nrow = n, ncol = n)
   hs <- rep(0, n)
