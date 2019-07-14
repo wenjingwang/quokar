@@ -27,7 +27,7 @@
 #' @export
 
 GCDqr <- function(formula, data, tau, beta, sigma){
-  x <- cbind(1, data[, all.vars(update(formula, 0~.))])
+  x <- as.matrix(cbind(1, data[, all.vars(update(formula, 0~.))]))
   y <- data[, all.vars(update(formula, .~0))]
   n <- length(y)
   p <- ncol(x)
